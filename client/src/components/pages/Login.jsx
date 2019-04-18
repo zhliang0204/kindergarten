@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import api from '../../api';
 
 export default class Login extends Component {
@@ -31,15 +32,32 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
-        <h2>Login</h2>
-        <form>
-          Username: <input type="text" value={this.state.username} name="username" onChange={this.handleInputChange} /> <br />
-          Password: <input type="password" value={this.state.password} name="password" onChange={this.handleInputChange} /> <br />
-          <button onClick={(e) => this.handleClick(e)}>Login</button>
-        </form>
-        {this.state.message && <div className="info info-danger">
-          {this.state.message}
-        </div>}
+        {this.state.isGerman && (<div className="german">german</div>)}
+
+        {!this.state.isGerman && (<div className="chinese">
+          <Form>
+          <FormGroup row>
+              <Label for="username" sm={2}>用户名：</Label>
+              <Col sm={10}>
+                <Input type="text" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}/>
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label for="password" sm={2}>用户名：</Label>
+              <Col sm={10}>
+                <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleInputChange}/>
+              </Col>
+            </FormGroup>
+
+            <Button>登陆</Button>
+          </Form>
+          {this.state.message && <div className="info info-danger">
+            {this.state.message}
+          </div>}          
+        </div>)}
+
+        
       </div>
     );
   }
