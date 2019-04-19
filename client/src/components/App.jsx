@@ -20,9 +20,9 @@ export default class App extends Component {
     }
   }
 
-  handleLogoutClick(e) {
-    api.logout()
-  }
+  // handleLogoutClick(e) {
+  //   api.logout()
+  // }
 
   handleLanguage(e){
     let res = e.target.alt === "Chinese" ? false: true;

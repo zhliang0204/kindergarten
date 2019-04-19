@@ -10,6 +10,13 @@ const eventSchema = new Schema({
   reqpersons:Number,
   candidates:[{type:Schema.Types.ObjectId, ref: 'User' }],
   finals:[{type:Schema.Types.ObjectId, ref: 'User' }],
+  eventState:[{type:String, enum:['new','published','followed','closed'], default:'new'}],
+  disscussion:[
+    {
+      _userId:{type: Schema.Types.ObjectId, ref: 'User' }, 
+      content:String
+    }],
+
 }, {
     timestamps: {
       createdAt: 'created_at',
@@ -17,5 +24,5 @@ const eventSchema = new Schema({
     }
   });
 
-const Event = mongoose.model('User', eventSchema);
+const Event = mongoose.model('Event', eventSchema);
 module.exports = Event;

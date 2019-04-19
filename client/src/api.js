@@ -61,6 +61,34 @@ export default {
       .get('/logout')
   },
 
+  getEvents() {
+    return service
+        .get('/missions')
+        .then(res => res.data)
+        .catch(errHandler)
+  },
+
+  getSelectedEvent(id) {
+    return service
+        .get('/missions/'+id)
+        .then(res => res.data)
+        .catch(errHandler)
+  },
+
+  createEvent(event){
+    return service
+          .post('/missions/create', event)
+          .then(res => res.data)
+          .catch(errHandler)
+  },
+
+  postDiscussion(id, content){
+    return service
+        .post('/missions/discussions/'+id, content)
+        .then(res => res.data)
+        .catch(errHandler)
+  },
+
   // This is an example on how to use this method in a different file
   // api.getCountries().then(countries => { /* ... */ })
   getCountries() {

@@ -18,11 +18,10 @@ let users = [
   {
     username: "alice",
     password: bcrypt.hashSync("alice", bcrypt.genSaltSync(bcryptSalt)),
+    email:'zhliang0204@163.com',
+    role:"admin",
+
   },
-  {
-    username: "bob",
-    password: bcrypt.hashSync("bob", bcrypt.genSaltSync(bcryptSalt)),
-  }
 ]
 
 User.deleteMany()
