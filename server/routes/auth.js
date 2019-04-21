@@ -8,7 +8,10 @@ const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 
 router.post("/signup", (req, res, next) => {
-  const { username, password, firstname, lastname, email, phone, address1, address2, postal, city, state, country,childname,role } = req.body
+  // const { username, password, firstname, lastname, email, phone, address1, address2, postal, city, state, country,childname,role } = req.body
+  const cur = { username, password,  email, phone,role } = req.body;
+  console.log(cur)
+  
   if (!username || !password) {
     res.status(400).json({ message: "Indicate username and password" })
     return
@@ -21,7 +24,7 @@ router.post("/signup", (req, res, next) => {
       }
       const salt = bcrypt.genSaltSync(bcryptSalt)
       const hashPass = bcrypt.hashSync(password, salt)
-      const newUser = new User({ username, password: hashPass, firstname, lastname, email, phone, address1, address2, postal,city,state, country,childname})
+      const newUser = new User({ username, password: hashPass, email, phone, role})
       return newUser.save()
     })
     .then(userSaved => {
@@ -33,9 +36,47 @@ router.post("/signup", (req, res, next) => {
         userSaved.password = undefined;
         res.json( userSaved );
       });
+      
     })
     .catch(err => next(err))
 })
+
+router.post("/createUser", (req, res, next) => {
+  // const { username, password, firstname, lastname, email, phone, address1, address2, postal, city, state, country,childname,role } = req.body
+  const cur = { username, password,  email, phone,role } = req.body;
+  console.log(cur)
+  
+  if (!username || !password) {
+    res.status(400).json({ message: "Indicate username and password" })
+    return
+  }
+  User.findOne({ username })
+    .then(userDoc => {
+      if (userDoc !== null) {
+        res.status(409).json({ message: "The username already exists" })
+        return
+      }
+      const salt = bcrypt.genSaltSync(bcryptSalt)
+      const hashPass = bcrypt.hashSync(password, salt)
+      const newUser = new User({ username, password: hashPass, email, phone, role})
+      return newUser.save()
+    }) .then(userSave => {
+      res.json(userSave)
+    })
+    // .then(userSaved => {
+      // LOG IN THIS USER
+      // "req.logIn()" is a Passport method that calls "serializeUser()"
+      // (that saves the USER ID in the session)
+      // req.logIn(userSaved, () => {
+        // hide "encryptedPassword" before sending the JSON (it's a security risk)
+        // userSaved.password = undefined;
+        // res.json( userSaved );
+      // });
+      
+    // })
+    .catch(err => next(err))
+})
+
 
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body

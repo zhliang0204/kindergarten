@@ -50,8 +50,11 @@ require('./passport')(app)
 
 app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
-// app.use('/api/countries', require('./routes/countries'))
+app.use('/api/discussions', require('./routes/discussions'))
 app.use('/api/missions', require('./routes/missions'))
+app.use('/api/applications', require('./routes/application'))
+
+
 
 
 // For any routes that starts with "/api", catch 404 and forward to error handler

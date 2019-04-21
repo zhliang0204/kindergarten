@@ -55,10 +55,21 @@ export default {
       .catch(errHandler)
   },
 
+  
+
   logout() {
     localStorage.removeItem('user')
     return service
       .get('/logout')
+  },
+
+  createUser(userInfo){
+    return service
+            .post('/createUser', userInfo)
+            .then(res=> {
+              return res.data
+            })
+            .catch(errHandler)
   },
 
   getEvents() {
@@ -84,7 +95,7 @@ export default {
 
   postDiscussion(id, content){
     return service
-        .post('/missions/discussions/'+id, content)
+        .post('/discussions/'+id, content)
         .then(res => res.data)
         .catch(errHandler)
   },

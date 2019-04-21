@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {withRouter } from 'react-router-dom';
 import api from '../../api';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -62,3 +63,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default withRouter(Login);

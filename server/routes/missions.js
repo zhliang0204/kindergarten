@@ -18,7 +18,7 @@ router.post('/create', isLoggedIn, (req, res, next) => {
 
 router.get('/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
-  Event.findById(id).populate('_discussion')
+  Event.findOne({_id:id})
     .then(event => {
       res.json(event)
     })
@@ -31,15 +31,39 @@ router.get('/', isLoggedIn, (req, res, next) => {
     .catch(err => next(err))
 });
 
-router.post('/missions/discussions/:id', isLoggedIn, (req, res, next) => {
+router.post('/discussions/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
   let userId = req.user.id;
   let content = req.body.content;
+
   Event.findByIdAndUpdate(id, {
-    $push: {discussion: {_userId:userId, content:content} }
+    $push: {discussion: {'_userId':userId, 'content':content} }
   }) .then(event => {
     console.log("works:", id)
     res.json({success: true})
+  })
+  .catch(err => next(err))
+})
+
+router.get('/discussions/:id', isLoggedIn, (req, res, next) => {
+  let id = req.params.id;
+  let userId = req.user.id;
+  let content = req.body.content;
+  // User.findById(userId)
+  //       .then(user =>{
+  //         Event.findByIdAndUpdate(id, {
+  //           $push: {discussion: {_userId:userId, userName:user.username, content:content}}
+  //         })
+  //       }).then(event =>{
+  //         console.log('works:',id)
+  //         res.json({success:true})
+  //       })
+  //         .catch(err => next(err))
+
+
+  Event.findById(id) .then(event => {
+    console.log("works:", id)
+    res.json(event.data)
   })
   .catch(err => next(err))
 })
