@@ -14,8 +14,8 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
   Event.findOne({_id:id}).populate('candidates')
     .then(event => {
-      console.log("works")
-      res.json(event)
+      // console.log("works")
+      res.json(event.candidates)
     })
     .catch(err => next(err))
 });
@@ -24,7 +24,7 @@ router.post('/:id', isLoggedIn, (req, res, next) => {
   let _eventId = req.params.id;
   let username = req.user.username;
   let _userId = req.user.id;
-  let serviceDate = req.body.curDate;
+  let serviceDate = req.body.serviceDate;
 
 // console.log("--------------discussion-----------------")
 // console.log(username)
@@ -32,9 +32,11 @@ router.post('/:id', isLoggedIn, (req, res, next) => {
 // let newdiscussion = {username,content, _userId};
 // console.log(newdiscussion)
 
-  Application.create({_eventId,_userId,username, serviceDate}).then(application => {
-    console.log(application)
-    res.json(application)
+  Application.create({_eventId, _userId,username, serviceDate}).then(application => {
+    // console.log(application)
+    // res.json(application)
+    Event.findOneAndUpdate({_id:_eventId}, {$push: {candidates:application._id}})
+    .then(event =>{res.json(event)})
   })
   .catch(err => next(err))
 })

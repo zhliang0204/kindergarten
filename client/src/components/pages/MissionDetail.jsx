@@ -29,7 +29,7 @@ class MissionDetail extends Component {
       discussions:[],
       candidate:"",
       candidates:[],
-      candidateDate:'',
+      serviceDate:'',
     }
   }
 
@@ -44,12 +44,24 @@ class MissionDetail extends Component {
   loadEvent(id){
     api.getSelectedEvent(id) 
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.setState({
           selectedEvent:res,
           discussions:res.discussion,
         })
       })
+  }
+
+  loadApplication(){
+    let id = this.props.match.params.id;
+    api.getApplication(id)
+        .then(res => {
+          this.setState({
+            candidates:res,
+          })
+          console.log("-------load application---------")
+          console.log(this.state.candidates)
+        })
   }
 
   handleInputChange(e){
@@ -75,7 +87,6 @@ class MissionDetail extends Component {
     
     curDiscussion.push(cur);
     // console.log(curDiscussion);
-
     this.setState({
       discussions: curDiscussion,
       discussion:"",
@@ -84,7 +95,21 @@ class MissionDetail extends Component {
   }
 
   handleApply(e){
-    
+    let eventId = this.props.match.params.id;
+    let serviceDate = this.state.serviceDate;
+    let data = {serviceDate}
+    api.postApplication(eventId, data);
+    let curCandidates = this.state.candidates.slice();
+    let cur = {_userId: api.getLocalStorageUser()._id,
+                username:api.getLocalStorageUser().username,
+                serviceDate:serviceDate}
+    curCandidates.push(cur);
+    this.setState({
+      candidates:curCandidates,
+      serviceDate: '',
+
+    })
+
   }
 
   
@@ -130,7 +155,7 @@ class MissionDetail extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames({ active: this.state.activeTab === '2' })}
-                    onClick={() => { this.toggle('2'); }}
+                    onClick={() => { this.toggle('2'); this.loadApplication(); }}
                   >
                     Candidates
                   </NavLink>
@@ -155,8 +180,7 @@ class MissionDetail extends Component {
                         ))}
                     <Form>
                       <FormGroup>
-                        {/* <Label for="exampleText"></Label> */}
-                        <Input type="textarea" name="discussion" id="exampleText" value={this.state.discussion} onChange={(e)=>this.handleInputChange(e)} />
+                        <Input type="textarea" name="discussion" value={this.state.discussion} onChange={(e)=>this.handleInputChange(e)} />
                       </FormGroup>
                       <Button onClick={()=>this.handleDiscussion()}>Submit</Button>
                     </Form>              
@@ -164,16 +188,15 @@ class MissionDetail extends Component {
                   </Row> */}
                 </TabPane>
                 <TabPane tabId="2">
-                  {this.state.selectedEvent.candidates && this.state.selectedEvent.candidates.map((candidate,i) => (
+                  {this.state.candidates && this.state.candidates.map((candidate,i) => (
                     <Row key={i}>
-                      {candidate}
+                      <Col md="6">{candidate.username}</Col>
+                      <Col md="6">{candidate.serviceDate}</Col>
                     </Row>
                   ))}
                   <Form>
                       <FormGroup>
-                        {/* <Label for="exampleText"></Label> */}
-                        <Input type="date" name="candidateDate" value={this.state.curDate} onChange={(e)=>this.handleInputChange(e)}/>
-                        {/* <Input type="date" name="candidate" value={this.state.discussion} onChange={(e)=>this.handleInputChange(e)} /> */}
+                        <Input type="date" name="serviceDate" value={this.state.serviceDate} onChange={(e)=>this.handleInputChange(e)}/>
                       </FormGroup>
                     <Button onClick={(e)=>this.handleApply(e)}>Apply</Button>
                   </Form> 

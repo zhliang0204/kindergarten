@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 const ApplicationSchema = new Schema({
   _eventId: { type: Schema.Types.ObjectId, ref: 'Event' },
   _userId: {type:Schema.Types.ObjectId, ref: "User"},
+  username:String,
   serviceDate: Date,
  
 

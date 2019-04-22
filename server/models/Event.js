@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const eventSchema = new Schema({
   eventname: {type:String},
   _creator: { type: Schema.Types.ObjectId, ref: 'User' },
+  content: String,
   started:Date,
   ended:Date,
   reqhours:Number,

@@ -10,8 +10,8 @@ const { isLoggedIn } = require('../middlewares')
 
 // Route to get all countries
 router.post('/create', isLoggedIn, (req, res, next) => {
-  let {eventname,started, ended,reqhours, reqpersons} = req.body;
-  Event.create({eventname, started, ended, reqhours, reqpersons})
+  let {eventname,started, ended,reqhours, reqpersons, content} = req.body;
+  Event.create({eventname, started, ended, reqhours, reqpersons, content})
     .then(event => res.json(event))
     .catch(err => next(err))
 });

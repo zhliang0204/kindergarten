@@ -46,6 +46,7 @@ export default class Home extends Component {
     return (
       <div className="Home">
         <UncontrolledCarousel items={items} />
+        {this.props.isGerman && (<div className="german">building......</div>)}
         {!this.props.isGerman && (
         <div className="Chinese">
         <div className="announcement">

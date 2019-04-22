@@ -49,7 +49,10 @@ export default class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="App-title">
-            <h1>德国第一所中德双语幼儿园</h1>
+            <h1>
+              德国第一所中德双语幼儿园<br/>
+              Deutsch-Chinesischer Kindergarten
+            </h1>
             <div className="lang-flag">
               <div>
               <img src={chpng} alt="Chinese" onClick = {(e)=>this.handleLanguage(e)}/>

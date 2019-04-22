@@ -22,6 +22,8 @@ import Service from './Service';
 import Login from './Login';
 import Signup from './Signup';
 import MissionList from './MissionList';
+import AddMission from './AddMission';
+import Team from './Team';
 
 
 
@@ -54,13 +56,16 @@ export default class NavBar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar> 
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to="/">{this.props.isGerman? 'Home':'主页'}</NavLink>
+                {/* <NavLink to="/">{this.props.isGerman? 'Home':'主页'}</NavLink> */}
               </NavItem>
               <NavItem>
                 {!api.isLoggedIn() && <NavLink to="/life">{this.props.isGerman? 'Kitaleben':'幼儿园生活'}</NavLink>}
               </NavItem>
               <NavItem>
                 {!api.isLoggedIn() && <NavLink to="/purpose">{this.props.isGerman? 'Konzept':'办园心声'}</NavLink>}
+              </NavItem>
+              <NavItem>
+                {!api.isLoggedIn() && <NavLink to="/team">{this.props.isGerman? 'Team':'师资力量'}</NavLink>}
               </NavItem>
               <NavItem>
                 {!api.isLoggedIn() && <NavLink to="/registration">{this.props.isGerman? 'Anmeldung':'登记入园'}</NavLink>}
@@ -81,6 +86,9 @@ export default class NavBar extends Component {
                 {api.isLoggedIn() && <NavLink to="/missions">{this.props.isGerman? 'Missions':'任务列表'}</NavLink>}
               </NavItem>
               <NavItem>
+                {api.isLoggedIn() && <NavLink to="/addService">{this.props.isGerman? 'Create Missions':'创建任务'}</NavLink>}
+              </NavItem>
+              <NavItem>
                 {api.isLoggedIn() && <Link to="/" onClick={(e) => this.handleLogoutClick(e)}>Logout</Link>}
               </NavItem> 
            
@@ -92,10 +100,12 @@ export default class NavBar extends Component {
           <Route path="/" exact render={()=><Home isGerman={this.props.isGerman}/>}/>
           <Route path="/life" render={()=><Life isGerman={this.props.isGerman}/>}/>
           <Route path="/purpose" render={()=><Purpose isGerman={this.props.isGerman}/>}/>
+          <Route path="/team" render={()=><Team isGerman={this.props.isGerman}/>}/>
           <Route path="/contact" render={()=><Contact isGerman={this.props.isGerman}/>}/>
           <Route path="/registration" render={()=><Registration isGerman={this.props.isGerman}/>}/>
           <Route path="/signup" render={()=><Signup isGerman={this.props.isGerman}/>}/>
           <Route path="/login" render={()=><Login isGerman={this.props.isGerman}/>}/>
+          <Route path="/addService" render={()=><AddMission/>}/>
           <Route path="/service" render={()=><Service isGerman={this.props.isGerman}/>}/>
           <Route path="/missions" render={()=><MissionList/>}/>
 

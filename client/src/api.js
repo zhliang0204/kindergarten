@@ -100,28 +100,42 @@ export default {
         .catch(errHandler)
   },
 
+  getApplication(id){
+    return service
+            .get('/applications/'+id)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  postApplication(id, applyInfor){
+    return service
+            .post('/applications/'+id, applyInfor)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
   // This is an example on how to use this method in a different file
   // api.getCountries().then(countries => { /* ... */ })
-  getCountries() {
-    return service
-      .get('/countries')
-      .then(res => res.data)
-      .catch(errHandler)
-  },
+  // getCountries() {
+  //   return service
+  //     .get('/countries')
+  //     .then(res => res.data)
+  //     .catch(errHandler)
+  // },
 
-  addCountry(body) {
-    return service
-      .post('/countries', body)
-      .then(res => res.data)
-      .catch(errHandler)
-  },
+  // addCountry(body) {
+  //   return service
+  //     .post('/countries', body)
+  //     .then(res => res.data)
+  //     .catch(errHandler)
+  // },
 
-  getSecret() {
-    return service
-      .get('/secret')
-      .then(res => res.data)
-      .catch(errHandler)
-  },
+  // getSecret() {
+  //   return service
+  //     .get('/secret')
+  //     .then(res => res.data)
+  //     .catch(errHandler)
+  // },
 
   addPicture(file) {
     const formData = new FormData()
