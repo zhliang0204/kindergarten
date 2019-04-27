@@ -10,7 +10,8 @@ class MissionList extends Component {
   constructor(props){
     super(props);
     this.state ={
-      events:[]
+      events:[],
+      initEvnt: {},
     }
   }
 
@@ -22,7 +23,11 @@ class MissionList extends Component {
   componentDidMount(){
     api.getEvents()
       .then(res => {
-        this.setState({events:res})
+        this.setState({
+          events:res
+        })
+
+        this.props.history.push('/missions/' + res[0]._id)
       })
   }
 

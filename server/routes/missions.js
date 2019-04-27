@@ -10,8 +10,8 @@ const { isLoggedIn } = require('../middlewares')
 
 // Route to get all countries
 router.post('/create', isLoggedIn, (req, res, next) => {
-  let {eventname,started, ended,reqhours, reqpersons, content} = req.body;
-  Event.create({eventname, started, ended, reqhours, reqpersons, content})
+  let {eventname,started, ended,reqhours, reqpersons, content, applybefore} = req.body;
+  Event.create({eventname, started, ended, reqhours, reqpersons, content, applybefore})
     .then(event => res.json(event))
     .catch(err => next(err))
 });
@@ -25,9 +25,23 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
     .catch(err => next(err))
 });
 
+router.get('/all/:id', isLoggedIn,(req,res,next) => {
+  let id = req.params.id;
+  Event.findOne({_id:id})
+        .populate("candidates")
+        .populate('discussion')
+        .exec()
+        .then(event => {
+          res.json(event)
+        })
+        .catch(err => next(err))
+})
+
 router.get('/', isLoggedIn, (req, res, next) => {
   Event.find({})
-    .then(events => res.json(events))
+    .then(events => {
+      res.json(events.reverse())
+    })
     .catch(err => next(err))
 });
 

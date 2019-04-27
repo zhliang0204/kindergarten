@@ -7,10 +7,11 @@ const Schema = mongoose.Schema;
 
 const discussionSchema = new Schema({
   _eventId: { type: Schema.Types.ObjectId, ref: 'Event' },
-  discussions:[{_userId:{type: Schema.Types.ObjectId, ref: 'User' }, content:String}],
- 
-
-}, {
+  _userId: {type: Schema.Types.ObjectId, ref:"User"},
+  username: {type:String},
+  content: {type: String, required:true}
+  
+ }, {
     timestamps: {
       createdAt: 'created_at',
       updatedAt: 'updated_at'

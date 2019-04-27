@@ -72,6 +72,8 @@ export default {
             .catch(errHandler)
   },
 
+  // ---------------------------------------
+  // events related
   getEvents() {
     return service
         .get('/missions')
@@ -92,6 +94,24 @@ export default {
           .then(res => res.data)
           .catch(errHandler)
   },
+  // ------------------------------------
+  // get all
+  getselectedEventAll(id){
+    return service
+              .get('/missions//all/' + id)
+              .then(res => res.data)
+              .catch(errHandler)
+  },
+
+
+  // ------------------------------------
+  // service discussion related
+  getDisscussion(id){
+    return service
+            .get('/discussions/'+id)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
 
   postDiscussion(id, content){
     return service
@@ -100,6 +120,8 @@ export default {
         .catch(errHandler)
   },
 
+  // ---------------------------------------
+  // service application related
   getApplication(id){
     return service
             .get('/applications/'+id)
@@ -114,11 +136,13 @@ export default {
             .catch(errHandler)
   },
 
+  // ---------------------------------------
+  // email related
   createUserMail(emailInfo){
     return service
             .post('/mail/userMail', emailInfo)
             .then(res =>res.data)
-            .chatch(errHandler)
+            .catch(errHandler)
   },
 
   // This is an example on how to use this method in a different file

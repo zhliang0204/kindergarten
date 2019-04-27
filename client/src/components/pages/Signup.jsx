@@ -54,7 +54,7 @@ export default class Signup extends Component {
     // test 
     api.createUser(data)
       .then(result => {
-        api.reateUserMail(email)
+        api.createUserMail(email)
         .then(emailres => {
           console.log('SUCCESS!')
           this.setState({

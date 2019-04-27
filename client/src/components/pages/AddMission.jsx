@@ -12,6 +12,7 @@ export default class createMission extends Component {
       reqhours: 0,
       started:'',
       ended:'',
+      applybefore: "",
 
     }
   }
@@ -30,6 +31,7 @@ export default class createMission extends Component {
       reqhours:this.state.reqhours,
       started: this.state.started,
       ended:this.state.ended,
+      applybefore: this.state.applybefore
     }
 
     console.log('---------event to create---------')
@@ -44,6 +46,7 @@ export default class createMission extends Component {
             reqhours:0,
             started: '',
             ended:'',
+            applybefore:""
           })
         })
   }
@@ -98,7 +101,7 @@ export default class createMission extends Component {
           <FormGroup>
             <Label for="startDate">Start Date</Label>
             <Input
-              type="date"
+              type="datetime-local"
               name="started"
               id="startDate"
               value={this.state.started}
@@ -109,10 +112,21 @@ export default class createMission extends Component {
           <FormGroup>
             <Label for="endedDate">End Date</Label>
             <Input
-              type="date"
+              type="datetime-local"
               name="ended"
               id="endedDate"
               value={this.state.ended}
+              onChange={(e) => this.handleInputChange(e)}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Label for="applybefore">Apply Before</Label>
+            <Input
+              type="datetime-local"
+              name="applybefore"
+              id="applybefore"
+              value={this.state.applybefore}
               onChange={(e) => this.handleInputChange(e)}
             />
           </FormGroup>

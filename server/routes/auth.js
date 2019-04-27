@@ -68,17 +68,7 @@ router.post("/createUser", (req, res, next) => {
 
 
     })
-    // .then(userSaved => {
-      // LOG IN THIS USER
-      // "req.logIn()" is a Passport method that calls "serializeUser()"
-      // (that saves the USER ID in the session)
-      // req.logIn(userSaved, () => {
-        // hide "encryptedPassword" before sending the JSON (it's a security risk)
-        // userSaved.password = undefined;
-        // res.json( userSaved );
-      // });
-      
-    // })
+    
     .catch(err => next(err))
 })
 

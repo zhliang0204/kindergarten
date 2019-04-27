@@ -7,17 +7,13 @@ const eventSchema = new Schema({
   content: String,
   started:Date,
   ended:Date,
+  applybefore: Date,
   reqhours:Number,
   reqpersons:Number,
   candidates:[{type:Schema.Types.ObjectId, ref: 'Application' }],
-  finals:[{type:Schema.Types.ObjectId, ref: 'User' }],
+  finals:[{type:Schema.Types.ObjectId, ref: 'Final' }],
   eventState:[{type:String, enum:['new','published','followed','closed'], default:'new'}],
-  discussion:[
-    {
-      _userId:{type: Schema.Types.ObjectId, ref: 'User' },
-      username: String, 
-      content:String
-    }],
+  discussion:[{type: Schema.Types.ObjectId, ref: 'Discussion' }],
 }, {
     timestamps: {
       createdAt: 'created_at',

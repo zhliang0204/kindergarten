@@ -21,6 +21,7 @@ const app = express()
 
 app.use(nocache())
 
+
 // Set "Access-Control-Allow-Origin" header
 app.use(cors({
   origin: (origin, cb) => {
@@ -47,6 +48,7 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
 require('./passport')(app)
+
 
 
 app.use('/api', require('./routes/index'))

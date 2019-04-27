@@ -50,16 +50,16 @@ export default class App extends Component {
   }
 
 
-  componentDidMount(){
-    console.log(this.state.isGerman)
-    console.log("did mount")
-    console.log(this.props)
-  }
+  // componentDidMount(){
+  //   // console.log(this.state.isGerman)
+  //   // console.log("did mount")
+  //   // console.log(this.props)
+  // }
 
-  componentDidUpdate(){
-    console.log("update")
-    console.log(this.state.isGerman)
-  }
+  // componentDidUpdate(){
+  //   // console.log("update")
+  //   // console.log(this.state.isGerman)
+  // }
 
   render() {
     return (
@@ -79,7 +79,7 @@ export default class App extends Component {
                     data-toggle="dropdown"
                     aria-expanded={this.state.dropdownOpen}
                   >
-                    <i class="fas fa-globe">De</i>
+                    <i className="fas fa-globe">De</i>
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem id="lang1" onClick={(e) =>this.handleLanguage(e)}>Deutsch</DropdownItem>

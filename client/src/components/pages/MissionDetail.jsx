@@ -19,17 +19,21 @@ import {withRouter } from 'react-router-dom';
 import api from '../../api';
 import classnames from 'classnames';
 
+
 class MissionDetail extends Component {
   constructor(props){
     super(props);
     this.state = {
       selectedEvent: null,
+      selectedEventId:null,
       activeTab: '1',
+
       discussion: "",
       discussions:[],
-      candidate:"",
-      candidates:[],
+      applications:[],
       serviceDate:'',
+
+      finals:[],
     }
   }
 
@@ -47,22 +51,35 @@ class MissionDetail extends Component {
         // console.log(res)
         this.setState({
           selectedEvent:res,
-          discussions:res.discussion,
+          selectedEventId: res._id,
+          // discussions:res.discussion,
         })
       })
   }
 
-  loadApplication(){
-    let id = this.props.match.params.id;
-    api.getApplication(id)
+  loadAll(id){
+    api.getselectedEventAll(id)
         .then(res => {
+          
           this.setState({
-            candidates:res,
+            selectedEvent:res,
+            discussions:res.discussion,
+            applications:res.candidates,
+            finals:res.finals
           })
-          console.log("-------load application---------")
-          console.log(this.state.candidates)
         })
   }
+
+  handleTime(inputDate){
+    var d = new Date(inputDate);
+    return d.toLocaleTimeString() 
+  }
+
+  handleDate(inputDate){
+    var d = new Date(inputDate);
+    return d.toLocaleDateString()
+  }
+
 
   handleInputChange(e){
     this.setState({
@@ -70,58 +87,48 @@ class MissionDetail extends Component {
     })
   }
 
-  handleInputChange1(e){
-    console.log(e.target.value)
-  }
 
-  handleDiscussion(){
+  handleDisApply(){
     let eventId = this.props.match.params.id;
-    let content = this.state.discussion;
-    let data = {content}
-    // console.log(content)
-    api.postDiscussion(eventId, data);
-    let curDiscussion = this.state.discussions.slice();
-    let cur = {_userId: api.getLocalStorageUser()._id,
-              username:api.getLocalStorageUser().username,
-              content:content}
-    
-    curDiscussion.push(cur);
-    // console.log(curDiscussion);
-    this.setState({
-      discussions: curDiscussion,
-      discussion:"",
-    })
-
+    let data = {
+      content:this.state.discussion,
+    }
+    api.postDiscussion(eventId, data)
+      .then(res => {
+        let curDiscussion = this.state.discussions.slice();
+        curDiscussion.push(res)
+        this.setState({
+          discussions:curDiscussion,
+          discussion:""
+        })
+      })
   }
 
-  handleApply(e){
+  handleServiceApply(){
     let eventId = this.props.match.params.id;
     let serviceDate = this.state.serviceDate;
     let data = {serviceDate}
-    api.postApplication(eventId, data);
-    let curCandidates = this.state.candidates.slice();
-    let cur = {_userId: api.getLocalStorageUser()._id,
-                username:api.getLocalStorageUser().username,
-                serviceDate:serviceDate}
-    curCandidates.push(cur);
-    this.setState({
-      candidates:curCandidates,
-      serviceDate: '',
+    api.postApplication(eventId, data)
+        .then(res => {
+          let curApplications = this.state.applications.slice();
+          curApplications.push(res);
+          this.setState({
+            applications:curApplications,
+            serviceDate:''
+          })
 
-    })
-
+        });
   }
 
-  
-
   componentDidMount(){
-    // console.log(this.props.match);
-    this.loadEvent(this.props.match.params.id);
+    this.loadAll(this.props.match.params.id)
+
+    this.handleDate('2019-04-30')
   }
 
   componentDidUpdate(prevProps, prevState){
     if(this.props.match.params.id !== prevProps.match.params.id){
-      this.loadEvent(this.props.match.params.id);
+      this.loadAll(this.props.match.params.id)
     }
   }
 
@@ -131,14 +138,30 @@ class MissionDetail extends Component {
         {this.state.selectedEvent && (
           <div>
             <Container>
-              <Row>{this.state.selectedEvent.eventname}</Row>
+              <Row className="mission-header">{this.state.selectedEvent.eventname}</Row>
               <Row>
-                <Col className='col-6'>{this.state.selectedEvent.started}</Col>
-                <Col className='col-6'>{this.state.selectedEvent.ended}</Col>
+                <Col className='col-4'>From: </Col>
+                <Col className='col-4'>{this.handleDate(this.state.selectedEvent.started)}</Col>
+                <Col className='col-4'>{this.handleTime(this.state.selectedEvent.started)}</Col>
               </Row>
+
               <Row>
-                <Col className='col-6'>{this.state.selectedEvent.reqhours}</Col>
-                <Col className='col-6'>{this.state.selectedEvent.reqpersons}</Col>
+                <Col className='col-4'>To: </Col>
+                <Col className='col-4'>{this.handleDate(this.state.selectedEvent.ended)}</Col>
+                <Col className='col-4'>{this.handleTime(this.state.selectedEvent.ended)}</Col>
+
+              </Row>
+
+              <Row>
+                <Col className='col-4'>Apply Before: </Col>
+                <Col className='col-4'>{this.handleDate(this.state.selectedEvent.applybefore)}</Col>
+                <Col className='col-4'>{this.handleTime(this.state.selectedEvent.applybefore)}</Col>
+
+              </Row>
+
+              <Row>
+                <Col className='col-6'>Hours: {this.state.selectedEvent.reqhours}</Col>
+                <Col className='col-6'>Person: {this.state.selectedEvent.reqpersons}</Col>
               </Row>
             </Container>
 
@@ -155,9 +178,9 @@ class MissionDetail extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames({ active: this.state.activeTab === '2' })}
-                    onClick={() => { this.toggle('2'); this.loadApplication(); }}
+                    onClick={() => { this.toggle('2') }}
                   >
-                    Candidates
+                    Application
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -170,45 +193,49 @@ class MissionDetail extends Component {
                 </NavItem>
               </Nav>
               <TabContent activeTab={this.state.activeTab} className="tab-content">
-                <TabPane tabId="1">
-                                   
-                        {this.state.discussions && this.state.discussions.map((diss, i) => (
+                <TabPane tabId="1">     
+                <div className="content-list">              
+                {this.state.discussions && this.state.discussions.map((diss, i) => (
                           <div className="dis" key={i}>
                             <div className='dis-content'>{diss.content}</div>
                             <div className='dis-username'>——{diss.username}</div>
                           </div>
-                        ))}
+                  ))}
+                  </div>
                     <Form>
                       <FormGroup>
                         <Input type="textarea" name="discussion" value={this.state.discussion} onChange={(e)=>this.handleInputChange(e)} />
                       </FormGroup>
-                      <Button onClick={()=>this.handleDiscussion()}>Submit</Button>
-                    </Form>              
-                    
+                      <Button onClick={()=>this.handleDisApply()}>Submit</Button>
+                    </Form>   
                 </TabPane>
                 <TabPane tabId="2">
-                  {this.state.candidates && this.state.candidates.map((candidate,i) => (
+                <div className="content-list">
+                  {this.state.applications && this.state.applications.map((application,i) => (
                     <Row key={i}>
-                      <Col md="6">{candidate.username}</Col>
-                      <Col md="6">{candidate.serviceDate}</Col>
+                      <Col md="6">{application.username}</Col>
+                      <Col md="6">{application.serviceDate}</Col>
                     </Row>
                   ))}
+                  </div>
                   <Form>
                       <FormGroup>
-                        <Input type="date" name="serviceDate" value={this.state.serviceDate} onChange={(e)=>this.handleInputChange(e)}/>
+                        <Input type="datetime-local" name="serviceDate" value={this.state.serviceDate} onChange={(e)=>this.handleInputChange(e)}/>
                       </FormGroup>
-                    <Button onClick={(e)=>this.handleApply(e)}>Apply</Button>
+                    <Button onClick={()=>this.handleServiceApply()}>Apply</Button>
                   </Form> 
                   
 
                 </TabPane>
 
                 <TabPane tabId="3">
+                <div className="content-list">
                   {this.state.selectedEvent.finals.map((final,i) => (
                     <Row key={i}>
                       {final}
                     </Row>
                   ))}
+                </div>
 
                 </TabPane>
               </TabContent>             
