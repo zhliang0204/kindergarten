@@ -32,11 +32,11 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
-        {this.state.isGerman && (<div className="german">german</div>)}
+      <div className="Login outer-div">
+        {this.state.isGerman && (<div className="german">building......</div>)}
 
         {!this.state.isGerman && (<div className="chinese">
-          <Form>
+          <Form >
           <FormGroup row>
               <Label for="username" sm={2}>用户名：</Label>
               <Col sm={10}>

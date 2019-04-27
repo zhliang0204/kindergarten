@@ -28,7 +28,7 @@ class MissionList extends Component {
 
   render() {
     return (
-      <div className="Mission-list">
+      <div className="Mission-list outer-div">
         {this.state.events && (
           <Row>
             <Col md="4">

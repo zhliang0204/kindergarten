@@ -50,7 +50,7 @@ export default class createMission extends Component {
 
   render() {
     return (
-      <div className="Add-mission">
+      <div className="Add-mission outer-div">
       <Form>
           <FormGroup>
             <Label for="eventName">Title</Label>

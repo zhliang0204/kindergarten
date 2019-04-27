@@ -27,6 +27,7 @@ import Team from './Team';
 
 
 
+
 export default class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -49,18 +50,18 @@ export default class NavBar extends Component {
   render() {
     return (
       <div className="Kg-navbar">
-        <Navbar expand="md">
+        <Navbar expand="md" color="light" gray-dark>
           <NavbarBrand href="/">Home</NavbarBrand> 
-          <NavbarToggler onClick={this.toggle} />
+          <NavbarToggler onClick={this.toggle} className="mr-2" />
           
           <Collapse isOpen={this.state.isOpen} navbar> 
+          
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                {/* <NavLink to="/">{this.props.isGerman? 'Home':'主页'}</NavLink> */}
-              </NavItem>
+
               <NavItem>
                 {!api.isLoggedIn() && <NavLink to="/life">{this.props.isGerman? 'Kitaleben':'幼儿园生活'}</NavLink>}
               </NavItem>
+
               <NavItem>
                 {!api.isLoggedIn() && <NavLink to="/purpose">{this.props.isGerman? 'Konzept':'办园心声'}</NavLink>}
               </NavItem>
@@ -91,6 +92,7 @@ export default class NavBar extends Component {
               <NavItem>
                 {api.isLoggedIn() && <Link to="/" onClick={(e) => this.handleLogoutClick(e)}>Logout</Link>}
               </NavItem> 
+
            
             </Nav>
           </Collapse>
@@ -106,6 +108,8 @@ export default class NavBar extends Component {
           <Route path="/signup" render={()=><Signup isGerman={this.props.isGerman}/>}/>
           <Route path="/login" render={()=><Login isGerman={this.props.isGerman}/>}/>
           <Route path="/addService" render={()=><AddMission/>}/>
+         
+
           <Route path="/service" render={()=><Service isGerman={this.props.isGerman}/>}/>
           <Route path="/missions" render={()=><MissionList/>}/>
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, } from 'reactstrap';
+import Map from './Map';
 
 
 export default class Contact extends Component {
@@ -10,9 +11,10 @@ export default class Contact extends Component {
 
   render() {
     return (
-      <div className="contact">
+      <div className="contact outer-div">
         <div className="address-map">
           <div className="address">
+            <div className="address-detail">
             <p>Das China Büro e.V.</p>
             <p>Dunckerstr. 90 A</p>
             <p>10437 Berlin</p>
@@ -21,8 +23,9 @@ export default class Contact extends Component {
             <p>e-mail: <a href="mailto:info@daschinabuero.org">info@daschinabuero.org</a></p>
             <p>www.daschinabuero.org</p>
           </div>
+          </div>
           <div className="map" id="kgmap">
-          
+            <Map />
           </div>
         </div>
         {this.props.isGerman && (<div className="german">

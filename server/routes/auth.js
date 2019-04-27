@@ -3,6 +3,7 @@ const passport = require('passport')
 const router = express.Router()
 const User = require("../models/User")
 
+
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
@@ -43,11 +44,13 @@ router.post("/signup", (req, res, next) => {
 
 router.post("/createUser", (req, res, next) => {
   // const { username, password, firstname, lastname, email, phone, address1, address2, postal, city, state, country,childname,role } = req.body
-  const cur = { username, password,  email, phone,role } = req.body;
+  const cur = { username, email, phone,role } = req.body;
   console.log(cur)
   
-  if (!username || !password) {
-    res.status(400).json({ message: "Indicate username and password" })
+  // if (!username || !password) {
+  if (!username) {
+
+    res.status(400).json({ message: "Indicate username" })
     return
   }
   User.findOne({ username })
@@ -57,11 +60,13 @@ router.post("/createUser", (req, res, next) => {
         return
       }
       const salt = bcrypt.genSaltSync(bcryptSalt)
-      const hashPass = bcrypt.hashSync(password, salt)
+      const hashPass = bcrypt.hashSync(process.env.DEFAULT_PASSWORD, salt)
       const newUser = new User({ username, password: hashPass, email, phone, role})
       return newUser.save()
     }) .then(userSave => {
       res.json(userSave)
+
+
     })
     // .then(userSaved => {
       // LOG IN THIS USER

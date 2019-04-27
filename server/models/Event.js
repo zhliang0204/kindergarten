@@ -18,7 +18,6 @@ const eventSchema = new Schema({
       username: String, 
       content:String
     }],
-
 }, {
     timestamps: {
       createdAt: 'created_at',

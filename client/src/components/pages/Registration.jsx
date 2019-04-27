@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class Registration extends Component {
   render() {
     return (
-      <div className="Registration">
+      <div className="Registration outer-div">
         {this.props.isGerman && (<div className="german">
           <div className="notice">
             <div className="header">Anmeldung Kitaplatz</div>
@@ -28,9 +28,9 @@ export default class Registration extends Component {
             <div className="header">Download</div>
             <div className="content">
               <div>Formular Anmeldung zur Förderung von Kindern. Einzureichen beim Jugendamt Ihres Wohnbezirks. Laden (Bilinguale Familien Punkt 2.1 bitte mit "Nein" ankreuzen)</div>
-              <div>Erläuterungen zum Anmeldeformular (Stand März 2010). Laden  </div>
-              <div>Muster eines Kita-Gutscheins. Laden </div>
-              <div>Formular Erklärung für die Festsetzung der Beteiligung an den Kosten der Tagesbetreuung von Kindern Einzureichen beim Jugendamt Ihres Wohnbezirks. Laden</div>
+              <div>Erläuterungen zum Anmeldeformular (Stand März 2010).<a href={'./../../styles/download/reg_1.pdf'} download> Laden </a> </div>
+              <div>Muster eines Kita-Gutscheins. <a href={'./../../styles/download/reg_2.pdf'} > Laden</a> </div>
+              <div>Formular Erklärung für die Festsetzung der Beteiligung an den Kosten der Tagesbetreuung von Kindern Einzureichen beim Jugendamt Ihres Wohnbezirks.<a href={'./../../styles/download/reg_3.pdf'} > Laden</a> </div>
 
             </div>
           </div>

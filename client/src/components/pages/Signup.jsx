@@ -7,7 +7,7 @@ export default class Signup extends Component {
     super(props)
     this.state = {
       username: "",
-      password:"",
+      // password:"",
       // firstname: "",
       // lastname:"",
       // childname:"",
@@ -39,22 +39,33 @@ export default class Signup extends Component {
     e.preventDefault()
     let data = {
       username: this.state.username,
-      password: this.state.password,
+      // password: this.state.password,
       email:this.state.email,
       phone:this.state.phone,
       role:this.state.role,
     }
+
+    let email = {
+      username:this.state.username,
+      email: this.state.email,
+    }
     // console.log(data);
+
+    // test 
     api.createUser(data)
       .then(result => {
-        console.log('SUCCESS!')
-        this.setState({
-          username: "",
-          password: "",
-          email:"",
-          phone:"",
-          role:"teacher"
+        api.reateUserMail(email)
+        .then(emailres => {
+          console.log('SUCCESS!')
+          this.setState({
+            username: "",
+            password: "",
+            email:"",
+            phone:"",
+            role:"teacher"
+          })
         })
+        
         // this.props.history.push("/") // Redirect to the home page
       })
       .catch(err => this.setState({ message: err.toString() }))
@@ -62,7 +73,7 @@ export default class Signup extends Component {
 
   render() {
     return (
-      <div className="Signup">
+      <div className="Signup outer-div">
         {this.props.isGerman && <div className="german">german language</div>}
         {!this.props.isGerman && (<div className="chinese">
           <Form>
@@ -78,10 +89,10 @@ export default class Signup extends Component {
                   <option value="parent">parent</option>
                 </Input>
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="password">密码：</Label>
               <Input type="password" name="password" id="password" value={this.state.password} onChange={this.handleInputChange}/>
-            </FormGroup>
+            </FormGroup> */}
             {/* <FormGroup>
               <Label for="firstname">名字：</Label>
               <Input type="text" name="firstname" id="firstname" value={this.state.firstname} onChange={this.handleInputChange}/>

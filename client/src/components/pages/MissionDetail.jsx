@@ -184,8 +184,7 @@ class MissionDetail extends Component {
                       </FormGroup>
                       <Button onClick={()=>this.handleDiscussion()}>Submit</Button>
                     </Form>              
-                    {/* </Col>
-                  </Row> */}
+                    
                 </TabPane>
                 <TabPane tabId="2">
                   {this.state.candidates && this.state.candidates.map((candidate,i) => (

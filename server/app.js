@@ -8,6 +8,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const logger = require('morgan')
 const nocache = require('nocache')
+// const nodemailer = require('nodemailer')
 const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
 
@@ -53,6 +54,7 @@ app.use('/api', require('./routes/auth'))
 app.use('/api/discussions', require('./routes/discussions'))
 app.use('/api/missions', require('./routes/missions'))
 app.use('/api/applications', require('./routes/application'))
+app.use('/api/mail', require('./routes/transportEmail'))
 
 
 

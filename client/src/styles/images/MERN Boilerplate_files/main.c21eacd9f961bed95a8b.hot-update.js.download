@@ -1,0 +1,252 @@
+webpackHotUpdate("main",{
+
+/***/ "./src/components/App.jsx":
+/*!********************************!*\
+  !*** ./src/components/App.jsx ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return App; });
+/* harmony import */ var H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js");
+/* harmony import */ var H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/getPrototypeOf */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js");
+/* harmony import */ var H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
+/* harmony import */ var _pages_NavBar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/NavBar */ "./src/components/pages/NavBar.jsx");
+/* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Home */ "./src/components/pages/Home.jsx");
+/* harmony import */ var _pages_Purpose__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Purpose */ "./src/components/pages/Purpose.jsx");
+/* harmony import */ var _pages_Registration__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Registration */ "./src/components/pages/Registration.jsx");
+/* harmony import */ var _pages_Contact__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Contact */ "./src/components/pages/Contact.jsx");
+/* harmony import */ var _pages_Service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/Service */ "./src/components/pages/Service.jsx");
+/* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/Login */ "./src/components/pages/Login.jsx");
+/* harmony import */ var _pages_Signup__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/Signup */ "./src/components/pages/Signup.jsx");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../api */ "./src/api.js");
+/* harmony import */ var _styles_images_cn_png__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./../styles/images/cn.png */ "./src/styles/images/cn.png");
+/* harmony import */ var _styles_images_cn_png__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_styles_images_cn_png__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _styles_images_de_png__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./../styles/images/de.png */ "./src/styles/images/de.png");
+/* harmony import */ var _styles_images_de_png__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_styles_images_de_png__WEBPACK_IMPORTED_MODULE_18__);
+
+
+
+
+
+var _jsxFileName = "H:\\workfind\\kindergarten\\kindergarten\\client\\src\\components\\App.jsx";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var App =
+/*#__PURE__*/
+function (_Component) {
+  Object(H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__["default"])(App, _Component);
+
+  function App(props) {
+    var _this;
+
+    Object(H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, App);
+
+    _this = Object(H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__["default"])(this, Object(H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__["default"])(App).call(this, props)); // this.toggle = this.toggle.bind(this)
+
+    _this.state = {
+      isGerman: true,
+      dropdownOpen: false
+    };
+    return _this;
+  }
+
+  Object(H_workfind_kindergarten_kindergarten_client_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(App, [{
+    key: "toggle",
+    value: function toggle() {
+      this.setState({
+        dropdownOpen: !this.state.dropdownOpen
+      });
+    } // handleLogoutClick(e) {
+    //   api.logout()
+    // }
+
+  }, {
+    key: "handleLanguage",
+    value: function handleLanguage(e) {
+      var res = e.target.id;
+      var result;
+
+      if (res === "lang3" || res === "lang2") {
+        result = false;
+      } else {
+        result = true;
+      } // console.log(res)
+
+
+      this.setState({
+        isGerman: result,
+        dropdownOpen: !this.state.dropdownOpen
+      });
+      console.log(this.state.isGerman);
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log(this.state.isGerman);
+      console.log("did mount");
+      console.log(this.props);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      console.log("update");
+      console.log(this.state.isGerman);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "App",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 66
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("header", {
+        className: "App-header",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 67
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "App-title",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 68
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("h1", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 69
+        },
+        __self: this
+      }, "\u5FB7\u56FD\u7B2C\u4E00\u6240\u4E2D\u5FB7\u53CC\u8BED\u5E7C\u513F\u56ED", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 70
+        },
+        __self: this
+      }), "Deutsch-Chinesischer Kindergarten"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "lang-flag",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 73
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 74
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_7__["Dropdown"], {
+        isOpen: this.state.dropdownOpen,
+        toggle: function toggle() {
+          return _this2.toggle();
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 75
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_7__["DropdownToggle"], {
+        tag: "span",
+        onClick: function onClick() {
+          return _this2.toggle();
+        },
+        "data-toggle": "dropdown",
+        "aria-expanded": this.state.dropdownOpen,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 76
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("i", {
+        class: "fas fa-globe",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 82
+        },
+        __self: this
+      }, "De")), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_7__["DropdownMenu"], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 84
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_7__["DropdownItem"], {
+        id: "lang1",
+        onClick: function onClick(e) {
+          return _this2.handleLanguage(e);
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 85
+        },
+        __self: this
+      }, "Deutsch"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_7__["DropdownItem"], {
+        id: "lang2",
+        onClick: function onClick(e) {
+          return _this2.handleLanguage(e);
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 86
+        },
+        __self: this
+      }, "\u7B80\u4F53\u4E2D\u6587"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_7__["DropdownItem"], {
+        id: "lang3",
+        onClick: function onClick(e) {
+          return _this2.handleLanguage(e);
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 87
+        },
+        __self: this
+      }, "\u7E41\u4F53\u4E2D\u6587")))))), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_pages_NavBar__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        isGerman: this.state.isGerman,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 93
+        },
+        __self: this
+      })));
+    }
+  }]);
+
+  return App;
+}(react__WEBPACK_IMPORTED_MODULE_5__["Component"]);
+
+
+
+/***/ })
+
+})
+//# sourceMappingURL=main.c21eacd9f961bed95a8b.hot-update.js.map

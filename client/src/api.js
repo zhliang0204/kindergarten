@@ -114,6 +114,13 @@ export default {
             .catch(errHandler)
   },
 
+  createUserMail(emailInfo){
+    return service
+            .post('/mail/userMail', emailInfo)
+            .then(res =>res.data)
+            .chatch(errHandler)
+  },
+
   // This is an example on how to use this method in a different file
   // api.getCountries().then(countries => { /* ... */ })
   // getCountries() {
