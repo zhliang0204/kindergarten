@@ -232,7 +232,9 @@ class MissionDetail extends Component {
                 <div className="content-list">
                   {this.state.selectedEvent.finals.map((final,i) => (
                     <Row key={i}>
-                      {final}
+                      <Col>UserName: {final.username}</Col>
+                      <Col>Role: {final.role}</Col>
+                      <Col>Service Date: {final.serviceDate}</Col>
                     </Row>
                   ))}
                 </div>

@@ -6,7 +6,9 @@ const Disscussion = require('../models/Discussion');
 
 const router = express.Router();
 
-const { isLoggedIn } = require('../middlewares')
+const { isLoggedIn } = require('../middlewares');
+const { UpdateFinals } = require('../datapro');
+
 
 // Route to get all countries
 router.post('/create', isLoggedIn, (req, res, next) => {
@@ -30,8 +32,10 @@ router.get('/all/:id', isLoggedIn,(req,res,next) => {
   Event.findOne({_id:id})
         .populate("candidates")
         .populate('discussion')
+        .populate('finals')
         .exec()
         .then(event => {
+          UpdateFinals(event);
           res.json(event)
         })
         .catch(err => next(err))
