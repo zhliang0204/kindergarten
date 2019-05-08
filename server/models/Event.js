@@ -12,7 +12,7 @@ const eventSchema = new Schema({
   reqpersons:Number,
   candidates:[{type:Schema.Types.ObjectId, ref: 'Application' }],
   finals:[{type:Schema.Types.ObjectId, ref: 'Final' }],
-  eventState:[{type:String, enum:['new','published','followed','closed'], default:'new'}],
+  eventState:[{type:String, enum:['new','applicated','published','followed','closed'], default:'new'}],
   discussion:[{type: Schema.Types.ObjectId, ref: 'Discussion' }],
 }, {
     timestamps: {

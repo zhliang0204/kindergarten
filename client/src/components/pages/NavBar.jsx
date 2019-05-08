@@ -24,6 +24,8 @@ import Signup from './Signup';
 import MissionList from './MissionList';
 import AddMission from './AddMission';
 import Team from './Team';
+import PersonalMission from './PersonalMission';
+// import GoogleCalendar from './GoogleCalendar'
 
 
 
@@ -87,11 +89,18 @@ export default class NavBar extends Component {
                 {api.isLoggedIn() && <NavLink to="/missions">{this.props.isGerman? 'Missions':'任务列表'}</NavLink>}
               </NavItem>
               <NavItem>
+                {api.isLoggedIn() && <NavLink to="/user/personalMission">{this.props.isGerman? 'Personal Missions':'个人任务'}</NavLink>}
+              </NavItem>
+              <NavItem>
                 {api.isLoggedIn() && <NavLink to="/addService">{this.props.isGerman? 'Create Missions':'创建任务'}</NavLink>}
               </NavItem>
               <NavItem>
                 {api.isLoggedIn() && <Link to="/" onClick={(e) => this.handleLogoutClick(e)}>Logout</Link>}
               </NavItem> 
+
+              {/* <NavItem>
+                <Link to="/googleCalendar" onClick={(e) => this.handleLogoutClick(e)}>Calendar</Link>
+              </NavItem>  */}
 
            
             </Nav>
@@ -108,6 +117,8 @@ export default class NavBar extends Component {
           <Route path="/signup" render={()=><Signup isGerman={this.props.isGerman}/>}/>
           <Route path="/login" render={()=><Login isGerman={this.props.isGerman}/>}/>
           <Route path="/addService" render={()=><AddMission/>}/>
+          <Route path="/user/personalMission" render={()=><PersonalMission/>}/>
+          {/* <Route path="/googleCalendar" render={()=><GoogleCalendar/>}/> */}
          
 
           <Route path="/service" render={()=><Service isGerman={this.props.isGerman}/>}/>

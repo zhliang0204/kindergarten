@@ -10,7 +10,7 @@ const { isLoggedIn } = require('../middlewares');
 const { UpdateFinals } = require('../datapro');
 
 
-// Route to get all countries
+
 router.post('/create', isLoggedIn, (req, res, next) => {
   let {eventname,started, ended,reqhours, reqpersons, content, applybefore} = req.body;
   Event.create({eventname, started, ended, reqhours, reqpersons, content, applybefore})
@@ -67,17 +67,6 @@ router.get('/discussions/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
   let userId = req.user.id;
   let content = req.body.content;
-  // User.findById(userId)
-  //       .then(user =>{
-  //         Event.findByIdAndUpdate(id, {
-  //           $push: {discussion: {_userId:userId, userName:user.username, content:content}}
-  //         })
-  //       }).then(event =>{
-  //         console.log('works:',id)
-  //         res.json({success:true})
-  //       })
-  //         .catch(err => next(err))
-
 
   Event.findById(id) .then(event => {
     console.log("works:", id)

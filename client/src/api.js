@@ -98,7 +98,7 @@ export default {
   // get all
   getselectedEventAll(id){
     return service
-              .get('/missions//all/' + id)
+              .get('/missions/all/' + id)
               .then(res => res.data)
               .catch(errHandler)
   },
@@ -144,6 +144,31 @@ export default {
             .then(res =>res.data)
             .catch(errHandler)
   },
+
+  // ------------------------------------
+  // personal mission statistic related
+  personalMission(){
+    return service
+            .get('/user/history')
+            .then(res =>res.data)
+            .catch(errHandler)
+  },
+
+  // personal applicated misson
+  personalApplication(){
+    return service
+            .get('user/application')
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  personalFinal(){
+    return service
+            .get('user/final')
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
 
   // This is an example on how to use this method in a different file
   // api.getCountries().then(countries => { /* ... */ })

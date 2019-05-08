@@ -21,8 +21,6 @@ constructor(props) {
         width: 500,
         height: 500,
         position: "absolute",
-        
-
       }
     };
   }
@@ -37,8 +35,6 @@ return (
           <NavigationControl/>
           
         </div>
-
-       
       </MapGL>
     );
   }

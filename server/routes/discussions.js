@@ -25,12 +25,6 @@ router.post('/:id', isLoggedIn, (req, res, next) => {
   let _userId = req.user.id;
   let content = req.body.content;
 
-// console.log("--------------discussion-----------------")
-// console.log(username)
-// console.log(content)
-// let newdiscussion = {username,content, _userId};
-// console.log(newdiscussion)
-
   Discussion.create({username, _userId, content})
     .then(discuss => {
         Event.findOneAndUpdate({_id:id}, {
@@ -40,14 +34,6 @@ router.post('/:id', isLoggedIn, (req, res, next) => {
           res.json(discuss)
         }).catch(err => next(err))
     })
-
-  // Event.findOneAndUpdate({_id:id}, {
-  //   $push: {discussion: newdiscussion
-  // }}) .then(event => {
-  //   console.log(event)
-  //   res.json(event)
-  // })
-  // .catch(err => next(err))
 })
 
 module.exports = router;

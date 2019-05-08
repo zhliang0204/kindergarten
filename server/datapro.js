@@ -8,7 +8,12 @@ const Event = require('./models/Event');
 const Application = require('./models/Application');
 const Final = require('./models/Final');
 
+// Find the organizer of the event
+// if no one apply for it
 function findOrg(array, key){
+  if (array.length === 0){
+    return []
+  }
   let resMin = array[0];
   for(let i = 1; i < array.length; i++){
     if(resMin[key] > array[i][key]){
@@ -22,9 +27,10 @@ function findOrg(array, key){
    role:"oragnizer",
    serviceDate:resMin.serviceDate
   };
-  return res
+  return [res]
 }
 
+// sort by date of applicants
 function sortByKey(array, key) {
   return array.sort(function(a, b) {
       var x = a[key]; var y = b[key];
@@ -32,7 +38,10 @@ function sortByKey(array, key) {
   });
 }
 
+// find required people of applicants
 function findKElements(array, k){
+  // array
+  // k is the required number of applicants
     let len = array.length > k ? k: array.length;
     let res = [];
     for(i = 1; i < len; i++){
@@ -58,16 +67,35 @@ function getId(users){
 function createFinal(event){
 
   var org = findOrg(event.candidates, "created_at");
-  let candidates = sortByKey(event.candidates, "created_at");
-  let participants = findKElements(candidates, event.reqpersons);
-  participants.unshift(org)
-  Final.create(participants)
-        .then(saveParticipants => {
-          let ids = getId(saveParticipants)
-          Event.findOneAndUpdate({_id: event._id}, {$set:{finals:ids}})
-          .then(console.log('--------works------'))
-        })
+  console.log("---------------------org-----------------------------")
+  console.log(org[0]);
+  if(org.length === 0){
+    return
+  } else {
+    let candidates = sortByKey(event.candidates, "created_at");
+    console.log("---------------------candidates-----------------------------")
+    console.log(candidates)
+    let participants;
+    if (candidates.length === 0){
+      participants = org.slice();
+    } else {
+      participants = findKElements(candidates, event.reqpersons);
+      participants.unshift(org[0])
+      // console.log("---------------------participants1-----------------------------")
+      // console.log(participants)
+    }
+    // console.log("---------------------participants-2----------------------------")
+    // console.log(participants)
 
+    
+      Final.create(participants)
+      .then(saveParticipants => {
+        let ids = getId(saveParticipants)
+        Event.findOneAndUpdate({_id: event._id}, {$set:{finals:ids, eventState:'published'}})
+        .then(console.log('--------works------'))
+      })
+  }
+  
 }
 
 function UpdateFinals(event){

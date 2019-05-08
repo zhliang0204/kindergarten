@@ -14,7 +14,6 @@ router.get('/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
   Event.findOne({_id:id}).populate('candidates')
     .then(event => {
-      // console.log("works")
       res.json(event.candidates)
     })
     .catch(err => next(err))

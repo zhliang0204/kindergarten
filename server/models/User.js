@@ -17,6 +17,13 @@ const userSchema = new Schema({
   state:String,
   country:String,
   childname:String,
+  historyServiceHours: [
+    {
+      year: String,
+      serviceHours: Number
+    }
+  ],
+  currentServiceHours: Number,
 }, {
     timestamps: {
       createdAt: 'created_at',
