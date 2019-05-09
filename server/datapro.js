@@ -1,8 +1,3 @@
-// function isLoggedIn(req, res, next) {
-//   if (req.isAuthenticated()) next()
-//   else next({ status: 403, message: 'Unauthorized' })
-// }
-
 const User = require('./models/User');
 const Event = require('./models/Event');
 const Application = require('./models/Application');
@@ -81,13 +76,7 @@ function createFinal(event){
     } else {
       participants = findKElements(candidates, event.reqpersons);
       participants.unshift(org[0])
-      // console.log("---------------------participants1-----------------------------")
-      // console.log(participants)
-    }
-    // console.log("---------------------participants-2----------------------------")
-    // console.log(participants)
-
-    
+    }    
       Final.create(participants)
       .then(saveParticipants => {
         let ids = getId(saveParticipants)

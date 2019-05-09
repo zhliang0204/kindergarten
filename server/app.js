@@ -11,6 +11,8 @@ const nocache = require('nocache')
 const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
 
+// const {updateServiceEveryYear, updateServiceEveryDay} = require('./UpdateService')
+
 require('./configs/database')
 
 const app_name = require('./package.json').name
@@ -39,6 +41,10 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../client/build')))
 
 
+// test for j
+// updateServiceEveryYear;
+// updateServiceEveryDay;
+
 // Enable authentication using session + passport
 app.use(session({
   secret: process.env.SESSION_SECRET || 'irongenerator',
@@ -52,6 +58,8 @@ require('./passport')(app)
 
 app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
+app.use('/api/events', require('./routes/events'))
+
 app.use('/api/discussions', require('./routes/discussions'))
 app.use('/api/missions', require('./routes/missions'))
 app.use('/api/applications', require('./routes/application'))

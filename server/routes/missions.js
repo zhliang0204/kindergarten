@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/User');
 const Event = require('../models/Event');
 const Disscussion = require('../models/Discussion');
+const Final = require('../models/Final');
 
 
 const router = express.Router();
@@ -35,7 +36,12 @@ router.get('/all/:id', isLoggedIn,(req,res,next) => {
         .populate('finals')
         .exec()
         .then(event => {
-          UpdateFinals(event);
+          Final.findOne({_eventId:event._id})
+                .then(res => {
+                  if(res === null){
+                    UpdateFinals(event);
+                  }
+                })
           res.json(event)
         })
         .catch(err => next(err))

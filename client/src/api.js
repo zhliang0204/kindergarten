@@ -41,10 +41,50 @@ export default {
       .catch(errHandler)
   },
 
-  login(username, password) {
+  // router/auth.js
+  // create child
+  createChild(childInfo){
+    return service
+            .post("/createChild", childInfo)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  createParent(parentInfo){
+    return service
+            .post("/createParent", parentInfo)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  // active account
+  activeAccount(userId,accountInfo){
+    return service
+            .post("/active/" + userId, accountInfo)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  // set password
+  setPassword(userId, password){
+    return service()
+            .post("/setpws/" + userId, password)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  login(email, password) {
     return service
       .post('/login', {
-        username,
+        email,
         password,
       })
       .then(res => {
@@ -54,8 +94,6 @@ export default {
       })
       .catch(errHandler)
   },
-
-  
 
   logout() {
     localStorage.removeItem('user')

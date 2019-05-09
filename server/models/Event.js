@@ -2,18 +2,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  eventname: {type:String},
+  title: {type:String},
   _creator: { type: Schema.Types.ObjectId, ref: 'User' },
-  content: String,
+  description: String,
   started:Date,
   ended:Date,
   applybefore: Date,
+  exetime:Date,
   reqhours:Number,
+  reqOrghours: Number,
+  isRequired:{type:Boolean, default:false},
   reqpersons:Number,
-  candidates:[{type:Schema.Types.ObjectId, ref: 'Application' }],
-  finals:[{type:Schema.Types.ObjectId, ref: 'Final' }],
-  eventState:[{type:String, enum:['new','applicated','published','followed','closed'], default:'new'}],
-  discussion:[{type: Schema.Types.ObjectId, ref: 'Discussion' }],
+  _attendants:[{type:Schema.Types.ObjectId, ref: 'Attendence' }],
+  // finals:[{type:Schema.Types.ObjectId, ref: 'Final' }],
+  _eventState:{type:String, enum:['vote','apply','process','finish','closed'], default:'vote'},
+  _discussion:[{type: Schema.Types.ObjectId, ref: 'Discussion' }],
 }, {
     timestamps: {
       createdAt: 'created_at',

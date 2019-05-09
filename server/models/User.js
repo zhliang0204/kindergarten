@@ -8,6 +8,7 @@ const userSchema = new Schema({
   password: String,
   googleId:String,
   role: {type:String,enum:['admin','dean','teacher','parent'],default:'teacher'},
+  _child:[{type:Schema.Types.ObjectId, ref: 'Child' }],
   email:{type:String, unique:true},
   phone:String,
   address1:String,
@@ -17,13 +18,15 @@ const userSchema = new Schema({
   state:String,
   country:String,
   childname:String,
+  isActive:Boolean,
+  activeCode:String,
   historyServiceHours: [
     {
       year: String,
       serviceHours: Number
     }
   ],
-  currentServiceHours: Number,
+  currentServiceHours: {type: Number, default:0},
 }, {
     timestamps: {
       createdAt: 'created_at',

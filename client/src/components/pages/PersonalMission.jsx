@@ -3,6 +3,7 @@ import api from "./../../api";
 import Chart from "chart.js";
 import {Bar} from 'react-chartjs-2';
 import { Button } from 'reactstrap';
+import  Calendar  from './Calendar';
 
 
 // var data = {
@@ -133,18 +134,7 @@ export default class PersonalMission extends Component {
         </div>
         
         <div className="mission-list">
-          {this.state.missions &&
-            (this.state.missions.map((mission,i) => (
-              <div key={i}>{mission._eventId.eventname}</div>
-            )))
-          }
-          <Button
-              color="primary"
-              tag="a"
-              href={api.service.defaults.baseURL + "/auth/google"}
-            >
-              log with google
-            </Button>
+          <Calendar />
         </div>
       </div>
     )
