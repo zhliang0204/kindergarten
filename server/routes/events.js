@@ -37,6 +37,7 @@ router.post('/create', isLoggedIn, (req, res, next) => {
 });
 
 // get one event with attende
+// unreasonable
 router.get('/info/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
   Event.findOne({_id:id})
@@ -90,7 +91,7 @@ router.get("/vote/personal/:id", isLoggedIn, (req, res, next) => {
 // count vote result
 router.get("/vote/result/:id", isLoggedIn, (req, res, next) => {
   const eventId = req.params.id
-  Vote.find({_event:evnentId}).aggregate(
+  Vote.find({_event:eventId}).aggregate(
     [
       {
         $group : {
@@ -106,6 +107,7 @@ router.get("/vote/result/:id", isLoggedIn, (req, res, next) => {
 
 // post discussion
 router.post("/discussion/:id", isLoggedIn, (req, res, next) => {
+  // id:event id
   const userId = req.user._id;
   const eventId = req.params.id;
   const {content} = req.body;
@@ -121,6 +123,73 @@ router.post("/discussion/:id", isLoggedIn, (req, res, next) => {
   })
   .catch(err => next(err))
 })
+
+// get discussion
+router.get("/discussion/:id", isLoggedIn, (req, res, next) => {
+  // id : event id
+  const eventId = req.params.id;
+  Disscussion.find({_event:eventId})
+              .populate({
+                path: '_user',
+                populate: {path: "_child"}
+              })
+              .then(discuss => {
+                res.json(discuss)
+              })
+              .catch(err => next(err))
+})
+
+// post an application
+router.post("/application/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id;
+  const userId = req.user._id;
+  const { expectDate } = req.body;
+  const username = req.user.username;
+  Attendence.create({
+    _event:eventId,
+    _user:userId,
+    expectDate:expectDate,
+
+  })
+    .then(attendant => {
+      res.json(attendant)
+    })
+    .catch(err => next(err))
+})
+
+// get applications
+router.get("/application/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id;
+  Attendence.find({_event:eventId, tag:"apply"})
+            .populate({
+              path: "_user",
+              populate: {path:"_child"}
+            })
+            .then(attendants => {
+              res.json(attendants)
+            })
+            .catch(err => next(err))
+})
+
+// get all attendant: org,par,assign,apply
+router.get("/attendant/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id
+  Attendence.find({_event:eventId})
+            .populate({
+              path: "_user",
+              populate: {path:"_child"}
+            })
+            .then(attendants => {
+              res.json(attendants)
+            })
+            .catch(err => next(err))
+})
+
+
+
 
 // router.get('/', isLoggedIn, (req, res, next) => {
 //   Event.find({})

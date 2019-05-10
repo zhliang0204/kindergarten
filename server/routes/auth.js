@@ -26,6 +26,7 @@ router.post("/createChild", (req, res, next) => {
     .catch(err => next(err))
 })
 
+// create user of parent
 router.post("/createParent", (req, res, next) => {
   const cur = { firstname, lastname, username, email, phone, childId } = req.body;
   const childA = [childId]
@@ -62,6 +63,7 @@ router.post("/createParent", (req, res, next) => {
     .catch(err => next(err))
 })
 
+// no use untill now
 router.post("/createUser", (req, res, next) => {
   const cur = { username, email, phone,role } = req.body;
   console.log(cur)

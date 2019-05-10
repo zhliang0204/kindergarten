@@ -6,7 +6,7 @@ const childSchema = new Schema({
   lastname: String,
   age: String,
   sex: String,
-  state: {type:String,enum:['attend','graduate','transfer'],default:'attend'},
+  state: {type:String,enum:['stay','graduate','transfer'],default:'stay'},
   _parents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 }, {
     timestamps: {

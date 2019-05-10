@@ -13,9 +13,10 @@ const eventSchema = new Schema({
   reqOrghours: Number,
   isRequired:{type:Boolean, default:false},
   reqpersons:Number,
+  totalHours:{type:Number, default:0},
   _attendants:[{type:Schema.Types.ObjectId, ref: 'Attendence' }],
   // finals:[{type:Schema.Types.ObjectId, ref: 'Final' }],
-  _eventState:{type:String, enum:['vote','apply','process','finish','closed'], default:'vote'},
+  eventState:{type:String, enum:['vote','apply','process','finish','close','stop'], default:'vote'},
   _discussion:[{type: Schema.Types.ObjectId, ref: 'Discussion' }],
 }, {
     timestamps: {

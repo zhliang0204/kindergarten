@@ -59,7 +59,7 @@ require('./passport')(app)
 app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
 app.use('/api/events', require('./routes/events'))
-
+app.use('/api/children', require('./routes/child'))
 app.use('/api/discussions', require('./routes/discussions'))
 app.use('/api/missions', require('./routes/missions'))
 app.use('/api/applications', require('./routes/application'))

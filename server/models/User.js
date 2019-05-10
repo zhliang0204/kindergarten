@@ -23,10 +23,12 @@ const userSchema = new Schema({
   historyServiceHours: [
     {
       year: String,
-      serviceHours: Number
+      totalHours: Number,
+      aveHours:Number,
     }
   ],
-  currentServiceHours: {type: Number, default:0},
+  totalHours: {type: Number, default:0},
+  aveHours: {type: Number, default:0},
 }, {
     timestamps: {
       createdAt: 'created_at',
