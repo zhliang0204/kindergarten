@@ -11,7 +11,6 @@ const router = express.Router();
 const { isLoggedIn } = require('../middlewares');
 
 
-
 // Route to get all countries
 router.get('/history', isLoggedIn, (req, res, next) => {
   let id = req.user.id;

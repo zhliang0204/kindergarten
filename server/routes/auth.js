@@ -12,19 +12,19 @@ const bcryptSalt = 10
 
 
 // only create child
-router.post("/createChild", (req, res, next) => {
-  const cur = { firstname, lastname, sex, age } = req.body;
-  Child.create({
-    firstname,
-    lastname,
-    sex,
-    age
-  })
-    .then(newChild => {
-      res.json(newChild)
-    })
-    .catch(err => next(err))
-})
+// router.post("/createChild", (req, res, next) => {
+//   const cur = { firstname, lastname, sex, age } = req.body;
+//   Child.create({
+//     firstname,
+//     lastname,
+//     sex,
+//     age
+//   })
+//     .then(newChild => {
+//       res.json(newChild)
+//     })
+//     .catch(err => next(err))
+// })
 
 // create user of parent
 router.post("/createParent", (req, res, next) => {
@@ -57,14 +57,15 @@ router.post("/createParent", (req, res, next) => {
       return newUser.save()
     })
     .then(userSaved => {
-      Child.findOneAndUpdate({_id: childId}, {$push:{_parent:userSaved._id}})
-      res.json( userSaved );
+      Child.update({_id: childA}, {$push:{_parents:userSaved._id}})
+      .then(child => res.json(child))
+      // res.json( userSaved );
     })
     .catch(err => next(err))
 })
 
-// no use untill now
-router.post("/createUser", (req, res, next) => {
+// left it to do next time.
+router.post("/createTeacher", (req, res, next) => {
   const cur = { username, email, phone,role } = req.body;
   console.log(cur)
   
@@ -109,7 +110,7 @@ router.post("/active/:id", (req, res, next) => {
           next(new Error("Account is already actived "))
           return
         }
-        User.findOne({_id: userId}, {$set:{isActive:true}}, {new: true})
+        User.update({_id: userId}, {$set:{isActive:true}}, {new: true})
             .then(updateUser => res.json(updateUser))
       }).catch(err => next(err))
 })
@@ -131,7 +132,7 @@ router.post("/setpws/:id", (req, res, next) => {
         const salt = bcrypt.genSaltSync(bcryptSalt)
         const hashPass = bcrypt.hashSync(password, salt)
 
-        User.findOneAndUpdate({email}, {$set: {password: hashPass}}, {new: true})
+        User.update({email}, {$set: {password: hashPass}}, {new: true})
             .then(updateUser => {
               updateUser.password = null;
               res.json(updateUser)

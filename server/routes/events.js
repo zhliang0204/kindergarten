@@ -1,4 +1,5 @@
 const express = require('express');
+const ObjectId = require("mongoose").Types.ObjectId;
 const User = require('../models/User');
 const Event = require('../models/Event');
 const Disscussion = require('../models/Discussion');
@@ -10,7 +11,6 @@ const Vote = require('../models/Vote')
 const router = express.Router();
 const { isLoggedIn } = require('../middlewares');
 // const { UpdateFinals } = require('../datapro');
-
 
 
 router.post('/create', isLoggedIn, (req, res, next) => {
@@ -82,7 +82,7 @@ router.post("/vote/:id", isLoggedIn, (req, res, next) => {
 router.get("/vote/personal/:id", isLoggedIn, (req, res, next) => {
   const userId = req.user._id
   const eventId = req.params.id
-  Vote.findOne({_user: userId, _event:eventId})
+  Vote.find({_user: userId, _event:eventId})
       .then(voteRes => {
         res.json(voteRes)
       }).catch(err => next(err))
@@ -91,14 +91,17 @@ router.get("/vote/personal/:id", isLoggedIn, (req, res, next) => {
 // count vote result
 router.get("/vote/result/:id", isLoggedIn, (req, res, next) => {
   const eventId = req.params.id
-  Vote.find({_event:eventId}).aggregate(
-    [
+  Vote.aggregate(
+    [ 
+      {
+        $match: {_event: ObjectId(eventId)}
+      },
       {
         $group : {
-          _id: $voted,
-          total:{$sum : voted}
+          _id: "$voted",
+          total:{$sum : 1}
         }
-      }
+      },
     ]
   ).then(voteCount => {
     res.json(voteCount)
@@ -187,44 +190,6 @@ router.get("/attendant/:id", isLoggedIn, (req, res, next) => {
             })
             .catch(err => next(err))
 })
-
-
-
-
-// router.get('/', isLoggedIn, (req, res, next) => {
-//   Event.find({})
-//     .then(events => {
-//       res.json(events.reverse())
-//     })
-//     .catch(err => next(err))
-// });
-
-// router.post('/discussions/:id', isLoggedIn, (req, res, next) => {
-//   let id = req.params.id;
-//   let userId = req.user.id;
-//   let content = req.body.content;
-
-//   Event.findByIdAndUpdate(id, {
-//     $push: {discussion: {'_userId':userId, 'content':content} }
-//   }) .then(event => {
-//     console.log("works:", id)
-//     res.json({success: true})
-//   })
-//   .catch(err => next(err))
-// })
-
-// router.get('/discussions/:id', isLoggedIn, (req, res, next) => {
-//   let id = req.params.id;
-//   let userId = req.user.id;
-//   let content = req.body.content;
-
-//   Event.findById(id) .then(event => {
-//     console.log("works:", id)
-//     res.json(event.data)
-//   })
-//   .catch(err => next(err))
-// })
-
 
 
 module.exports = router;
