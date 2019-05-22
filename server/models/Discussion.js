@@ -9,6 +9,7 @@ const discussionSchema = new Schema({
   _event: { type: Schema.Types.ObjectId, ref: 'Event' },
   _user: {type: Schema.Types.ObjectId, ref:"User"},
   // username: {type:String},
+  _to:{type:Schema.Types.ObjectId,ref:"Discussion"},
   content: {type: String, required:true}
   
  }, {

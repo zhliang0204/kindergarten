@@ -2,11 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const attendenceSchema = new Schema({
-  userName:{type:String},
+  // userName:{type:String},
   _user:{type:Schema.Types.ObjectId, ref: 'User'},
   _event:{type:Schema.Types.ObjectId, ref: 'Event'},
   tag:{type:String, enum:["apply", "organize", "participate", "assigned","assigned Org"]},
-  expectDate:{type:Date},
+  serviceHours: {type: Number},
+  expectDate:{type:Number},
+  isChecked:{type:Boolean, default:false},
+  isShow:{type:Boolean, default:true},
+  isDone:{type:Boolean, default:false},
   Note:{type:[{
     apply:String, 
     organize:String, 

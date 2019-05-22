@@ -11,7 +11,11 @@ const nocache = require('nocache')
 const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
 
-// const {updateServiceEveryYear, updateServiceEveryDay} = require('./UpdateService')
+const { updateServiceEveryYear,
+  updateEventStateAtVote,
+  updateEventStateAtApply,
+  updateEventstateAtProcess,
+  sendInformEmail,} = require('./cus_module/scheduleMission')
 
 require('./configs/database')
 
@@ -33,7 +37,11 @@ app.use(cors({
 }))
 app.use(logger('dev'))
 app.use(bodyParser.json())
+// org------
 app.use(bodyParser.urlencoded({ extended: false }))
+// change-----
+// app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(cookieParser())
 
 // Set the public folder to "~/client/build/"
@@ -41,9 +49,12 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../client/build')))
 
 
-// test for j
-// updateServiceEveryYear;
-// updateServiceEveryDay;
+// Time Scheduled Mission
+updateServiceEveryYear;
+updateEventStateAtVote;
+updateEventStateAtApply;
+updateEventstateAtProcess;
+sendInformEmail;
 
 // Enable authentication using session + passport
 app.use(session({
@@ -59,7 +70,7 @@ require('./passport')(app)
 app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
 app.use('/api/events', require('./routes/events'))
-app.use('/api/children', require('./routes/child'))
+app.use('/api/child', require('./routes/child'))
 app.use('/api/discussions', require('./routes/discussions'))
 app.use('/api/missions', require('./routes/missions'))
 app.use('/api/applications', require('./routes/application'))

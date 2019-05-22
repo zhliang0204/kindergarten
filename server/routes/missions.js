@@ -2,13 +2,13 @@ const express = require('express');
 const User = require('../models/User');
 const Event = require('../models/Event');
 const Disscussion = require('../models/Discussion');
-const Final = require('../models/Final');
+// const Final = require('../models/Final');
 
 
 const router = express.Router();
 
 const { isLoggedIn } = require('../middlewares');
-const { UpdateFinals } = require('../datapro');
+// const { UpdateFinals } = require('../datapro');
 
 
 

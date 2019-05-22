@@ -10,28 +10,23 @@ const Child = require("../models/Child")
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 
+function activeCodeGen(n){
+  var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+  var res = "";
+     for(var i = 0; i < n ; i ++) {
+         var id = Math.ceil(Math.random()*35);
+         res += chars[id];
+     }
+     return res;
+}
 
-// only create child
-// router.post("/createChild", (req, res, next) => {
-//   const cur = { firstname, lastname, sex, age } = req.body;
-//   Child.create({
-//     firstname,
-//     lastname,
-//     sex,
-//     age
-//   })
-//     .then(newChild => {
-//       res.json(newChild)
-//     })
-//     .catch(err => next(err))
-// })
 
 // create user of parent
 router.post("/createParent", (req, res, next) => {
-  const cur = { firstname, lastname, username, email, phone, childId } = req.body;
+  const cur = { firstname, lastname, email, phone, childId, subrole } = req.body;
   const childA = [childId]
  
-  if (!username || !email || !firstname || !lastname) {
+  if (!email || !firstname || !lastname) {
     res.status(400).json({ message: "Indicate username and email" })
     return
   }
@@ -41,26 +36,59 @@ router.post("/createParent", (req, res, next) => {
         res.status(409).json({ message: "The email already exists" })
         return
       }
-      const salt = bcrypt.genSaltSync(bcryptSalt)
-      const hashPass = bcrypt.hashSync(email, salt)
+      // const salt = bcrypt.genSaltSync(bcryptSalt)
+      // const hashPass = bcrypt.hashSync(email, salt)
+      const acitiveCode = activeCodeGen(6)
       const newUser = new User(
-        { username:username, 
+        { 
+          // username:email, 
           firstname:firstname,
           lastname:lastname,
           isActive:false,
-          activeCode: hashPass, 
+          activeCode: acitiveCode, 
           email:email, 
           phone:phone, 
           _child:childA,
-          role: "parent"}
+          role: "parent",
+          subrole: subrole,
+          childNum:1,
+        }
       )
       return newUser.save()
     })
     .then(userSaved => {
-      Child.update({_id: childA}, {$push:{_parents:userSaved._id}})
-      .then(child => res.json(child))
+      console.log("----------saved user-----------")
+      console.log(userSaved)
+      if(userSaved.subrole === "father"){
+        console.log("--------------father-------------")
+        Child.findOneAndUpdate({_id: childId}, {$set:{_father:userSaved._id}})
+        .then(child => res.json(userSaved))
+        .catch(err => next(err))
+      } 
+      if(userSaved.subrole === "mother"){
+        console.log("--------------mother-------------")
+        Child.findOneAndUpdate({_id: childId}, {$set:{_mother:userSaved._id}})
+        .then(child => res.json(userSaved))
+        .catch(err => next(err))
+      }
+      
       // res.json( userSaved );
     })
+    .catch(err => next(err))
+})
+
+// route to relate child to parent
+// to do--------------------------
+router.post("/relateParent", (req, res, next) => {
+  const { userId, childId } = req.body;
+  User.update(
+    {_id:userId},
+    {
+      $push:{_child:childId},
+      $inc :{childNum:1},
+    }
+    )
+    .then(userDoc => { res.json(userDoc)})
     .catch(err => next(err))
 })
 
@@ -98,7 +126,8 @@ router.post("/active/:id", (req, res, next) => {
   User.findOne({_id: userId})
       .then(userDoc => {
         if(!userDoc){
-          next(new Error("Incorrect user "))
+          res.status(409).json({ message: "Incorrect user" })
+          // next(new Error("Incorrect user "))
           return
         }
 
@@ -107,10 +136,30 @@ router.post("/active/:id", (req, res, next) => {
           return
         }
         if(userDoc.isActive !== false){
+          res.status(409).json({ message: "Account is already actived " })
+          // next(new Error("Account is already actived "))
+          return
+        }
+        User.findOneAndUpdate({_id: userId}, {$set:{isActive:true}}, {new: true})
+            .then(updateUser => res.json(updateUser))
+      }).catch(err => next(err))
+})
+
+router.post("/userActive", (req, res, next) => {
+  
+  const {email, activeCode} = req.body;
+  User.findOne({$and:[{email: email}, {activeCode:activeCode}]})
+      .then(userDoc => {
+        if(!userDoc){
+          next(new Error("Incorrect user "))
+          return
+        }
+
+        if(userDoc.isActive !== false){
           next(new Error("Account is already actived "))
           return
         }
-        User.update({_id: userId}, {$set:{isActive:true}}, {new: true})
+        User.update({$and:[{email: email}, {activeCode:activeCode}]}, {$set:{isActive:true}}, {new: true})
             .then(updateUser => res.json(updateUser))
       }).catch(err => next(err))
 })
@@ -132,12 +181,13 @@ router.post("/setpws/:id", (req, res, next) => {
         const salt = bcrypt.genSaltSync(bcryptSalt)
         const hashPass = bcrypt.hashSync(password, salt)
 
-        User.update({email}, {$set: {password: hashPass}}, {new: true})
+        User.findOneAndUpdate({email}, {$set: {password: hashPass}}, {new: true})
             .then(updateUser => {
-              updateUser.password = null;
+              // updateUser.password = null;
+              console.log(updateUser)
               res.json(updateUser)
-            })
-        
+              
+            }).catch(err => next(err))
       })
 })
 
@@ -173,6 +223,7 @@ router.post("/login", (req, res, next) => {
       req.logIn(userDoc, () => {
         // hide "encryptedPassword" before sending the JSON (it's a security risk)
         userDoc.password = undefined
+
         res.json(userDoc)
       })
     })

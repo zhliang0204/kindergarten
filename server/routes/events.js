@@ -2,7 +2,8 @@ const express = require('express');
 const ObjectId = require("mongoose").Types.ObjectId;
 const User = require('../models/User');
 const Event = require('../models/Event');
-const Disscussion = require('../models/Discussion');
+const Discussion = require('../models/Discussion');
+const Application = require("../models/Application");
 const Attendence = require('../models/Attendence');
 const Vote = require('../models/Vote')
 // const Final = require('../models/Final');
@@ -14,10 +15,11 @@ const { isLoggedIn } = require('../middlewares');
 
 
 router.post('/create', isLoggedIn, (req, res, next) => {
-  let {title, description,started, ended,reqhours,reqOrghours, reqpersons, applybefore} = req.body;
+  let {title, description,started, ended,reqhours, reqpersons, applybefore} = req.body;
   let _creator = req.user._id;
   let isRequired = req.user.role === "parent" ? false:true;
   let eventState = isRequired === true? "apply":"vote";
+  let reqOrghours = reqpersons === 1? reqhours: parseInt(reqhours) + 3; 
 
   Event.create({
     title,
@@ -41,8 +43,6 @@ router.post('/create', isLoggedIn, (req, res, next) => {
 router.get('/info/:id', isLoggedIn, (req, res, next) => {
   let id = req.params.id;
   Event.findOne({_id:id})
-        .populate("_attendants")
-        .populate("_discussion")
     .then(event => {
       res.json(event)
     })
@@ -50,7 +50,7 @@ router.get('/info/:id', isLoggedIn, (req, res, next) => {
 });
 
 //  get all events
-router.get('/all', isLoggedIn, (req, res, next) => {
+router.get('/all', (req, res, next) => {
   Event.find({})
     .then(events => {
       res.json(events.reverse())
@@ -108,64 +108,62 @@ router.get("/vote/result/:id", isLoggedIn, (req, res, next) => {
   }).catch(err => next(err))
 })
 
-// post discussion
-router.post("/discussion/:id", isLoggedIn, (req, res, next) => {
-  // id:event id
-  const userId = req.user._id;
-  const eventId = req.params.id;
-  const {content} = req.body;
-  Disscussion.create({
-    _event:eventId,
-    _user: userId,
-    content:content
-  }).then(discuss => {
-    Event.findOneAndUpdate({_id:eventId}, {$push: {_discussion:discuss._id}})
-    // let curDis = discuss
-  }).then(updateEvent => {
-    res.json( discuss)
-  })
-  .catch(err => next(err))
+router.get("/vote/positive/result/:id", isLoggedIn, (req, res, next) => {
+  const eventId = req.params.id
+  Vote.find({_event:eventId, voted:1})
+      .count()
+      .then(voteCount => {
+        res.json(voteCount)
+      })
+      .catch(err => next(err))
 })
 
-// get discussion
+router.get("/vote/negtive/result/:id", isLoggedIn, (req, res, next) => {
+  const eventId = req.params.id
+  Vote.find({_event:eventId, voted:-1})
+      .count()
+      .then(voteCount => {
+        res.json(voteCount)
+      })
+      .catch(err => next(err))
+})
+
+
+// get discussions
 router.get("/discussion/:id", isLoggedIn, (req, res, next) => {
-  // id : event id
   const eventId = req.params.id;
-  Disscussion.find({_event:eventId})
-              .populate({
-                path: '_user',
-                populate: {path: "_child"}
-              })
-              .then(discuss => {
-                res.json(discuss)
-              })
-              .catch(err => next(err))
+  Discussion.find({_event:eventId})
+            .populate({
+              path: "_user",
+              populate: {path:"_child"}
+            })
+            .then(discuss =>{
+              res.json(discuss)
+            })
+            .catch(err => next(err))
 })
 
-// post an application
-router.post("/application/:id", isLoggedIn, (req, res, next) => {
-  // id: event id
-  const eventId = req.params.id;
-  const userId = req.user._id;
-  const { expectDate } = req.body;
-  const username = req.user.username;
-  Attendence.create({
-    _event:eventId,
-    _user:userId,
-    expectDate:expectDate,
+router.post("/discussion/person/:id", isLoggedIn, (req, res, next) => {
+  let eventId = req.params.id;
+  // let username = req.user.username;
+  let _userId = req.user.id;
+  let content = req.body.content;
 
-  })
-    .then(attendant => {
-      res.json(attendant)
-    })
-    .catch(err => next(err))
+  Discussion.create({
+    _event:eventId,
+    _user:_userId, 
+    content:content})
+    .then(discuss => {
+          res.json(discuss)
+        }).catch(err => next(err))
 })
 
 // get applications
+// two tables for application and participants
 router.get("/application/:id", isLoggedIn, (req, res, next) => {
   // id: event id
   const eventId = req.params.id;
-  Attendence.find({_event:eventId, tag:"apply"})
+  Application.find({$and:[{_event:eventId},{isJoin:false}]})
             .populate({
               path: "_user",
               populate: {path:"_child"}
@@ -176,14 +174,47 @@ router.get("/application/:id", isLoggedIn, (req, res, next) => {
             .catch(err => next(err))
 })
 
+// post applications
+// two tables for application and participants
+router.post("/application/person/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id;
+  const userId = req.user._id;
+  const { expectDate,serviceHours } = req.body;
+  const username = req.user.username;
+  Application.create({
+    _event:eventId,
+    _user:userId,
+    expectDate:expectDate,
+    serviceHours:serviceHours,
+    isJoin:false,
+
+  })
+    .then(attendant => {
+      res.json(attendant)
+    })
+    .catch(err => next(err))
+})
+
+router.get("/application/person/:id", isLoggedIn, (req, res, next) => {
+  const eventId = req.params.id;
+  const userId = req.user._id;
+  Application.find({$and:[{_event:eventId},{_user:userId}]})
+              .then(applicant => res.json(applicant))
+              .catch(err => next(err))
+})
+
 // get all attendant: org,par,assign,apply
-router.get("/attendant/:id", isLoggedIn, (req, res, next) => {
+router.get("/attendence/:id", isLoggedIn, (req, res, next) => {
   // id: event id
   const eventId = req.params.id
   Attendence.find({_event:eventId})
             .populate({
               path: "_user",
-              populate: {path:"_child"}
+              populate: {
+                path:"_child",
+                match:{"state":"stay"}
+              }
             })
             .then(attendants => {
               res.json(attendants)

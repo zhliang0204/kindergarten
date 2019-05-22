@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  username: {type:String,unique:true},
+  username:String,
   firstname: String,
   lastname: String,
   password: String,
-  googleId:String,
   role: {type:String,enum:['admin','dean','teacher','parent'],default:'teacher'},
+  subrole:{type:String, enum:["father", "mother"]},
   _child:[{type:Schema.Types.ObjectId, ref: 'Child' }],
   email:{type:String, unique:true},
   phone:String,
@@ -18,6 +18,7 @@ const userSchema = new Schema({
   state:String,
   country:String,
   childname:String,
+  childNum:Number,
   isActive:Boolean,
   activeCode:String,
   historyServiceHours: [

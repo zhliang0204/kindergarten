@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Link, NavLink, Switch } from 'react-router-dom';
+// import { Route, Link, NavLink, Switch } from 'react-router-dom';
 import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
 import NavBar from './pages/NavBar';
-import Home from './pages/Home';
-import Purpose from './pages/Purpose';
-import Registration from './pages/Registration';
-import Contact from './pages/Contact';
-import Service from './pages/Service';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import api from '../api';
-import chpng from './../styles/images/cn.png';
-import depng from './../styles/images/de.png'
+
 
 export default class App extends Component {
   constructor(props) {
@@ -50,26 +41,17 @@ export default class App extends Component {
   }
 
 
-  // componentDidMount(){
-  //   // console.log(this.state.isGerman)
-  //   // console.log("did mount")
-  //   // console.log(this.props)
-  // }
 
-  // componentDidUpdate(){
-  //   // console.log("update")
-  //   // console.log(this.state.isGerman)
-  // }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <div className="App-title">
-            <h1>
+            <h3>
               德国第一所中德双语幼儿园<br/>
               Deutsch-Chinesischer Kindergarten
-            </h1>
+            </h3>
             <div className="lang-flag">
               <div>
                 <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
@@ -81,7 +63,7 @@ export default class App extends Component {
                   >
                     <i className="fas fa-globe">De</i>
                   </DropdownToggle>
-                  <DropdownMenu>
+                  <DropdownMenu right>
                     <DropdownItem id="lang1" onClick={(e) =>this.handleLanguage(e)}>Deutsch</DropdownItem>
                     <DropdownItem id="lang2" onClick={(e) =>this.handleLanguage(e)}>简体中文</DropdownItem>
                     <DropdownItem id="lang3" onClick={(e) =>this.handleLanguage(e)}>繁体中文</DropdownItem>

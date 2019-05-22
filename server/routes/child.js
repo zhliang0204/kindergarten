@@ -53,7 +53,6 @@ router.post("/all/graduate", isLoggedIn, (req, res, next) => {
   // childIds: string of ids,seperated by ,
   const childIds = req.body.childIds.split(",");
   console.log(childIds)
-  const chi2 = [ '5cd7134b2854cf372417b2a4', '5cd716446da98a3c70e389e3' ]
 
   // an array list all childIds
   // not return the updated documents

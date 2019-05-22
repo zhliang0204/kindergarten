@@ -5,12 +5,12 @@ const Schema = mongoose.Schema;
 
 
 const ApplicationSchema = new Schema({
-  _eventId: { type: Schema.Types.ObjectId, ref: 'Event' },
-  _userId: {type:Schema.Types.ObjectId, ref: "User"},
-  username:String,
-  serviceDate: Date,
- 
-
+  _user:{type:Schema.Types.ObjectId, ref: 'User'},
+  _event:{type:Schema.Types.ObjectId, ref: 'Event'},
+  isJoin:{type:Boolean, default:false},
+  serviceHours: {type: Number},
+  expectDate:{type:Date},
+  Note:{type:String},
 }, {
     timestamps: {
       createdAt: 'created_at',

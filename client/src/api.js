@@ -41,11 +41,11 @@ export default {
       .catch(errHandler)
   },
 
-  // router/auth.js
+  // router/child.js
   // create child
   createChild(childInfo){
     return service
-            .post("/createChild", childInfo)
+            .post("/child//createChild", childInfo)
             .then(res => {
               return res.data
             })
@@ -71,10 +71,18 @@ export default {
             .catch(errHandler)
   },
 
+  // userActive(accountInfo){
+  //   return service
+  //           .post("/useractive", accountInfo)
+  //           .then(res => {
+  //             return res.data
+  //           })
+  //           .catch(errHandler)
+  // },
   // set password
-  setPassword(userId, password){
-    return service()
-            .post("/setpws/" + userId, password)
+  setPassword(userId, userInfo){
+    return service
+            .post("/setpws/" + userId, userInfo)
             .then(res => {
               return res.data
             })
@@ -114,24 +122,61 @@ export default {
   // events related
   getEvents() {
     return service
-        .get('/missions')
+        .get('/events/all')
         .then(res => res.data)
         .catch(errHandler)
   },
 
   getSelectedEvent(id) {
     return service
-        .get('/missions/'+id)
+        .get('/events/info/'+id)
         .then(res => res.data)
         .catch(errHandler)
   },
 
   createEvent(event){
     return service
-          .post('/missions/create', event)
+          .post('/events/create', event)
           .then(res => res.data)
           .catch(errHandler)
   },
+
+  
+  getVote(eventId){
+    return service
+            .get("/events/vote/result/"+eventId) 
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getPositiveVote(eventId){
+    return service
+            .get("/events/vote/positive/result/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getNegtiveVote(eventId){
+    return service
+            .get("/events/vote/negtive/result/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getPersonalVote(eventId){
+    return service
+            .get("/events/vote/personal/"+eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  postPersonalVote(eventId, voteInfo){
+    return service
+            .post("/events/vote/" + eventId, voteInfo)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
   // ------------------------------------
   // get all
   getselectedEventAll(id){
@@ -146,14 +191,14 @@ export default {
   // service discussion related
   getDisscussion(id){
     return service
-            .get('/discussions/'+id)
+            .get('/events/discussion/'+id)
             .then(res => res.data)
             .catch(errHandler)
   },
 
-  postDiscussion(id, content){
+  postDiscussion(id, discuss){
     return service
-        .post('/discussions/'+id, content)
+        .post('/events/discussion/person/'+id, discuss)
         .then(res => res.data)
         .catch(errHandler)
   },
@@ -162,24 +207,74 @@ export default {
   // service application related
   getApplication(id){
     return service
-            .get('/applications/'+id)
+            .get('/events/application/'+id)
             .then(res => res.data)
             .catch(errHandler)
   },
 
-  postApplication(id, applyInfor){
+  postPersonApplication(id, applyInfor){
     return service
-            .post('/applications/'+id, applyInfor)
+            .post('/events/application/person/'+id, applyInfor)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getPersonApplication(eventId){
+    return service
+            .get('/events/application/person/' + eventId)
             .then(res => res.data)
             .catch(errHandler)
   },
 
   // ---------------------------------------
-  // email related
-  createUserMail(emailInfo){
+  // service attendants related
+  getAttendence(id){
     return service
-            .post('/mail/userMail', emailInfo)
+            .get('/events/attendence/'+id)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  checkAttandants(eventId){
+    return service
+            .get("/user/process/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  createFinals(eventId){
+    return service
+            .post("/user/finish/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+  // ---------------------------------------
+  // email related
+  createUserMail(userInfo){
+    return service
+            .post('/mail/userMail', userInfo)
             .then(res =>res.data)
+            .catch(errHandler)
+  },
+
+  createEventMail(eventInfo){
+    return service
+            .post("/mail/createEventEmail", eventInfo)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  participantsChooseTimeMail(eventId){
+    return service
+            .post("/mail/event/participant/timechoose/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  createEventFinshInfoMail(eventId){
+    return service 
+            .post("/mail/eventfinish/" + eventId)
+            .then(res => res.data)
             .catch(errHandler)
   },
 
@@ -208,28 +303,93 @@ export default {
   },
 
 
-  // This is an example on how to use this method in a different file
-  // api.getCountries().then(countries => { /* ... */ })
-  // getCountries() {
-  //   return service
-  //     .get('/countries')
-  //     .then(res => res.data)
-  //     .catch(errHandler)
-  // },
+  // ---------------------------------------
+  // personal service related
+  getPersonaHistoryService(){
+    return service
+            .get('/user/history')
+            .then(res => res.data)
+            .catch(errHandler)
+  },
 
-  // addCountry(body) {
-  //   return service
-  //     .post('/countries', body)
-  //     .then(res => res.data)
-  //     .catch(errHandler)
-  // },
+  getPersonalEvent(){
+    return service
+            .get("/user/all")
+            .then(res => res.data)
+            .catch(errHandler)
+  },
 
-  // getSecret() {
-  //   return service
-  //     .get('/secret')
-  //     .then(res => res.data)
-  //     .catch(errHandler)
-  // },
+  getPersonalSelectedEvent(eventId){
+    return service
+            .get("/user/process/"+eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  orgPostDateSlots(eventId, dateInfo){
+    return service
+            .post("/user/process/org/"+eventId, dateInfo)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  changeStateofPraticipant(eventId){
+    return service
+            .post("/user/process/part/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getPossibleDateForParticipant(eventId){
+    return service
+            .get("/user/process/possibleDate/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  changeCheckedParticipant(eventId,dateInfo){
+    return service
+            .post("/user/process/datePick/part/"+eventId, dateInfo)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  updateDatesSlot(eventId, selectDateKeys){
+    return service
+            .post("/user/process/datePickStatus/part/"+eventId,selectDateKeys)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+
+  // finish Event
+  getFinalAttendants(eventId){
+    return service
+            .get("/user/finish/event/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  postFinalsWorkHours(eventId, workInfo){
+    return service
+            .post("/user/finish/event/" + eventId, workInfo)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  updateTotalCurServiceHours(eventId){
+    return service
+            .post("/user/finish/updateService/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  updatePersonCurServiceHours(eventId){
+    return service
+            .post("/user/finish/personalupdate/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
 
   addPicture(file) {
     const formData = new FormData()
