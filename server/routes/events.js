@@ -135,7 +135,10 @@ router.get("/discussion/:id", isLoggedIn, (req, res, next) => {
   Discussion.find({_event:eventId})
             .populate({
               path: "_user",
-              populate: {path:"_child"}
+              populate: {
+                path:"_child",
+                match: {state:"stay"}
+              }
             })
             .then(discuss =>{
               res.json(discuss)
@@ -166,7 +169,10 @@ router.get("/application/:id", isLoggedIn, (req, res, next) => {
   Application.find({$and:[{_event:eventId},{isJoin:false}]})
             .populate({
               path: "_user",
-              populate: {path:"_child"}
+              populate: {
+                path:"_child",
+                match: {state:"stay"}
+              }
             })
             .then(attendants => {
               res.json(attendants)

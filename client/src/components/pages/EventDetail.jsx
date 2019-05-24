@@ -114,7 +114,7 @@ export default class EventDetail extends Component {
             <div className="event-detail-title">{this.state.event.title}</div>
             <div className="event-detail-state">status: {this.state.event.eventState}</div>
             <div className="event-detail-exec-period">
-              <i class="far fa-calendar-alt"></i>&nbsp;<span>{this.state.event.started} - {this.state.event.ended}</span>
+              <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.event.started} - {this.state.event.ended}</span>
             </div>
             <div className="event-detail-description">description: <div>{this.state.event.description}</div></div>
             
@@ -145,8 +145,8 @@ export default class EventDetail extends Component {
               {this.state.tag > 0 && (<div className="vote">
                 <div className="event-status-detail-title" onClick={() => this.voteToggle()}>
                   <div >Vote</div>
-                  {!this.state.isVoteShow && (<div><i class="fas fa-plus"></i></div>)}
-                  {this.state.isVoteShow && (<div><i class="fas fa-minus"></i></div>)}
+                  {!this.state.isVoteShow && (<div><i className="fas fa-plus"></i></div>)}
+                  {this.state.isVoteShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
                 {this.state.isVoteShow && (<Vote event={this.state.event} tag={this.state.tag}/>)}
               </div>)}
@@ -155,8 +155,8 @@ export default class EventDetail extends Component {
               {this.state.tag === 2 && (<div className="stop">
                 <div className="event-status-detail-title" onClick={() => this.stopToggle()}>
                   <div >Stop</div>
-                  {!this.state.isStopShow && (<div><i class="fas fa-plus"></i></div>)}
-                  {this.state.isStopShow && (<div><i class="fas fa-minus"></i></div>)}
+                  {!this.state.isStopShow && (<div><i className="fas fa-plus"></i></div>)}
+                  {this.state.isStopShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
                 {this.state.isStopShow && (<div>According to vote result, the event was stop</div>)}
               </div>) }
@@ -166,8 +166,8 @@ export default class EventDetail extends Component {
 
               <div className="event-status-detail-title" onClick={() => this.applyToggle()}>
                   <div >Apply</div>
-                  {!this.state.isApplyShow && (<div><i class="fas fa-plus"></i></div>)}
-                  {this.state.isApplyShow && (<div><i class="fas fa-minus"></i></div>)}
+                  {!this.state.isApplyShow && (<div><i className="fas fa-plus"></i></div>)}
+                  {this.state.isApplyShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
                 {this.state.isApplyShow && (<Application event={this.state.event} tag = {this.state.tag}/>)}
               </div>) }
@@ -176,8 +176,8 @@ export default class EventDetail extends Component {
               {this.state.tag > 3  && (<div className="process">
               <div className="event-status-detail-title" onClick={() => this.processToggle()}>
                   <div >Process</div>
-                  {!this.state.isProcessShow && (<div><i class="fas fa-plus"></i></div>)}
-                  {this.state.isProcessShow && (<div><i class="fas fa-minus"></i></div>)}
+                  {!this.state.isProcessShow && (<div><i className="fas fa-plus"></i></div>)}
+                  {this.state.isProcessShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
                 {this.state.isProcessShow && (<Attendence event={this.state.event} tag = {this.state.tag}/>)}
               </div>) }
@@ -186,8 +186,8 @@ export default class EventDetail extends Component {
                 <div>
                   <div className="event-status-detail-title" onClick={() => this.finishToggle()}>
                     <div >Finish</div>
-                    {!this.state.isFinishShow && (<div><i class="fas fa-plus"></i></div>)}
-                    {this.state.isFinishShow && (<div><i class="fas fa-minus"></i></div>)}
+                    {!this.state.isFinishShow && (<div><i className="fas fa-plus"></i></div>)}
+                    {this.state.isFinishShow && (<div><i className="fas fa-minus"></i></div>)}
                   </div>
                   {this.state.isFinishShow && (<div className="finish">The task is finished, the service hours are added to pariticipants</div>)}
               </div>)}

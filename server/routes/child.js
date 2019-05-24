@@ -48,6 +48,16 @@ router.get("/info/:id", isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
+// route to get child infor from parents
+router.get("/childinfo/:id", isLoggedIn, (req, res, next) => {
+  const parentId = req.params.id;
+  Child.find({$and: [{state:"stay"}, {$or:[{_father:parentId, _mother:parentId}]}]})
+       .then(children =>{
+         res.json(children)
+       })
+       .catch(err => next(err))
+})
+
 // update a batch of child information
 router.post("/all/graduate", isLoggedIn, (req, res, next) => {
   // childIds: string of ids,seperated by ,

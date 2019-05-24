@@ -301,44 +301,6 @@ router.post("/checkService/:id", isLoggedIn, (req, res, next) => {
 
 })
 
-// Route to get one person workList
-// router.get("/person/events", isLoggedIn, (req, res, next) => {
-//   let userId = req.user._id;
-//   Attendence.find({_user:userId})
-//             .populate("_event")
-//             .then(queryEvents => {
-//               res.json(queryEvents)
-//             })
-//             .catch(err => next(err))
-// })
-
-// router.get("/person/event/:id", isLoggedIn, (req, res, next) => {
-//   let userId = req.user._id;
-//   let eventId = req.params.id;
-//   Event.findOne({_id: eventId})
-//         .then(personalEvent => {
-//           res.json(personalEvent)
-//         })
-//         .catch(err => next(err))
-// })
-
-
-
-// router.get('/application', isLoggedIn, (req, res, next) => {
-//   let userId = req.user.id;
-//   Application.find({ _userId:userId}).populate("_eventId")
-//   .then( applications => {
-//     res.json(applications)
-//   })
-//   .catch(err => next(err))
-
-// })
-
-
-
-
-
-
 
 
 module.exports = router;

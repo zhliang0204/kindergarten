@@ -311,6 +311,7 @@ function findAndUpdateOrg(event){
         _event:event._id,
         _user:resUser,
         serviceHours:event.reqOrghours,
+        expectDate:resUser.expectDate,
         isChecked:false,
         isShow:true,
         isDone:false,
@@ -344,6 +345,7 @@ function findAndUpdateParticipants(event, num, organizer){
           isChecked:false,
           isShow:false,          
           isDone:false,
+          expectDate:applicant.expectDate,
           tag:"participate"
         })
         newAtt.save()

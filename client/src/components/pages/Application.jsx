@@ -5,6 +5,7 @@ import {
   Input,
   Label,
   Button,
+  Table,
 } 
 from 'reactstrap';
 import api from "./../../api";
@@ -17,21 +18,68 @@ export default class Application extends Component {
       expectDate:"",
       applicants:"",
       isApply:null,
+      errorHint:"",
     }
   }
+
+
+  convertUTCDateToLocalDate(date) {
+    // let date1 = new Date(date)
+    let newDate = new Date(date)
+
+    let year = newDate.getFullYear()
+    let month = newDate.getMonth() + 1;
+    let day = newDate.getDate();
+    let seconds = newDate.getSeconds();
+    let minutes = newDate.getMinutes();
+    let hour = newDate.getHours();
+
+    if(month < 10){month ="0"+month}
+    if(day < 10){day ="0"+day}  
+    if(hour < 10){hour ="0"+hour}  
+    if(minutes < 10){minutes ="0"+minutes}    
+    if(seconds < 10){seconds ="0"+seconds}    
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    return dateFormat;   
+}
 
   handleInputChange(e){
     this.setState({
       [e.target.name] : e.target.value,
+      errorHint:""
     })
   }
 
   loadApplicants(id){
-    api.getApplication(id)
+    
+       api.getApplication(id)
        .then(applicants => {
-        //  console.log(applicants)
-         this.setState({
-          applicants:applicants,
+         console.log("------load Discussions ------")
+         console.log(applicants)
+         let applicantsShow = [];
+         applicants.map((cur) => {
+           console.log(cur)         
+             let childname = ""
+             if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
+               cur._user._child.map(curChild => {
+                 childname += curChild.firstname
+                 childname += ","
+               })
+             }
+
+             if(childname.length > 0){
+               childname = childname.substring(0, childname.length-1)
+             }
+             let expectDate = this.convertUTCDateToLocalDate(cur.expectDate)
+             let curApplicants = {
+                             firstname: cur._user.firstname,
+                             childname: childname,
+                             expectDate: expectDate,
+                         }
+             applicantsShow.push(curApplicants)
+             })
+             this.setState({
+               applicants: applicantsShow,
          })
        })
   }
@@ -56,13 +104,26 @@ export default class Application extends Component {
       expectDate:this.state.expectDate,
       serviceHours:this.state.event.reqhours
     }
-    this.setState({
-      isApply:true
-    })
-    api.postPersonApplication(this.state.event._id, applyInfor)
-       .then(res => {
-         this.loadApplicants(this.state.event._id)
-       })
+     
+    if(!this.state.expectDate || this.state.expectDate < this.state.event.started || this.state.expectDate > this.state.event.ended){
+      if(!this.state.expectDate) {
+        this.setState({
+          errorHint:"please input date and time together"
+        })
+      } else {
+        this.setState({
+          errorHint:"please choose a date between started and ended"
+        })
+      } 
+    } else {
+      this.setState({
+        isApply:true
+      })
+      api.postPersonApplication(this.state.event._id, applyInfor)
+         .then(res => {
+           this.loadApplicants(this.state.event._id)
+         })
+    }
   }
 
   
@@ -87,18 +148,38 @@ export default class Application extends Component {
   render() {
     return (
       <div className="application">
+        
+
         <div>
-          <h3>Application List</h3>
-          {this.state.applicants.length > 0 && (
-            this.state.applicants.map((curApl, i) => (
-              <div key={i}>{curApl._user.firstname + `(`+ curApl._user._child[0].firstname + `)`}</div>
-            ))
-          )}
+          <div className="application-detail-title">Applicants List</div>
+          <Table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Applicants</th>
+                <th>ExpectDate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.applicants.length > 0 && (
+                this.state.applicants.map((curApl, i) => (
+                  <tr key={i}>
+                    <th scope="row">{i + 1}</th>
+                    <td>{curApl.firstname + `(`+ curApl.childname + `)`}</td>
+                    <td>{curApl.expectDate}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
         </div>
+
+
         {this.props.tag === 3 && !this.state.isApply && (
           <Form>
-          <FormGroup>
-            <Label for="expectDate">Expect Date:</Label>
+          <FormGroup style={{textAlign:"left"}}>
+            <Label for="expectDate">Apply here, please input your expect date for task:</Label>
+            <div className="error-hint">{this.state.errorHint}</div>
             <Input type="datetime-local" name="expectDate" value={this.state.expectDate} onChange={(e)=>this.handleInputChange(e)}/>
           </FormGroup>
             <Button onClick={()=>this.handleServiceApply()}>Apply</Button>

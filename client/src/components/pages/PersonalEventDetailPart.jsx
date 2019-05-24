@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from "./../../api";
+import { Button, Table, Input, Container, Row, Col} from 'reactstrap';
 
 export default class PersonalEventDetailPart extends Component {
   constructor(props){
@@ -10,24 +11,55 @@ export default class PersonalEventDetailPart extends Component {
       dateList:[],
       datePicker:"",
       isPickDate:false,
+      startedShow:"",
+      endedShow:"",
     }
   }
+
+  convertUTCDateToLocalDate(date) {
+    // let date1 = new Date(date)
+    let newDate = new Date(date)
+
+    let year = newDate.getFullYear()
+    let month = newDate.getMonth() + 1;
+    let day = newDate.getDate();
+    let seconds = newDate.getSeconds();
+    let minutes = newDate.getMinutes();
+    let hour = newDate.getHours();
+
+    if(month < 10){month ="0"+month}
+    if(day < 10){day ="0"+day}  
+    if(hour < 10){hour ="0"+hour}  
+    if(minutes < 10){minutes ="0"+minutes}    
+    if(seconds < 10){seconds ="0"+seconds}    
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    return dateFormat;   
+}
 
   loadEvent(eventId){
     api.getPossibleDateForParticipant(eventId)
           .then(res => {
             let isPickDate = this.state.event.isChecked
-            if(!isPickDate){
-              this.setState({
-                dateList:res[0].expectedDates,
-                isPickDate:isPickDate,
-              })
-            } else {
-              this.setState({
-                datePicker:res[0].expectedDates[this.state.event.expectDate],
-                isPickDate:isPickDate,
-              })
-            }
+            let expectedDatesShow = [];
+            res[0].expectedDates.map((cur,i) => {
+              let started ="";
+              let ended ="";
+              if(cur.started){started = this.convertUTCDateToLocalDate(cur.started)}
+              if(cur.ended){ended = this.convertUTCDateToLocalDate(cur.ended)}
+              let curdate = {
+                index:i,
+                started:started,
+                ended:ended,
+                picker:cur.picker
+              }
+              expectedDatesShow.push(curdate)
+            })
+            this.setState({
+              dateList:expectedDatesShow,
+              isPickDate:isPickDate,
+              startedShow: this.convertUTCDateToLocalDate(this.state.event._event.started),
+              endedShow: this.convertUTCDateToLocalDate(this.state.event._event.ended)
+            })
 
           })
   }
@@ -39,11 +71,16 @@ export default class PersonalEventDetailPart extends Component {
     let dateInfo = {selectDateKey:index};
     console.log(dateInfo)
     let eventId = this.state.event._event._id
+    let newDateList = this.state.dateList.slice()
+    let newCur = newDateList[index]
+    newCur.picker = newCur.picker + 1;
+    newDateList.splice(index, 1, newCur)
+
     api.updateDatesSlot(eventId, dateInfo)
        .then(res => {
          this.setState({
           isPickDate:true,
-          datePicker:this.state.dateList[index]
+          dateList:newDateList,
          })
        })
     api.changeCheckedParticipant(eventId,dateInfo)
@@ -61,41 +98,49 @@ export default class PersonalEventDetailPart extends Component {
   render() {
     return (
       <div className="event-parti-preprocess">
-          <header>Choose one of task date: {this.state.event._event.title}</header>
-          <h5>Description:</h5>
-          <p>{this.state.event._event.description}</p>
-          <h5>Started:</h5>
-          <p>{this.state.event._event.started}</p>
-          <h5>Ended:</h5>
-          <p>{this.state.event._event.ended}</p>
-          <h5>Attendants:</h5>
-          {this.state.attendants && (
-            <ul>
-              {this.state.attendants.map((cur,i) => (
-                <li key={i}>{cur._user.firstname}</li>
-              ))}
-            </ul>
-          )}
+          <div className="event-detail-title">{this.state.event._event.title + ` - choose date for task`}</div>
+          <div className="event-detail-exec-period">
+              <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.startedShow} - {this.state.endedShow}</span>
+          </div>
+          <div className="event-detail-state">status: {this.state.event._event.eventState}</div>
+          <div className="event-detail-state">role: {this.state.event.tag}</div>
+          <div className="event-detail-description">Hint:<div>you are an participants, please choose 1 of 3 possible dates for the task.</div></div>
+          <div className="event-detail-description">description: <div>{this.state.event._event.description}</div></div>
 
           <div>
-            {!this.state.isPickDate && this.state.dateList && (<div>
-              <h5>Choose one day to do task</h5>
-              {this.state.dateList.map((cur,i) => (
-                <div key={i}>
-                <p>Started: {cur.started}</p>
-                <p>Ended: {cur.started}</p>
-                <p><button name={i} onClick={(e)=>this.parDatePick(e)}>choose</button></p>
-                </div>
-              ))}
-            </div>)}
+            {this.state.dateList && (<div>
+              {this.state.isPickDate && (<div style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>The current choose result</div>)}
+              {!this.state.isPickDate && ( <div style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>Choose one day to do task</div>)}
+             
+              <Container style={{fontSize:"0.6rem"}}>
+                <Row>
+                  {/* <Col xs="1" style={{padding:"0",margin:"0"}}>#</Col> */}
+                  <Col xs="5" style={{padding:"0",margin:"0"}}>Started</Col>
+                  <Col xs="1" style={{padding:"0",margin:"0"}} >To</Col>
+                  <Col xs="5" style={{padding:"0",margin:"0"}} >Ended</Col>
+                  <Col xs="1" style={{padding:"0",margin:"0"}} >Pick</Col>
+                </Row>
+                
+                {this.state.dateList.map((cur,i) => (
+                  <Row key={i}>
+                  <Col xs="5" style={{padding:"0",margin:"0"}}>{cur.started}</Col>
+                  <Col xs="1" style={{padding:"0",margin:"0"}} >-</Col>
+                  <Col xs="5" style={{padding:"0",margin:"0"}} >{cur.started}</Col>
+                  {!this.state.isPickDate && (
+                    <Col xs="1" style={{padding:"0",margin:"0"}} >
+                     <button className="date-choose-btn" name={i} onClick={(e)=>this.parDatePick(e)}></button>
+                    </Col>
+                  )} 
 
-           {this.state.isPickDate && this.state.datePicker && (
-              <div>
-                <h5>Your choice of date</h5>
-                <p>Started: {this.state.datePicker.started}</p>
-                <p>Ended: {this.state.datePicker.ended}</p>
-              </div>
-            )}
+                  {this.state.isPickDate && (
+                    <Col xs="1" style={{padding:"0",margin:"0"}} >
+                     {cur.picker}
+                    </Col>
+                  )} 
+                  </Row>
+                ))}
+              </Container>
+            </div>)}
           </div>
       </div>
     )

@@ -10,6 +10,8 @@ const ApplicationSchema = new Schema({
   isJoin:{type:Boolean, default:false},
   serviceHours: {type: Number},
   expectDate:{type:Date},
+  expectStarted:{type:Date},
+  expectEnded:{type:Date},
   Note:{type:String},
 }, {
     timestamps: {

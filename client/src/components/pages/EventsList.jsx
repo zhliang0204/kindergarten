@@ -38,7 +38,7 @@ class EventsList extends Component {
       <div className="events-list outer-div">
         {this.props.isGerman && (<div className="german">building......</div>)}
         {!this.props.isGerman && (<div className="Chinese">
-        <div className="btn-click" onClick={()=>this.createEvent()}><i class="fas fa-plus-circle"></i>Add Task</div>
+        <div className="btn-click" onClick={()=>this.createEvent()}><i className="fas fa-plus-circle"></i>Add Task</div>
         <Table hover>
           <thead>
             <tr>

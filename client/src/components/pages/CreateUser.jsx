@@ -206,7 +206,7 @@ export default class CreateUser extends Component {
           {this.state.tab === 4 && (
             <div>
               <div className="newuser-type">Child and Parents are added</div>
-              <div className="btn-click" onClick={()=>this.createNewFamily()}><i class="fas fa-plus-circle"></i>Add Child</div>
+              <div className="btn-click" onClick={()=>this.createNewFamily()}><i className="fas fa-plus-circle"></i>Add Child</div>
             </div>
           )}
 

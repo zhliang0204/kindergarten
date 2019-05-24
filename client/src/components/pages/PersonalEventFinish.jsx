@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import api from "./../../api";
+import { Button, Table, Input, Container, Row, Col} from 'reactstrap';
+
 
 
 export default class PersonalEventFinish extends Component {
@@ -12,44 +14,88 @@ export default class PersonalEventFinish extends Component {
       isOrg:"",
       update:[],
       isUpdate:false,
+      startedShow:"",
+      endedeShow:""
     }
   }
 
-  
+  convertUTCDateToLocalDate(date) {
+    // let date1 = new Date(date)
+    let newDate = new Date(date)
+
+    let year = newDate.getFullYear()
+    let month = newDate.getMonth() + 1;
+    let day = newDate.getDate();
+    let seconds = newDate.getSeconds();
+    let minutes = newDate.getMinutes();
+    let hour = newDate.getHours();
+
+    if(month < 10){month ="0"+month}
+    if(day < 10){day ="0"+day}  
+    if(hour < 10){hour ="0"+hour}  
+    if(minutes < 10){minutes ="0"+minutes}    
+    if(seconds < 10){seconds ="0"+seconds}    
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    return dateFormat;   
+}
 
   loadAttendants(){
     let eventId = this.state.event._event._id;
     let role = this.state.event.tag;
+    let startedShow = this.convertUTCDateToLocalDate(this.state.event._event.started)
+    let endedShow = this.convertUTCDateToLocalDate(this.state.event._event.ended)
     let isOrg;
     if (role === "organize" || role === "assigned Org"){
       isOrg = true
 
       api.getFinalAttendants(eventId)
-        .then(res => {
+        .then( attendants => {
           // console.log(res)
-          let attendants = []; 
-          res.map((cur,i) => {
-            let curAttendant = {
-              userId:cur._user._id,
-              firstname:cur._user.firstname,
-              childname:cur._user._child[0].firstname,
-              serviceHours:cur.serviceHours,
-            }
+          let attendantsShow = [];
+          // let expectDate = this.convertUTCDateToLocalDate(this.state.event.started)
+          attendants.map((cur) => {
+            console.log(cur)         
+              let childname = ""
+              if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
+                cur._user._child.map(curChild => {
+                  childname += curChild.firstname
+                  childname += ","
+                })
+              }
+ 
+              if(childname.length > 0){
+                childname = childname.substring(0, childname.length-1)
+              }
+              // let expectDate ="";
+              // if(cur.expectDate !== undefined){
+              //   expectDate = this.convertUTCDateToLocalDate(cur.expectDate);
+              // }
+              let curAttendants = {
+                              userId: cur._user._id,
+                              firstname: cur._user.firstname,
+                              childname: childname,
+                              serviceHours: cur.serviceHours,
+                              tag:cur.tag
+                          }
+              attendantsShow.push(curAttendants)
+              })
 
-            attendants.push(curAttendant)
-          })
-          return attendants
+          return attendantsShow
         })
         .then(res => {
           this.setState({
             isOrg:isOrg,
             attendants:res,
+            startedShow:startedShow,
+            endedShow:endedShow
           })
         })
     } else {
       isOrg = false
       this.setState({
         isOrg:isOrg,
+        startedShow:startedShow,
+        endedShow:endedShow
       })
     }
   }
@@ -116,54 +162,53 @@ export default class PersonalEventFinish extends Component {
 
   render() {
     return (
-      <div>
-       <div className="event-org-finish">
-          <header>Check Work Hours: {this.state.event._event.title}</header>
-          <h5>Description:</h5>
-          <p>{this.state.event._event.description}</p>
-          <h5>Started:</h5>
-          <p>{this.state.event._event.started}</p>
-          <h5>Ended:</h5>
-          <p>{this.state.event._event.ended}</p>
+      // <div>
+      <div className="event-org-finish">
+        <div className="event-detail-title">{this.state.event._event.title + ` - check final work hours`}</div>
+          <div className="event-detail-exec-period">
+              <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.startedShow} - {this.state.endedShow}</span>
+          </div>
+          <div className="event-detail-state">status: {this.state.event._event.eventState}</div>
+          <div className="event-detail-state">role: {this.state.event.tag}</div>
+          <div className="event-detail-description">Hint:<div>There are 2 days for organizer to check final work hours</div></div>
+          <div className="event-detail-description">description: <div>{this.state.event._event.description}</div></div>
           {this.state.isOrg && (
             <div className="attendants">
-              <h5>Attendants:</h5>
-              {this.state.attendants && (
-                  <table >
-                  <tr>
-                    <th>#</th>
-                    <th>FirstName</th> 
-                    <th>ChildName</th>
-                    <th>Work Hours</th>
-                  </tr>
-                  {this.state.attendants.map((cur,i) => (
-                    <tr key={i}>
-                      <td>{i + 1}</td>
-                      <td>{cur.firstname}</td>
-                      <td>{cur.childname}</td> 
-                      
-                      {this.state.isUpdate && (
-                        <td>{cur.serviceHours}</td>
-                      )}
+              <div style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>Attendants:</div>
+              <Container style={{fontSize:"0.6rem"}}>
+                <Row>
+                  <Col xs="1" style={{padding:"0",margin:"0"}} >#</Col>
+                  <Col xs="7" style={{padding:"0",margin:"0"}} >Name</Col>
+                  <Col xs="4" style={{padding:"0",margin:"0"}} >Hours</Col>
+                </Row>
 
-                      {!this.state.isUpdate && (
-                        <td>
-                          <input
-                            type="text"
-                            id={i}
-                            name={cur.userId}
-                            value = {cur.serviceHours}
-                            onChange={(e) => this.handleInputChange(e)}
-                          />
-                        </td>
-                      )}
-                        
-                    </tr>
-                  ))}
-                  </table>
-                  
-              )}
-              {!this.state.isUpdate && (<button onClick={()=>this.handleSubmit()}>Submit</button>)}
+                {this.state.attendants && (this.state.attendants.map((cur,i)=> (
+                  <Row key={i}>
+                    <Col xs="1" style={{padding:"0",margin:"0"}} >{i+1}</Col>
+                    <Col xs="7" style={{padding:"0",margin:"0"}} >{cur.firstname + `(`+ cur.childname + `)`}</Col>
+                    {this.state.isUpdate && (
+                      <Col xs="4" style={{padding:"0",margin:"0"}} >{cur.serviceHours}</Col>
+                    )}
+
+                    {!this.state.isUpdate && (
+                      <Col xs="4" style={{padding:"0",margin:"0"}} >
+                        <input
+                          className="check-hours-finish-input"
+                          
+                          type="text"
+                          id={i}
+                          name={cur.userId}
+                          value = {cur.serviceHours}
+                          onChange={(e) => this.handleInputChange(e)}
+                        />
+                      </Col>
+                    )}
+                    
+                  </Row>
+                )))}
+              </Container>
+             
+              {!this.state.isUpdate && (<Button onClick={()=>this.handleSubmit()}>Submit</Button>)}
               {this.state.isUpdate && (<div>The task is finished</div>)}
             </div>
           )}
@@ -175,7 +220,6 @@ export default class PersonalEventFinish extends Component {
           )}
 
        </div>
-      </div>
     )
   }
 }

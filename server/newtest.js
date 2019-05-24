@@ -3,7 +3,7 @@ const User = require('./models/User');
 const Child = require('./models/Child')
 const Event = require('./models/Event');
 const Application = require('./models/Application');
-const Final = require('./models/Final');
+// const Final = require('./models/Final');
 const AverageServiceHours = require("./models/AverageServiceHours");
 const Attendence = require("./models/Attendence");
 const ObjectId = require("mongoose").Types.ObjectId;
@@ -119,21 +119,21 @@ const {calChildNum,
 // sendEmailBeforProcess1() 
 
 // step8 after process, inform orgnizer update task servicehours
-// new Promise(resolve => {
-//   setTimeout(() => {
-//     console.log('1', 'The first mission,should be done first');
-//     updateEventStateToFinish()
-//     resolve(1);
-//   }, 3000);
-// }).then((val) => {
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('1', 'The first mission,should be done first');
+    updateEventStateToFinish()
+    resolve(1);
+  }, 3000);
+}).then((val) => {
 
-// new Promise(resolve => {
-//   setTimeout(() => {
-//     console.log('2', 'The second mission');
-//     sendEmailAfterProcessForOrg()
-//     resolve(2);
-//     }, 8000);
-//   })
-// })
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('2', 'The second mission');
+    sendEmailAfterProcessForOrg()
+    resolve(2);
+    }, 8000);
+  })
+})
 
 // step 9

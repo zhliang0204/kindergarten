@@ -52,6 +52,15 @@ export default {
             .catch(errHandler)
   },
 
+  findChildByParent(parentId){
+    return service
+            .get("/child/childinfo/" + parentId)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
   createParent(parentInfo){
     return service
             .post("/createParent", parentInfo)

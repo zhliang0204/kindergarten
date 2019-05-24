@@ -25,8 +25,32 @@ export default class Discussion extends Component {
         .then(discussions => {
           console.log("------load Discussions ------")
           console.log(discussions)
-          this.setState({
-            discussions:discussions
+          let discussionsShow = [];
+          discussions.map((cur) => {
+            console.log(cur)         
+              let childname = ""
+              if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
+                cur._user._child.map(curChild => {
+                  childname += curChild.firstname
+                  childname += ","
+                })
+              }
+
+              if(childname.length > 0){
+                childname = childname.substring(0, childname.length-1)
+              }
+
+              let curdiss = {
+                              firstname: cur._user.firstname,
+                              childname: childname,
+                              content: cur.content,
+                          }
+              discussionsShow.push(curdiss)
+              
+              
+              })
+              this.setState({
+                discussions: discussionsShow,
           })
         })
   }
@@ -42,6 +66,7 @@ export default class Discussion extends Component {
     let disInfo = {
       content:this.state.content
     }
+    
     api.postDiscussion(eventId, disInfo)
         .then(res => {
           this.loadDiscussions(eventId);
@@ -72,8 +97,8 @@ export default class Discussion extends Component {
       <div className="discussion">
         {this.state.discussions && (<div>
           {this.state.discussions.map((cur, i) => (
-            <div key={i}>
-              <span>{cur._user.firstname + "(" + cur._user._child[0]._firstname + ")"}</span>
+            <div className="discussion-detail" key={i}>
+              <span style={{color:"#00334e"}}><b>{cur.firstname + "(" + cur.childname + ")"}:</b></span>
               <span>{cur.content}</span>
             </div>
           ))}

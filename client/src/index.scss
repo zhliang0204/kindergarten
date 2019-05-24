@@ -272,6 +272,124 @@ body {
 
 }
 
+// -------------------
+// style for Vote component
+.vote {
+  .vote-detail {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: stretch;
+  }
+}
+
+// -------------------
+// style for discussion component
+.discussion {
+  .discussion-detail {
+    text-align:left;
+    font-size:0.8rem;
+    border-bottom: 1px dashed #cecece;
+    margin-bottom:5px;
+  }
+}
+
+// --------------------
+// style for application component
+.application {
+  table {
+    th, td {
+      margin:0;
+      padding:3px;
+      font-size:0.8rem;
+    }
+  }
+  .application-detail-title{
+    text-align:left;
+    font-size:0.9rem;
+    font-weight: 800;
+  }
+}
+
+// --------------------
+// style for Attendence component
+.attendence {
+  table {
+    th, td {
+      margin:0;
+      padding:3px;
+      font-size:0.8rem;
+    }
+  }
+  .attendants-detail-title{
+    text-align:left;
+    font-size:0.9rem;
+    font-weight: 800;
+  }
+
+}
+
+
+// 
+// style for PersonalEventDetailOrg
+.personal-event-detail-org{
+  .attendants-detail-title{
+    text-align:left;
+    font-size:0.7rem;
+    font-weight: 800;
+  }
+  .table{
+    width:80vw;
+    overflow:auto;
+    font-size:0.8rem;
+    tr,td,th {
+        margin:0;
+        padding:0
+    }
+  }
+  .container {
+    font-size:0.6rem;
+  }
+  div input {
+    font-size:0.6rem;
+  }
+  div.col-1 {
+    margin:0;
+    padding:0;
+  }
+  div.col-5 {
+    margin:0;
+    padding:0;
+  }
+}
+
+// --------------------
+// Style for PersonalEventDetailPart
+
+.event-parti-preprocess{
+  .date-choose-btn {
+    width:20px;
+    height:20px;
+    border:4px solid #abc100;
+    background-color:#ffffff;
+    border-radius:12px;
+  }
+}
+
+// --------------------
+// Style for PersonalEventFinish
+.event-org-finish{
+  .check-hours-finish-input{
+    border:none;
+    width:30px;
+  }
+  .check-hours-finish-input:focus {
+    outline:none;
+  }
+}
+
 // --------------------
 // Style for Secret component
 .Secret {
@@ -279,4 +397,21 @@ body {
     font-size: 1.2em;
     color: $primary;
   }
+}
+
+.event-detail-title{
+  text-align:center;
+  color:#abc000;
+  font-size:1.5rem;
+  padding:5px;
+}
+
+.event-detail-state,
+.event-detail-description,
+.event-detail-exec-period
+ {
+  text-align:left;
+  font-size:0.7rem;
+  padding:1px 5px;
+  color:#555555;
 }

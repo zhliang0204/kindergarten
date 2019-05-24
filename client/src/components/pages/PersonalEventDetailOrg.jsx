@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from "./../../api";
-import { Button, Table, Input} from 'reactstrap';
+import { Button, Table, Input, Container, Row, Col} from 'reactstrap';
 
 export default class PersonalEventDetailOrg extends Component {
   constructor(props){
@@ -16,43 +16,101 @@ export default class PersonalEventDetailOrg extends Component {
       ended2:"",
       ended3:"",
       dateUpdate:false,
+      startedShow:"",
+      endedShow:"",
     }
   }
 
-  
+  convertUTCDateToLocalDate(date) {
+    // let date1 = new Date(date)
+    let newDate = new Date(date)
+
+    let year = newDate.getFullYear()
+    let month = newDate.getMonth() + 1;
+    let day = newDate.getDate();
+    let seconds = newDate.getSeconds();
+    let minutes = newDate.getMinutes();
+    let hour = newDate.getHours();
+
+    if(month < 10){month ="0"+month}
+    if(day < 10){day ="0"+day}  
+    if(hour < 10){hour ="0"+hour}  
+    if(minutes < 10){minutes ="0"+minutes}    
+    if(seconds < 10){seconds ="0"+seconds}    
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    return dateFormat;   
+}
 
   loadAttendants(){
     let eventId = this.state.event._event._id;
     api.getAttendence(eventId)
-        .then(res => {
+        .then(attendants => {
           let dateUpdate = this.state.event.isChecked
-          let attendants = res;
+          // let attendants = res;
+          let startedShow = this.convertUTCDateToLocalDate(this.state.event._event.started)
+          let endedShow = this.convertUTCDateToLocalDate(this.state.event._event.ended)
+
+
+          let attendantsShow = [];
+          // let expectDate = this.convertUTCDateToLocalDate(this.state.event.started)
+          attendants.map((cur) => {
+            console.log(cur)         
+              let childname = ""
+              if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
+                cur._user._child.map(curChild => {
+                  childname += curChild.firstname
+                  childname += ","
+                })
+              }
+ 
+              if(childname.length > 0){
+                childname = childname.substring(0, childname.length-1)
+              }
+              let expectDate ="";
+              if(cur.expectDate !== undefined){
+                expectDate = this.convertUTCDateToLocalDate(cur.expectDate);
+              }
+              let curAttendants = {
+                              firstname: cur._user.firstname,
+                              childname: childname,
+                              expectDate: expectDate,
+                              tag:cur.tag
+                          }
+              attendantsShow.push(curAttendants)
+              })
+              
+          
           if(dateUpdate){
             api.getPossibleDateForParticipant(eventId)
                .then(res => {
                  console.log(res)
                  this.setState({
-                  started1:res[0].expectedDates[0].started,
-                  ended1:res[0].expectedDates[0].ended,
+                  started1:this.convertUTCDateToLocalDate(res[0].expectedDates[0].started),
+                  ended1:this.convertUTCDateToLocalDate(res[0].expectedDates[0].ended),
 
-                  started2:res[0].expectedDates[1].started,
-                  ended2:res[0].expectedDates[1].ended,
+                  started2:this.convertUTCDateToLocalDate(res[0].expectedDates[1].started),
+                  ended2:this.convertUTCDateToLocalDate(res[0].expectedDates[1].ended),
 
-                  started3:res[0].expectedDates[2].started,
-                  ended3:res[0].expectedDates[2].ended,
+                  started3:this.convertUTCDateToLocalDate(res[0].expectedDates[2].started),
+                  ended3:this.convertUTCDateToLocalDate(res[0].expectedDates[2].ended),
 
-                  attendants:attendants,
+                  attendants:attendantsShow,
                   dateUpdate:dateUpdate,
+                  startedShow:startedShow,
+                  endedShow:endedShow,
                  })
                 
                })
           } else {
             this.setState({
-              attendants:attendants,
+              attendants:attendantsShow,
               dateUpdate:dateUpdate,
+              startedShow:startedShow,
+              endedShow:endedShow,
             })
           }
         })
+
   }
 
   
@@ -93,121 +151,125 @@ export default class PersonalEventDetailOrg extends Component {
 
   render() {
     return (
-      <div>
+      <div className="personal-event-detail-org">
         <div className="event-org-preprocess">
-          <header>Choose possible dates: {this.state.event._event.title}</header>
-          <h5>Description:</h5>
-          <p>{this.state.event._event.description}</p>
-          <h5>Started:</h5>
-          <p>{this.state.event._event.started}</p>
-          <h5>Ended:</h5>
-          <p>{this.state.event._event.ended}</p>
-          <h5>Attendants:</h5>
-          {this.state.attendants && (
-            <ul>
-              {this.state.attendants.map((cur,i) => (
-                <li key={i}>{cur._user.firstname}</li>
-              ))}
-            </ul>
-          )}
+          <div className="event-detail-title">{this.state.event._event.title +` - choose date for task`} </div>
+          <div className="event-detail-exec-period">
+              <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.startedShow} - {this.state.endedShow}</span>
+          </div>
+          <div className="event-detail-state">status: {this.state.event._event.eventState}</div>
+          <div className="event-detail-state">role: {this.state.event.tag}</div>
+          <div className="event-detail-description">description: <div>{this.state.event._event.description}</div></div>
 
-          <div className="org-date-picker">
-                <h5>Selected 3 possible time slot to do task</h5>
-                <h5>Date List:</h5>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Started</th>
-                      <th>to</th>
-                      <th>Ended</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>
-                        {!this.state.dateUpdate && (<Input
+          <div className="attendants-detail-title">Attendants List</div>
+          <div style={{overflow:"scroll"}}>
+          <Table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Attendants</th>
+                <th>Role</th>
+                <th>ExpectDate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.attendants.length > 0 && (
+                this.state.attendants.map((curApl, i) => (
+                  <tr key={i}>
+                    <th scope="row">{i + 1}</th>
+                    <td>{curApl.firstname + `(`+ curApl.childname + `)`}</td>
+                    <td>{curApl.tag}</td>
+                    <td>{curApl.expectDate}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+        </div>
+
+        <div className="org-date-picker">
+        <h5 style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>Selected 3 possible time slot to do task</h5>
+          <Container>
+            <Row>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>#</Col>
+              <Col xs="5">Started</Col>
+              <Col xs="1" style={{padding:"0",margin:"0"}} >To</Col>
+              <Col xs="5" >Ended</Col>
+            </Row>
+
+            <Row>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>1</Col>
+              <Col xs="5">
+                {!this.state.dateUpdate && (<Input
                             type="datetime-local"
                             name="started1"
                             value={this.state.started1}
                             onChange={(e) => this.handleInputChange(e)}
                           />)
                         }
-                        {this.state.dateUpdate && (this.state.started1)}
-                        
-                      </td>
-                      <td>-</td>
-                      <td>
-                      {!this.state.dateUpdate && (<Input
+                {this.state.dateUpdate && (this.state.started1)}
+              </Col>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>-</Col>
+              <Col xs="5">
+                {!this.state.dateUpdate && (<Input
                           type="datetime-local"
                           name="ended1"
                           value={this.state.ended1}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
+                {this.state.dateUpdate && (this.state.ended1)}
+              </Col>
+            </Row>
 
-                        {this.state.dateUpdate && (this.state.ended1)}
-
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>
-                      {!this.state.dateUpdate && (<Input
+            <Row>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>2</Col>
+              <Col xs="5">
+                {!this.state.dateUpdate && (<Input
                           type="datetime-local"
                           name="started2"
                           value={this.state.started2}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
-                          {this.state.dateUpdate && (this.state.started2)}
+                  {this.state.dateUpdate && (this.state.started2)}
 
-                      </td>
-                      <td>-</td>
-                      <td>
-                      {!this.state.dateUpdate && (<Input
+              </Col>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>-</Col>
+              <Col xs="5">
+                {!this.state.dateUpdate && (<Input
                           type="datetime-local"
                           name="ended2"
                           value={this.state.ended2}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
-                      {this.state.dateUpdate && (this.state.ended2)}
-
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>
-                      {!this.state.dateUpdate && (<Input
+                  {this.state.dateUpdate && (this.state.ended2)}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>3</Col>
+              <Col xs="5">
+              {!this.state.dateUpdate && (<Input
                           type="datetime-local"
                           name="started3"
                           value={this.state.started3}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
-                        {this.state.dateUpdate && (this.state.started3)}
-
-                      </td>
-                      <td>-</td>
-                      <td>
-                      {!this.state.dateUpdate && (<Input
+                        {this.state.dateUpdate && (this.state.started3)}</Col>
+              <Col xs="1" style={{padding:"0",margin:"0"}}>-</Col>
+              <Col xs="5">{!this.state.dateUpdate && (<Input
                           type="datetime-local"
                           name="ended3"
                           value={this.state.ended3}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
-                        {this.state.dateUpdate && (this.state.ended3)}
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-                
-                {!this.state.dateUpdate && (<Button onClick={()=>this.orgDatePick()}>Submit</Button>)}
-
-              </div>
-
+                        {this.state.dateUpdate && (this.state.ended3)}</Col>
+            </Row>
+          </Container>
+          {!this.state.dateUpdate && (<Button onClick={()=>this.orgDatePick()}>Submit</Button>)}
+        </div>
         </div>
       </div>
     )
