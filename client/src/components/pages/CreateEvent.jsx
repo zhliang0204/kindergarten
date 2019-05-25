@@ -126,7 +126,7 @@ export default class CreateEvent extends Component {
               ended:'',
               applybefore:""
             })
-            this.props.info.history.push("/events")
+            this.props.info.history.push("/")
           })
     }
   }
@@ -238,7 +238,7 @@ export default class CreateEvent extends Component {
               />
             </FormGroup>
 
-            <div className="btn-click" onClick={() => this.handleCreate()}>Create</div>
+            <div className="btn-click" onTouchStart={() =>this.handleCreate()} onClick={() => this.handleCreate()}>Create</div>
           </Form>
         </div>)}
 

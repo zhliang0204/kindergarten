@@ -42,7 +42,7 @@ export default class CreateUser extends Component {
       sex: this.state.childsex, 
       age: this.state.childage,
       birthday:this.state.childbirthday
-     
+    
       
     }
     console.log(childInfo)

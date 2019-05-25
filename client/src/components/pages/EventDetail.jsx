@@ -119,7 +119,7 @@ export default class EventDetail extends Component {
 
         {this.props.langTab ==="lang4" && (<div className="english">
           {this.state.event && (<div>
-            <div className="go-back" onClick={()=>this.goToPrevPage()}  style={{width:"20%", textAlign:"left", fontSize:"0.8rem", color:"#cccccc"}}><i className="fas fa-arrow-circle-left"></i>Go Back</div>
+            <div className="go-back" onTouchStart={()=>this.goToPrevPage()} onClick={()=>this.goToPrevPage()}  style={{width:"20%", textAlign:"left", fontSize:"0.8rem", color:"#cccccc"}}><i className="fas fa-arrow-circle-left"></i>Go Back</div>
             <div className="event-detail-title">{this.state.event.title}</div>
             <div className="event-detail-state">status: {this.state.event.eventState}</div>
             <div className="event-detail-exec-period">
@@ -152,7 +152,7 @@ export default class EventDetail extends Component {
 
               
               {this.state.tag > 0 && (<div className="vote">
-                <div className="event-status-detail-title" onClick={() => this.voteToggle()}>
+                <div className="event-status-detail-title" style={{cursor:"pointer"}} onTouchStart={()=>this.voteToggle()} onClick={() => this.voteToggle()}>
                   <div >Vote</div>
                   {!this.state.isVoteShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isVoteShow && (<div><i className="fas fa-minus"></i></div>)}
@@ -162,7 +162,7 @@ export default class EventDetail extends Component {
 
 
               {this.state.tag === 2 && (<div className="stop">
-                <div className="event-status-detail-title" onClick={() => this.stopToggle()}>
+                <div className="event-status-detail-title" style={{cursor:"pointer"}} onTouchStart={()=>this.stopToggle()} onClick={() => this.stopToggle()}>
                   <div >Stop</div>
                   {!this.state.isStopShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isStopShow && (<div><i className="fas fa-minus"></i></div>)}
@@ -173,7 +173,7 @@ export default class EventDetail extends Component {
 
               {this.state.tag > 2 && (<div className="apply">
 
-              <div className="event-status-detail-title" onClick={() => this.applyToggle()}>
+              <div className="event-status-detail-title" style={{cursor:"pointer"}} onTouchStart={()=>this.applyToggle()} onClick={() => this.applyToggle()}>
                   <div >Apply</div>
                   {!this.state.isApplyShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isApplyShow && (<div><i className="fas fa-minus"></i></div>)}
@@ -183,7 +183,7 @@ export default class EventDetail extends Component {
 
 
               {this.state.tag > 3  && (<div className="process">
-              <div className="event-status-detail-title" onClick={() => this.processToggle()}>
+              <div className="event-status-detail-title" style={{cursor:"pointer"}} onTouchStart={()=>this.processToggle()} onClick={() => this.processToggle()}>
                   <div >Process</div>
                   {!this.state.isProcessShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isProcessShow && (<div><i className="fas fa-minus"></i></div>)}
@@ -193,7 +193,7 @@ export default class EventDetail extends Component {
           
               {this.state.tag > 4 && (
                 <div>
-                  <div className="event-status-detail-title" onClick={() => this.finishToggle()}>
+                  <div className="event-status-detail-title" style={{cursor:"pointer"}} onTouchStart={()=>this.finishToggle()} onClick={() => this.finishToggle()}>
                     <div >Finish</div>
                     {!this.state.isFinishShow && (<div><i className="fas fa-plus"></i></div>)}
                     {this.state.isFinishShow && (<div><i className="fas fa-minus"></i></div>)}
