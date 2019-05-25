@@ -11,6 +11,7 @@ export default class App extends Component {
     this.state = {
       isGerman: true,
       dropdownOpen: false,
+      langTab:"lang1",
     }
   }
 
@@ -25,23 +26,12 @@ export default class App extends Component {
   // }
 
   handleLanguage(e){
-    let res = e.target.id;
-    var result;
-    if(res === "lang3" || res === "lang2"){
-      result = false
-    } else {
-      result = true
-    }
-    // console.log(res)
     this.setState({
-      isGerman:result,
+      langTab: e.target.id,
       dropdownOpen : !this.state.dropdownOpen
     })
-    console.log(this.state.isGerman)
+    console.log(this.state.langTab)
   }
-
-
-
 
   render() {
     return (
@@ -61,18 +51,24 @@ export default class App extends Component {
                     data-toggle="dropdown"
                     aria-expanded={this.state.dropdownOpen}
                   >
-                    <i className="fas fa-globe">De</i>
+                    {this.state.langTab ==="lang1" && (<span><i className="fas fa-globe"></i>De</span>)}
+                    {this.state.langTab ==="lang2" && (<span><i className="fas fa-globe"></i>简中</span>)}
+                    {this.state.langTab ==="lang3" && (<span><i className="fas fa-globe"></i>繁中</span>)}
+                    {this.state.langTab ==="lang4" && (<span><i className="fas fa-globe"></i>En</span>)}
+
+                   
                   </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem id="lang1" onClick={(e) =>this.handleLanguage(e)}>Deutsch</DropdownItem>
-                    <DropdownItem id="lang2" onClick={(e) =>this.handleLanguage(e)}>简体中文</DropdownItem>
-                    <DropdownItem id="lang3" onClick={(e) =>this.handleLanguage(e)}>繁体中文</DropdownItem>
+                  <DropdownMenu right style={{minWidth:"5rem",position: "absolute",willChange: "transform",top: "0px",left: "0px",transform: "translate3d(-46px, 23px, 0px)"}}>
+                    <DropdownItem style={{margin:"0",padding:"1px", textAlign:"center"}} id="lang1" onClick={(e) =>this.handleLanguage(e)}>Deutsch</DropdownItem>
+                    <DropdownItem style={{margin:"0",padding:"1px", textAlign:"center"}} id="lang2" onClick={(e) =>this.handleLanguage(e)}>简体中文</DropdownItem>
+                    <DropdownItem style={{margin:"0",padding:"1px", textAlign:"center"}} id="lang3" onClick={(e) =>this.handleLanguage(e)}>繁體中文</DropdownItem>
+                    <DropdownItem style={{margin:"0",padding:"1px", textAlign:"center"}} id="lang4" onClick={(e) =>this.handleLanguage(e)}>English</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
             </div>          
           </div>
-          <NavBar isGerman={this.state.isGerman}/>   
+          <NavBar langTab={this.state.langTab}/>   
         </header>
       </div>
     );

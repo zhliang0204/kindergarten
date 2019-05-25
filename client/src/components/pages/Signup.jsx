@@ -74,16 +74,19 @@ export default class Signup extends Component {
   render() {
     return (
       <div className="Signup outer-div">
-        {this.props.isGerman && <div className="german">german language</div>}
-        {!this.props.isGerman && (<div className="chinese">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+        
+        {this.props.langTab ==="lang4" && (<div className="english">
           <Form>
             <FormGroup>
-              <Label for="username">用户名：</Label>
+              <Label for="username">User Name：</Label>
               <Input type="username" name="username" id="username" value={this.state.username} onChange={this.handleInputChange}/>
             </FormGroup>
             <FormGroup>
               {/* how to handle change? */}
-              <Label for="role">角色：</Label>
+              <Label for="role">Role：</Label>
                 <Input type="select" name="role" id="role" onClick={this.handleInputChange}>
                   <option value="teacher">teacher</option>
                   <option value="parent">parent</option>
@@ -106,11 +109,11 @@ export default class Signup extends Component {
               <Input type="text" name="childname" id="childname" value={this.state.childname} onChange={this.handleInputChange}/>
             </FormGroup> */}
             <FormGroup>
-              <Label for="email">邮件：</Label>
+              <Label for="email">Email:</Label>
               <Input type="text" name="email" id="email" value={this.state.email} onChange={this.handleInputChange}/>
             </FormGroup>
             <FormGroup>
-              <Label for="phone">移动电话：</Label>
+              <Label for="phone">Mobile：</Label>
               <Input type="text" name="phone" id="phone" value={this.state.phone} onChange={this.handleInputChange}/>
             </FormGroup>
             {/* <FormGroup>
@@ -137,7 +140,7 @@ export default class Signup extends Component {
               <Label for="country">国家：</Label>
               <Input type="text" name="country" id="country" value={this.state.country} onChange={this.handleInputChange}/>
             </FormGroup> */}
-            <Button onClick={(e)=>this.handleClick(e)}>创建</Button>
+            <Button onClick={(e)=>this.handleClick(e)}>Create</Button>
         </Form>
           {this.state.message && <div className="info info-danger">
             {this.state.message}

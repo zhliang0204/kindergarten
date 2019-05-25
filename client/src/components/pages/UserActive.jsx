@@ -20,7 +20,6 @@ export default class UserActive extends Component {
   handleSubmit(e){
     e.preventDefault()
     let userId = this.props.info.match.params.id
-    // console.log(userId)
     let acitiveEmail = {
       email: this.state.useremail
     }
@@ -35,16 +34,17 @@ export default class UserActive extends Component {
   }
 
   componentDidMount() {
-    // let someVar = this.props.location.pathname.split('/').pop()
-    // console.log("mount")
     console.log(this.props.info.match.params.id)
   }
   
   render() {
     return (
       <div className="user-active outer-div">
-        {this.props.isGerman && <div className="german">german language</div>}
-        {!this.props.isGerman && (<div>
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+       
+        {this.props.langTab ==="lang4" && (<div className="english">
           <div>Please input your email to active the account</div>
           <Form>
             <FormGroup>
@@ -54,9 +54,7 @@ export default class UserActive extends Component {
           </Form>
           <Button onClick={(e)=>this.handleSubmit(e)}>Active</Button>
         </div>
-          
         )}
-
       </div>
     )
   }

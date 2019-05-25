@@ -189,8 +189,11 @@ class PersonEvents extends Component {
   render() {
     return (
       <div className="person-event">
-        {/* <button onClick={() => this.setState({ view: "week" })}>week</button>
-        <button onClick={() => this.setState({ view: "month" })}>Month</button> */}
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
         <BigCalendar
           selectable={true}
           localizer={localizer}
@@ -214,6 +217,7 @@ class PersonEvents extends Component {
         />
 
         {/* <PersonalEventDetail toggle={this.toggle} modal={this.state.modal} event={this.state.curevent} tag={this.state.curevent.tag}/> */}
+      </div>)}
       </div>
 
     );

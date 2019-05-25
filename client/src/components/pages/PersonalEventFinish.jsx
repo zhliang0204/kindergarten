@@ -164,6 +164,11 @@ export default class PersonalEventFinish extends Component {
     return (
       // <div>
       <div className="event-org-finish">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
         <div className="event-detail-title">{this.state.event._event.title + ` - check final work hours`}</div>
           <div className="event-detail-exec-period">
               <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.startedShow} - {this.state.endedShow}</span>
@@ -194,7 +199,6 @@ export default class PersonalEventFinish extends Component {
                       <Col xs="4" style={{padding:"0",margin:"0"}} >
                         <input
                           className="check-hours-finish-input"
-                          
                           type="text"
                           id={i}
                           name={cur.userId}
@@ -203,7 +207,6 @@ export default class PersonalEventFinish extends Component {
                         />
                       </Col>
                     )}
-                    
                   </Row>
                 )))}
               </Container>
@@ -218,7 +221,7 @@ export default class PersonalEventFinish extends Component {
               Please wait for organizer to update workhours
             </div>
           )}
-
+        </div>)}
        </div>
     )
   }

@@ -381,13 +381,21 @@ body {
 // --------------------
 // Style for PersonalEventFinish
 .event-org-finish{
-  .check-hours-finish-input{
+  input.check-hours-finish-input{
     border:none;
     width:30px;
   }
-  .check-hours-finish-input:focus {
+  input.check-hours-finish-input:focus {
     outline:none;
   }
+}
+
+// --------------------
+// Style for CustomToolBar
+.rbc-toolbar{
+  margin:10px 0;
+  font-size:0.8rem;
+
 }
 
 // --------------------

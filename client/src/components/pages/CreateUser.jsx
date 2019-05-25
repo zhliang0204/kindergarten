@@ -12,6 +12,7 @@ export default class CreateUser extends Component {
       childsex:"F",
       childage:"",
       childId:"",
+      childbirthday:"",
       fatherfirstname:"" ,
       fatherlastname:"" ,
       fatherusername:"",
@@ -39,6 +40,7 @@ export default class CreateUser extends Component {
       lastname: this.state.childlastname, 
       sex: this.state.childsex, 
       age: this.state.childage,
+      birthday:this.state.childbirthday
       
     }
     console.log(childInfo)
@@ -123,8 +125,11 @@ export default class CreateUser extends Component {
   render() {
     return (
       <div className="create-user outer-div">
-        {this.props.isGerman && <div className="german">german language</div>}
-        {!this.props.isGerman && (<div className="chinese">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
           {this.state.tab === 1 && (<div className="child">
           <div className="newuser-type">Child Information</div>
           <Form>
@@ -135,6 +140,11 @@ export default class CreateUser extends Component {
             <FormGroup>
               <Label for="childlastname">LastName:</Label>
               <Input type="text" name="childlastname" id="childlastname" value={this.state.childlastname} onChange={this.handleInputChange}/>
+            </FormGroup>
+
+            <FormGroup>
+              <Label for="childbirthday">Birthday:</Label>
+              <Input type="date" name="childbirthday" id="childbirthday" value={this.state.childbirthday} onChange={this.handleInputChange}/>
             </FormGroup>
 
             <FormGroup>

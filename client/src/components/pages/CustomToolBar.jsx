@@ -31,19 +31,23 @@ export default class  CustomToolbar extends Component {
         <div>
           <div className="rbc-toolbar">
               <span className="rbc-btn-group">
-                  <button type="button" onClick={this.navigate.bind(null, navigate.PREVIOUS)}>Prev</button>
+                  <button type="button" onClick={this.navigate.bind(null, navigate.PREVIOUS)}><i className="fas fa-chevron-left"></i></button>
               </span>
               <span className="rbc-toolbar-label">{label}</span>
               <span className="rbc-btn-group">
-                  <button type="button" onClick={this.navigate.bind(null, navigate.NEXT)}>Next</button>
+                  <button type="button" onClick={this.navigate.bind(null, navigate.NEXT)}><i className="fas fa-chevron-right"></i></button>
               </span>
 
-              <select
-              value={view}
-              onChange={this.handleChange}
-            >
-              {views.map((value) => <option value={value}> {value} </option>)}
-            </select>
+              <span className="rbc-btn-group">
+                <select
+                value={view}
+                onChange={this.handleChange}
+              >
+                {views.map((value,i) => <option key={i} value={value}> {value} </option>)}
+              </select>
+              </span>
+
+              
           </div>
          
         </div>

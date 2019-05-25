@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table, Input} from 'reactstrap';
 import PersonalEventDetailOrg from "./PersonalEventDetailOrg";
 import PersonalEventDetailPart from "./PersonalEventDetailPart";
 import PersonalEventProcess from "./PersonalEventProcess";
@@ -61,10 +60,8 @@ export default class PersonalEventDetail extends Component {
       })
   }
 
-  toggle(){
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+  goToPrevPage(){
+    this.props.info.history.push("/person/events")
   }
 
   componentDidMount(){
@@ -78,24 +75,31 @@ export default class PersonalEventDetail extends Component {
   render() {
     return (
       <div className="my-modal outer-div">
-        <div toggle={() => this.toggle()}>
+      {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+      {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+      {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+      {this.props.langTab ==="lang4" && (<div className="english">
+     
+      <div className="go-back" style={{textAlign:"right", fontSize:"0.9rem", color:"#cccccc", marginRight:"10px"}}><i onClick={()=>this.goToPrevPage()} className="fas fa-times"></i></div>
 
           {this.state.status === 1 && (
-            <PersonalEventDetailOrg event={this.state.event}/>
+            <PersonalEventDetailOrg event={this.state.event} langTab={this.props.langTab}/>
           )}
 
           {this.state.status === 2 && (
-            <PersonalEventDetailPart event={this.state.event}/>
+            <PersonalEventDetailPart event={this.state.event} langTab={this.props.langTab}/>
           )}
 
           {this.state.status === 3 && (
-            <PersonalEventProcess event={this.state.event}/>
+            <PersonalEventProcess event={this.state.event} langTab={this.props.langTab}/>
           )}
 
           {this.state.status === 4 && (
-            <PersonalEventFinish event={this.state.event}/>
+            <PersonalEventFinish event={this.state.event} langTab={this.props.langTab}/>
           )}
-        </div>  
+       
+        </div>)} 
       </div>
     )
   }

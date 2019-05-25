@@ -91,6 +91,11 @@ export default class EventDetail extends Component {
     }));
   }
 
+  goToPrevPage(){
+    console.log("go back")
+    this.props.info.history.push("/")
+  }
+
   componentDidMount(){
     let eventId = this.props.info.match.params.id
     this.loadEvent(eventId)
@@ -108,9 +113,13 @@ export default class EventDetail extends Component {
   render() {
     return (
       <div className="event-detail outer-div">
-        {this.props.isGerman && (<div className="german">building......</div>)}
-        {!this.props.isGerman && (<div className="chinese">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
           {this.state.event && (<div>
+            <div className="go-back" onClick={()=>this.goToPrevPage()}  style={{width:"20%", textAlign:"left", fontSize:"0.8rem", color:"#cccccc"}}><i className="fas fa-arrow-circle-left"></i>Go Back</div>
             <div className="event-detail-title">{this.state.event.title}</div>
             <div className="event-detail-state">status: {this.state.event.eventState}</div>
             <div className="event-detail-exec-period">
@@ -148,7 +157,7 @@ export default class EventDetail extends Component {
                   {!this.state.isVoteShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isVoteShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
-                {this.state.isVoteShow && (<Vote event={this.state.event} tag={this.state.tag}/>)}
+                {this.state.isVoteShow && (<Vote event={this.state.event} tag={this.state.tag} langTab={this.props.langTab}/>)}
               </div>)}
 
 
@@ -169,7 +178,7 @@ export default class EventDetail extends Component {
                   {!this.state.isApplyShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isApplyShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
-                {this.state.isApplyShow && (<Application event={this.state.event} tag = {this.state.tag}/>)}
+                {this.state.isApplyShow && (<Application event={this.state.event} tag = {this.state.tag} langTab={this.props.langTab}/>)}
               </div>) }
 
 
@@ -179,7 +188,7 @@ export default class EventDetail extends Component {
                   {!this.state.isProcessShow && (<div><i className="fas fa-plus"></i></div>)}
                   {this.state.isProcessShow && (<div><i className="fas fa-minus"></i></div>)}
                 </div>
-                {this.state.isProcessShow && (<Attendence event={this.state.event} tag = {this.state.tag}/>)}
+                {this.state.isProcessShow && (<Attendence event={this.state.event} tag = {this.state.tag} langTab={this.props.langTab}/>)}
               </div>) }
           
               {this.state.tag > 4 && (
@@ -194,7 +203,7 @@ export default class EventDetail extends Component {
             </div>
 
             <div className="event-discussion">
-              <Discussion event={this.state.event} />
+              <Discussion event={this.state.event} langTab={this.props.langTab}/>
             </div>
 
           </div>)}

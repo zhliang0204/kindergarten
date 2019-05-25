@@ -33,9 +33,11 @@ class Login extends Component {
   render() {
     return (
       <div className="Login outer-div">
-        {this.state.isGerman && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
 
-        {!this.state.isGerman && (<div className="chinese">
+        {this.props.langTab ==="lang4" && (<div className="english">
           <Form >
           <FormGroup row>
               <Label for="email" sm={2}>Email：</Label>

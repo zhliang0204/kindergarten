@@ -3,7 +3,6 @@ import {
   Form,
   FormGroup,
   Input,
-  Label,
   Button,
 } 
 from 'reactstrap';
@@ -95,6 +94,11 @@ export default class Discussion extends Component {
   render() {
     return (
       <div className="discussion">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
         {this.state.discussions && (<div>
           {this.state.discussions.map((cur, i) => (
             <div className="discussion-detail" key={i}>
@@ -102,14 +106,15 @@ export default class Discussion extends Component {
               <span>{cur.content}</span>
             </div>
           ))}
-        </div>)}
+          </div>)}
 
-        <Form>
-          <FormGroup>
-            <Input type="textarea" name="content" value={this.state.content} onChange={(e)=>this.handleInputChange(e)} />
-          </FormGroup>
-            <Button onClick={()=>this.handleDisApply()}>Submit</Button>
-        </Form>
+          <Form>
+            <FormGroup>
+              <Input type="textarea" name="content" placeholder="left your message here :)" value={this.state.content} onChange={(e)=>this.handleInputChange(e)} />
+            </FormGroup>
+              <Button onClick={()=>this.handleDisApply()}>Submit</Button>
+          </Form>
+        </div>)}
       </div>
     )
   }

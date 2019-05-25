@@ -152,6 +152,11 @@ export default class PersonalEventDetailOrg extends Component {
   render() {
     return (
       <div className="personal-event-detail-org">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
         <div className="event-org-preprocess">
           <div className="event-detail-title">{this.state.event._event.title +` - choose date for task`} </div>
           <div className="event-detail-exec-period">
@@ -271,6 +276,7 @@ export default class PersonalEventDetailOrg extends Component {
           {!this.state.dateUpdate && (<Button onClick={()=>this.orgDatePick()}>Submit</Button>)}
         </div>
         </div>
+        </div>)}
       </div>
     )
   }

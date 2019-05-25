@@ -19,7 +19,8 @@ router.post("/createChild", (req, res, next) => {
     firstname,
     lastname,
     sex,
-    age
+    age,
+    birthday
   })
     .then(newChild => {
       res.json(newChild)

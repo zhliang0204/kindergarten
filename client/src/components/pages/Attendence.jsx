@@ -104,8 +104,12 @@ export default class Attandence extends Component {
             </div>
           ))
         )} */}
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
 
-        <div>
+        {this.props.langTab ==="lang4" && (<div className="english">
+        
           <div className="attendants-detail-title">Attendants List</div>
           <Table>
             <thead>
@@ -129,8 +133,7 @@ export default class Attandence extends Component {
               )}
             </tbody>
           </Table>
-        </div>  
-
+        </div>)}
       </div>
     )
   }

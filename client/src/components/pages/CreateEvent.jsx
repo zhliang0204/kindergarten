@@ -60,8 +60,10 @@ export default class CreateEvent extends Component {
 
     console.log(this.state.started > this.state.ended)
     console.log(new Date(this.state.started).getTime() > timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime())
-    if(this.state.started > this.state.ended || new Date(this.state.started).getTime() > timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime()){
-      if(this.state.started > this.state.ended && new Date(this.state.started).getTime() > timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime()){
+    console.log(new Date(this.state.started).getTime())
+    console.log(timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime())
+    if(this.state.started > this.state.ended || new Date(this.state.started).getTime() < timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime()){
+      if(this.state.started > this.state.ended && new Date(this.state.started).getTime() < timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime()){
         this.setState({
           errorPos:5
         })
@@ -132,106 +134,115 @@ export default class CreateEvent extends Component {
   render() {
     return (
       <div className="Add-mission outer-div">
-      <Form>
-          <FormGroup className="inputtitle-type">
-            <Label for="eventName">Task:</Label>
-            {(this.state.errors.title) && (<div className="hint">please input title</div>)}
-            <Input
-              type="text"
-              name="title"
-              id="eventName"
-              value={this.state.title}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>
-          <FormGroup  className="inputtitle-type">
-            <Label for="description">Description:</Label>
-            {(this.state.errors.description) && (<div className="hint">please input description</div>)}
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
 
-            <Input
-              type="textarea"
-              name="description"
-              id="description"
-              value={this.state.description}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>    
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
 
-          {/* <FormGroup>
-            <Label for="resource">Resource:</Label>
-            <Input
-              type="textarea"
-              name="resource"
-              id="resource"
-              value={this.state.resource}
-              onChange={(e) => this.handleInputChange(e)}
-            />  
-           </FormGroup>      */}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+        {this.props.langTab ==="lang4" && (<div className="english">
+          <Form>
+            <FormGroup className="inputtitle-type">
+              <Label for="eventName">Task:</Label>
+              {(this.state.errors.title) && (<div className="hint">please input title</div>)}
+              <Input
+                type="text"
+                name="title"
+                id="eventName"
+                value={this.state.title}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>
+            <FormGroup  className="inputtitle-type">
+              <Label for="description">Description:</Label>
+              {(this.state.errors.description) && (<div className="hint">please input description</div>)}
 
-          <FormGroup  className="inputtitle-type">
-            <Label for="reqpersons">Number of Persons:</Label>
-            <Input
-              type="number"
-              name="reqpersons"
-              id="reqpersons"
-              value={this.state.reqpersons}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>
-          <FormGroup  className="inputtitle-type">
-            <Label for="reqhours">Number of Hours:</Label>
-            <Input
-              type="number"
-              name="reqhours"
-              id="reqhours"
-              value={this.state.reqhours}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>
- 
+              <Input
+                type="textarea"
+                name="description"
+                id="description"
+                value={this.state.description}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>    
 
-          <FormGroup  className="inputtitle-type">
-            <Label for="startDate">Start Date:</Label>
-            {(this.state.errors.started) && (<div className="hint">please input start date and time</div>)}
+            {/* <FormGroup>
+              <Label for="resource">Resource:</Label>
+              <Input
+                type="textarea"
+                name="resource"
+                id="resource"
+                value={this.state.resource}
+                onChange={(e) => this.handleInputChange(e)}
+              />  
+            </FormGroup>      */}
 
-            <Input
-              type="datetime-local"
-              name="started"
-              id="startDate"
-              value={this.state.started}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>
+            <FormGroup  className="inputtitle-type">
+              <Label for="reqpersons">Number of Persons:</Label>
+              <Input
+                type="number"
+                name="reqpersons"
+                id="reqpersons"
+                value={this.state.reqpersons}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>
+            <FormGroup  className="inputtitle-type">
+              <Label for="reqhours">Number of Hours:</Label>
+              <Input
+                type="number"
+                name="reqhours"
+                id="reqhours"
+                value={this.state.reqhours}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>
+  
 
-         
-          <FormGroup  className="inputtitle-type">
-            <Label for="endedDate">End Date:</Label>
-            {(this.state.errors.ended) && (<div className="hint">please input end date and time</div>)}
-            {(this.state.errorPos === 1 || this.state.errorPos === 5) && (<div className="hint">please make sure ended date later than started date</div>)}
-            <Input
-              type="datetime-local"
-              name="ended"
-              id="endedDate"
-              value={this.state.ended}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>
+            <FormGroup  className="inputtitle-type">
+              <Label for="startDate">Start Date:</Label>
+              {(this.state.errors.started) && (<div className="hint">please input start date and time</div>)}
 
-          <FormGroup  className="inputtitle-type">
-            <Label for="applybefore">Apply Before:</Label>
-            {(this.state.errors.applybefore) && (<div className="hint">please input applyBefore date and time</div>)}
-            {(this.state.errorPos === 2 || this.state.errorPos === 5) && (<div className="hint">please left at least 7 days before started date</div>)}
-            <Input
-              type="datetime-local"
-              name="applybefore"
-              id="applybefore"
-              value={this.state.applybefore}
-              onChange={(e) => this.handleInputChange(e)}
-            />
-          </FormGroup>
+              <Input
+                type="datetime-local"
+                name="started"
+                id="startDate"
+                value={this.state.started}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>
 
-          <div className="btn-click" onClick={() => this.handleCreate()}>Create</div>
-        </Form>
+          
+            <FormGroup  className="inputtitle-type">
+              <Label for="endedDate">End Date:</Label>
+              {(this.state.errors.ended) && (<div className="hint">please input end date and time</div>)}
+              {(this.state.errorPos === 1 || this.state.errorPos === 5) && (<div className="hint">please make sure ended date later than started date</div>)}
+              <Input
+                type="datetime-local"
+                name="ended"
+                id="endedDate"
+                value={this.state.ended}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>
+
+            <FormGroup  className="inputtitle-type">
+              <Label for="applybefore">Apply Before:</Label>
+              {(this.state.errors.applybefore) && (<div className="hint">please input applyBefore date and time</div>)}
+              {(this.state.errorPos === 2 || this.state.errorPos === 5) && (<div className="hint">please left at least 7 days before started date</div>)}
+              <Input
+                type="datetime-local"
+                name="applybefore"
+                id="applybefore"
+                value={this.state.applybefore}
+                onChange={(e) => this.handleInputChange(e)}
+              />
+            </FormGroup>
+
+            <div className="btn-click" onClick={() => this.handleCreate()}>Create</div>
+          </Form>
+        </div>)}
+
+
         </div>
       
     )

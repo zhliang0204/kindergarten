@@ -159,37 +159,41 @@ export default class Vote extends Component {
 
     return (
       <div className="vote">
-        {/* <h3>Vote Result</h3> */}
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
 
-        {(this.state.isVoted === true|| this.state.isVoteSt !== "vote") && (<div className="vote-detail">
-          <div className="sub-vote-detail">
-            {/* {this.state.persoanlVote == 1? (<i className="fas fa-thumbs-up"></i>):(<i className="far fa-thumbs-up"></i>)} */}
-            {supportTag}
-            {this.state.support}
-          </div>
-          <div className="sub-vote-detail">
-            {/* {this.state.persoanlVote == -1? (<i className="fas fa-thumbs-down"></i>):( <i className="far fa-thumbs-down"></i>)} */}
-            {opposeTag}
-            {this.state.oppose}
-          </div>
+        {this.props.langTab ==="lang4" && (<div className="english">
+
+          {(this.state.isVoted === true|| this.state.isVoteSt !== "vote") && (<div className="vote-detail">
+            <div className="sub-vote-detail">
+              {/* {this.state.persoanlVote == 1? (<i className="fas fa-thumbs-up"></i>):(<i className="far fa-thumbs-up"></i>)} */}
+              {supportTag}
+              {this.state.support}
+            </div>
+            <div className="sub-vote-detail">
+              {/* {this.state.persoanlVote == -1? (<i className="fas fa-thumbs-down"></i>):( <i className="far fa-thumbs-down"></i>)} */}
+              {opposeTag}
+              {this.state.oppose}
+            </div>
+          </div>)}
+
+
+          {this.state.isVoted === false && this.state.isVoteSt === "vote" && (<div  className="vote-detail">
+            <div className="sub-vote-detail" onClick={(e) => this.handleSupport(e)}>
+              <i className="far fa-thumbs-up"></i>
+              {/* <i onClick={(e) => this.handleSupport(e)} className="far fa-thumbs-up"></i> */}
+
+              {this.state.support}
+            </div>
+
+            <div className="sub-vote-detail" onClick={(e) => this.handleOppose(e)}>
+              <i className="far fa-thumbs-down"></i>
+              {this.state.oppose}
+            </div>
+
+          </div>)}
         </div>)}
-
-
-        {this.state.isVoted === false && this.state.isVoteSt === "vote" && (<div  className="vote-detail">
-          <div className="sub-vote-detail" onClick={(e) => this.handleSupport(e)}>
-            <i className="far fa-thumbs-up"></i>
-            {/* <i onClick={(e) => this.handleSupport(e)} className="far fa-thumbs-up"></i> */}
-
-            {this.state.support}
-          </div>
-
-          <div className="sub-vote-detail" onClick={(e) => this.handleOppose(e)}>
-            <i className="far fa-thumbs-down"></i>
-            {this.state.oppose}
-          </div>
-
-        </div>)}
-
       </div>
     )
   }

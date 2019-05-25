@@ -515,7 +515,7 @@ function sendEmailofApply(){
                   from:'Deutsch-Chinesischer Kindergarten',
                   to: emails,
                   subject:`The new task ${curevent.title} is created`,
-                  html: `a new event is created, please login to ${curevent.eventState}, The ${curevent.eventState} link: <a href="http://localhost:3000/events/detail/${curevent._id}">http://localhost:3000/events/detail/${curevent._id}</a> `
+                  html: `a new event is created, please login to ${curevent.eventState}, The ${curevent.eventState} link: <a href="${process.env.PAGE_URL}/events/detail/${curevent._id}">${process.env.PAGE_URL}/events/detail/${curevent._id}</a> `
                 })
                  .then(userEmail => {console.log("------send apply email-----")})
                  .catch(err => {
@@ -560,7 +560,7 @@ function sendEmailforOrg(){
                         to: `${atts[0]._user.email}`,
                         subject:`you are chosen as ${atts[0].tag} of ${atts[0]._event.title}`,
                         html: `please login your account and choose possible task time slot.
-                              The link is followed: <a href="http://localhost:3000/person/eventDetail/${atts[0]._event._id}">http://localhost:3000/person/eventDetail/${atts[0]._event._id}</a> `
+                              The link is followed: <a href="${process.env.PAGE_URL}/person/eventDetail/${atts[0]._event._id}">${process.env.PAGE_URL}/person/eventDetail/${atts[0]._event._id}</a> `
                       })
                        .then(userEmail => {console.log("------pre process inform to organizer-------")})
                        .catch(err => {

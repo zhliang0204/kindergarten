@@ -148,44 +148,47 @@ export default class Application extends Component {
   render() {
     return (
       <div className="application">
-        
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
 
-        <div>
-          <div className="application-detail-title">Applicants List</div>
-          <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Applicants</th>
-                <th>ExpectDate</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.applicants.length > 0 && (
-                this.state.applicants.map((curApl, i) => (
-                  <tr key={i}>
-                    <th scope="row">{i + 1}</th>
-                    <td>{curApl.firstname + `(`+ curApl.childname + `)`}</td>
-                    <td>{curApl.expectDate}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </Table>
-        </div>
+        {this.props.langTab ==="lang4" && (<div className="english">
+          <div>
+            <div className="application-detail-title">Applicants List</div>
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Applicants</th>
+                  <th>ExpectDate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.applicants.length > 0 && (
+                  this.state.applicants.map((curApl, i) => (
+                    <tr key={i}>
+                      <th scope="row">{i + 1}</th>
+                      <td>{curApl.firstname + `(`+ curApl.childname + `)`}</td>
+                      <td>{curApl.expectDate}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </Table>
+          </div>
 
 
-        {this.props.tag === 3 && !this.state.isApply && (
-          <Form>
-          <FormGroup style={{textAlign:"left"}}>
-            <Label for="expectDate">Apply here, please input your expect date for task:</Label>
-            <div className="error-hint">{this.state.errorHint}</div>
-            <Input type="datetime-local" name="expectDate" value={this.state.expectDate} onChange={(e)=>this.handleInputChange(e)}/>
-          </FormGroup>
-            <Button onClick={()=>this.handleServiceApply()}>Apply</Button>
-        </Form> 
-        )}
-        
+          {this.props.tag === 3 && !this.state.isApply && (
+            <Form>
+            <FormGroup style={{textAlign:"left"}}>
+              <Label for="expectDate">Apply here, please input your expect date for task:</Label>
+              <div className="error-hint">{this.state.errorHint}</div>
+              <Input type="datetime-local" name="expectDate" value={this.state.expectDate} onChange={(e)=>this.handleInputChange(e)}/>
+            </FormGroup>
+              <Button onClick={()=>this.handleServiceApply()}>Apply</Button>
+          </Form> 
+          )}
+        </div>)}
       </div>
     )
   }

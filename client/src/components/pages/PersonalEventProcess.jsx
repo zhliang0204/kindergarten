@@ -130,9 +130,13 @@ export default class PersonalEventProcess extends Component {
   }
   render() {
     return (
-      <div>
-        <div>
-          <div className="event-process">
+      <div className="event-process">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
+            
           <div className="event-detail-title">{this.state.event._event.title}</div>
           <div className="event-detail-exec-period">
               <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.startedShow} - {this.state.endedShow}</span>
@@ -158,9 +162,8 @@ export default class PersonalEventProcess extends Component {
               ))
             )}
           </Container>
-          </div>
-        </div>
-      </div>
+      </div>)}
+    </div>
     )
   }
 }

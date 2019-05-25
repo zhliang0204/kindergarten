@@ -28,7 +28,7 @@ router.post('/userMail', isLoggedIn, (req,res, next) => {
     from:'Deutsch-Chinesischer Kindergarten',
     to: email,
     subject:"You are invited to parents group of Deutsch-Chinesischer Kindergarten",
-    html: `Click Link to active your account: <b>Link: <a href="http://localhost:3000/active/${userId}">http://localhost:3000/active/${userId}</a></b>`
+    html: `Click Link to active your account: <b>Link: <a href="${process.env.PAGE_URL}/active/${userId}">${process.env.PAGE_URL}/active/${userId}</a></b>`
   })
    .then(userEmail => res.json({success:true}))
    .catch(err => next(err))
@@ -54,7 +54,7 @@ router.post('/createEventEmail', isLoggedIn, (req,res, next) => {
         from:'Deutsch-Chinesischer Kindergarten',
         to: emails,
         subject:`The new task ${newevent.title} is created`,
-        html: `a new event is created, please login to ${newevent.eventState}, The ${newevent.eventState} link: <a href="http://localhost:3000/events/detail/${newevent.id}">http://localhost:3000/events/detail/${newevent.id}</a> `
+        html: `a new event is created, please login to ${newevent.eventState}, The ${newevent.eventState} link: <a href="${process.env.PAGE_URL}/events/detail/${newevent.id}">${process.env.PAGE_URL}/events/detail/${newevent.id}</a> `
       })
        .then(userEmail => res.json({success:true}))
        .catch(err => next(err))
@@ -87,7 +87,7 @@ router.post('/event/participant/timechoose/:id', isLoggedIn, (req,res, next) => 
                 to: email,
                 subject:`The task ${atts[0]._event.title} is open to choose task time`,
                 html: `Please login and choose one of possible time for this task.
-                      The link is followed:<a href="http://localhost:3000/person/eventDetail/${atts[0]._event._id}">http://localhost:3000/person/eventDetail/${atts[0]._event._id}</a> `
+                      The link is followed:<a href="${process.env.PAGE_URL}/person/eventDetail/${atts[0]._event._id}">${process.env.PAGE_URL}/person/eventDetail/${atts[0]._event._id}</a> `
               })
                .then(userEmail => res.json({success:true}))
                .catch(err => next(err))
