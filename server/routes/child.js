@@ -14,7 +14,7 @@ const bcryptSalt = 10
 
 // only create child
 router.post("/createChild", (req, res, next) => {
-  const cur = { firstname, lastname, sex, age } = req.body;
+  const cur = { firstname, lastname, sex, age,birthday } = req.body;
   Child.create({
     firstname,
     lastname,
