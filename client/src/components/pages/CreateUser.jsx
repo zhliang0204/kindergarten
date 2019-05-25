@@ -158,7 +158,7 @@ export default class CreateUser extends Component {
               <Label for="childage">Age:</Label>
               <Input type="text" name="childage" id="childage" value={this.state.childage} onChange={this.handleInputChange}/>
             </FormGroup>
-            <div className="btn-click" onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
+            <div className="btn-click" style={{cursor: "pointer"}} onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
           </Form>
           
           </div>)}
@@ -182,7 +182,7 @@ export default class CreateUser extends Component {
                   <Label for="fatherphone">Phone:</Label>
                   <Input type="text" name="fatherphone" id="fatherphone" value={this.state.email} onChange={this.handleInputChange}/>
                 </FormGroup>
-                <div className="btn-click" onClick={(e)=>this.handleFatherSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
+                <div className="btn-click" style={{cursor: "pointer"}}  onClick={(e)=>this.handleFatherSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
             </Form>
 
 
@@ -208,7 +208,7 @@ export default class CreateUser extends Component {
                 <Label for="motherphone">Phone:</Label>
                 <Input type="text" name="motherphone" id="motherphone" value={this.state.motherphone} onChange={this.handleInputChange}/>
               </FormGroup>
-              <div className="btn-click" onClick={(e)=>this.handleMotherSubmit(e)}><i className="fas fa-save"></i>Submit</div>
+              <div className="btn-click" style={{cursor: "pointer"}}  onClick={(e)=>this.handleMotherSubmit(e)}><i className="fas fa-save"></i>Submit</div>
           </Form>
 
           </div>)}

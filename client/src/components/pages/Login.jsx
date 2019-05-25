@@ -53,7 +53,7 @@ class Login extends Component {
               </Col>
             </FormGroup>
 
-            <Button onClick={(e) => this.handleClick(e)}>登陆</Button>
+            <Button onClick={(e) => this.handleClick(e)}>Login</Button>
           </Form>
           {this.state.message && <div className="info info-danger">
             {this.state.message}
