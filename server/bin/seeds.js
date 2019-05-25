@@ -16,20 +16,12 @@ require('../configs/database')
 
 let users = [
   {
-    username: "alice",
-    password: bcrypt.hashSync("alice", bcrypt.genSaltSync(bcryptSalt)),
-    email:'zhliang0204@163.com',
+    
+    password: bcrypt.hashSync("111", bcrypt.genSaltSync(bcryptSalt)),
+    email:'15810382603@139.com',
     role:"admin",
-  },
-
-  {
-    username: "bob",
-    password: bcrypt.hashSync("bob", bcrypt.genSaltSync(bcryptSalt)),
-    email:'zhliang0204@gmail.com',
-    role:"parent",
-    historyServiceHours:[{year:2016, serviceHours:24},{year:2017, serviceHours:33},{year:2018, serviceHours:42}],
-    currentServiceHours: 11
-  },
+    isActive:true,
+  }
 
 ]
 
