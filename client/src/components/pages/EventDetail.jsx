@@ -93,7 +93,7 @@ export default class EventDetail extends Component {
 
   goToPrevPage(){
     console.log("go back")
-    this.props.info.history.push("/")
+    this.props.info.history.push("/events")
   }
 
   componentDidMount(){

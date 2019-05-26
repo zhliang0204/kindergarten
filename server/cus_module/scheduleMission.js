@@ -62,11 +62,13 @@ function voteEventState(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   // left 5 days for vote
-  let timeDifference = 5 * 60 * 60 * 24 * 1000
+  let timeDifference1 = 5 * 60 * 60 * 24 * 1000
+  let timeDifference2 = 4 * 60 * 60 * 24 * 1000
+
   Event.find({eventState:"vote"})
        .then(events => {
           events.forEach(cur => {
-            if(cur.created_at.getTime() >= curDateTime - timeDifference){
+            if(cur.created_at.getTime() >= curDateTime - timeDifference1 && cur.created_at.getTime() < curDateTime - timeDifference2){
               voteRes(cur._id).then(votes => {
                 if(votes > 0){
                   Event.findOneAndUpdate({_id:cur._id},{$set:{eventState:"apply"}})
@@ -85,8 +87,15 @@ function updateVotedEvent(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   // left 5 days for vote
-  let timeDifference = 5 * 60 * 60 * 24 * 1000
-  Event.find({$and:[{eventState:"vote"},{created_at:{ $lte: curDateTime - timeDifference}}]})
+  let timeDifference1 = 5 * 60 * 60 * 24 * 1000
+  let timeDifference2 = 4 * 60 * 60 * 24 * 1000
+
+  Event.find({$and:
+                [
+                  {eventState:"vote"},
+                  {created_at:{ $gte: curDateTime - timeDifference1,$lt:curDateTime - timeDifference2}}
+                ]
+             })
        .then((events) => {
         events.forEach(cur => {
           voteRes(cur._id).then(votes => {
@@ -526,7 +535,7 @@ function sendEmailforOrg(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   let timeDifference1 = 1 * 60 * 60 * 24 * 1000;
-  Event.find({eventState:"pre-process", updated_at:{ $gte: curDateTime - timeDifference1}})
+  Event.find({eventState:"pre-process", updated_at:{ $gte: curDateTime - timeDifference1,$lt:curDateTime}})
        .then(events => {
          console.log("-----event-----")
          console.log(events)
@@ -619,7 +628,7 @@ function sendEmailBeforProcess1(){
   let curDateTime = curDate.getTime();
   let timeDifference1 = 2 * 60 * 60 * 24 * 1000;
 
-  Event.find({eventState:{$in:["process"]}, started:{ $gte: curDateTime, $lte: curDateTime + timeDifference1}})
+  Event.find({eventState:{$in:["process"]}, started:{ $gt: curDateTime, $lte: curDateTime + timeDifference1}})
         .then(events => {
           console.log(events)
           events.map(cur => {

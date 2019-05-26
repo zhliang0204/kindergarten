@@ -20,6 +20,12 @@ function activeCodeGen(n){
      return res;
 }
 
+router.get("/allemails", (req, res,next) => {
+  User.distinct("email")
+      .then(emails => {
+        res.json(emails)
+      })
+})
 
 // create user of parent
 router.post("/createParent", (req, res, next) => {

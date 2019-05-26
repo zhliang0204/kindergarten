@@ -14,7 +14,8 @@ import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import CreateEvent from './CreateEvent';
-import CreateUser from "./CreateUser";
+import CreateUser from "./CreateUser"
+// import CreateUser from "./CreateUser";
 import UserActive from './UserActive';
 import SetPassword from "./SetPasswrod";
 import EventsList from "./EventsList";
@@ -54,7 +55,9 @@ export default class NavBar extends Component {
     return (
       <div className="Kg-navbar">
         <Navbar expand="md" color="faded" light>
-          <NavbarBrand href="/"><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand> 
+          {/* <NavbarBrand href="/"><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand>  */}
+          <NavbarBrand><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand> 
+
           <NavbarToggler onClick={this.toggle} className="mr-2" />
           
           <Collapse isOpen={this.state.isOpen} navbar> 
@@ -70,17 +73,18 @@ export default class NavBar extends Component {
                 </NavLink>}
               </NavItem> 
 
-              {/* <NavItem>
+              <NavItem>
                 {api.isLoggedIn() && <NavLink to="/events">
                   {this.props.langTab === "lang1" && "Aufgabe"}
                   {this.props.langTab === "lang2" && "任务"}
                   {this.props.langTab === "lang3" && "任務"}
                   {this.props.langTab === "lang4" && "Task"}
                 </NavLink>}
-              </NavItem> */}
+              </NavItem>
 
+              
               <NavItem>
-                {api.isLoggedIn() && api.getLocalStorageUser().role !=="parent" && <NavLink to="/createuser">
+                {api.isLoggedIn() && api.getLocalStorageUser().role !=="parent" && <NavLink to="/createfamily">
                   {this.props.langTab === "lang1" && "Nutzer"}
                   {this.props.langTab === "lang2" && "用户"}
                   {this.props.langTab === "lang3" && "用戶"}
@@ -121,11 +125,12 @@ export default class NavBar extends Component {
 
         <Switch>
           <Route path="/" exact render={(info)=><Home langTab={this.props.langTab} info={info}/>}/>
-          <Route path="/createuser" render={()=><CreateUser langTab={this.props.langTab}/>}/>
+          {/* <Route path="/createuser" render={(info)=><CreateUser langTab={this.props.langTab} info={info}/>}/> */}
+          <Route path="/createfamily" render={()=><CreateUser langTab={this.props.langTab} />}/>
           <Route path="/active/:id" render={(info)=><UserActive langTab={this.props.langTab} info={info} />}/>
           <Route path="/setpassword/:id" render={(info)=><SetPassword langTab={this.props.langTab} info={info} />}/>
           <Route path="/events/detail/:id" render={(info)=><EventDetail langTab={this.props.langTab} info={info} />}/>
-          {/* <Route path="/events" render={(info)=><EventsList langTab={this.props.langTab} info={info}/>}/> */}
+          <Route path="/events" render={(info)=><EventsList langTab={this.props.langTab} info={info}/>}/>
           <Route path="/person/servicehistory" render={()=><PersonService langTab={this.props.langTab} />}/>
           <Route path="/person/eventDetail/:id" render={(info)=><PersonalEventDetail langTab={this.props.langTab} info={info}/>}/>
           <Route path="/person/events" render={()=><PersonEvents langTab={this.props.langTab} />}/>

@@ -80,13 +80,13 @@ class PersonEvents extends Component {
            let role = eve.tag
            console.log(role)
            if(eventState === "pre-process" && (role === "organize" || role === "assigned Org")){
-             let showDetailStarted = this.convertUTCDateToLocalDate(eve._event.started)
+             let showDetailStarted = this.convertUTCDateToLocalDate(eve._event.updated_at)
              let showDetailEnded = this.convertUTCDateToLocalDate(eve._event.ended)
              console.log("---------org+pre-process-------")
             cur = {
               "title":eve._event.title + " - choose date for task",
               "hint":"you are an organizer, please choose 3 possible date for task. Please left at least 14 days before task start.",
-              "start":eve._event.started,
+              "start":eve._event.updated_at,
               "end":eve._event.ended,
               "showStarted":showDetailStarted,
               "showEnded":showDetailEnded,

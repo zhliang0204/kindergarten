@@ -9,6 +9,7 @@ export default class PersonService extends Component {
     this.state = {
       totalchartData:null,
       avechartData:null,
+      options:null,
 
       isShow: true,
     }
@@ -25,18 +26,43 @@ export default class PersonService extends Component {
         avedata.push(res[i].aveHours)
 
       }
+      
+      let dataset1 = [{
+        data:totaldata,
+        label:"History total serivice hours",
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+      }];
+
+      let dataset2 = [{
+        data:avedata,
+        label:"History average serivice hours",
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+      }];
+
       this.setState({
         totalchartData: {
           labels:labels,
-          datasets:[{data:totaldata}],
+          datasets:dataset1,
+        },
+        options: {
+          scales:{
+            yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+          }
         },
         avechartData :{
           labels:labels,
-          datasets:[{data:avedata}],
+          datasets:dataset2,
         }
       })
     })
   }
+
 
   componentDidMount(){
     this.initChart()
@@ -45,8 +71,8 @@ export default class PersonService extends Component {
   render() {
     return (
       <div className="service-statistic">
-       {this.state.totalchartData && (<Bar data={this.state.totalchartData} />)}
-       {this.state.avechartData && (<Bar data={this.state.avechartData} />)}
+       {this.state.totalchartData && (<Bar data={this.state.totalchartData} options={this.state.options}/>)}
+       {this.state.avechartData && (<Bar data={this.state.avechartData} options={this.state.options}/>)}
       </div>
     )
   }

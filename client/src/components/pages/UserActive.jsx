@@ -6,7 +6,8 @@ export default class UserActive extends Component {
   constructor(props){
     super(props)
     this.state = {
-      useremail: ""
+      useremail: "",
+      message:""
     }
     this.handleInputChange = this.handleInputChange.bind(this)
   }
@@ -30,6 +31,7 @@ export default class UserActive extends Component {
          console.log('/setpassword/'+activeUser._id)
          this.props.info.history.push('/setpassword/'+activeUser._id)
        })
+       .catch(err => this.setState({ message: err.toString() }))
     console.log("mount")
   }
 
@@ -53,6 +55,10 @@ export default class UserActive extends Component {
             </FormGroup>
           </Form>
           <Button onClick={(e)=>this.handleSubmit(e)}>Active</Button>
+
+          {this.state.message && <div className="info info-danger">
+            {this.state.message}
+            </div>}
         </div>
         )}
       </div>

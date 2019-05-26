@@ -61,6 +61,15 @@ export default {
             .catch(errHandler)
   },
 
+  getAllemails(){
+    return service
+            .get("/allemails")
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
   createParent(parentInfo){
     return service
             .post("/createParent", parentInfo)

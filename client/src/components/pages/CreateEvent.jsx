@@ -56,12 +56,16 @@ export default class CreateEvent extends Component {
 
   checkDateValidation(){
     let timeDifferenceBeforeApply = 7 * 24 * 60 * 60 * 1000;
+    let timeAheadOfStarted = 15 * 24 * 60 * 60 * 1000;
+
     console.log(this.state.started)
 
     console.log(this.state.started > this.state.ended)
     console.log(new Date(this.state.started).getTime() > timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime())
     console.log(new Date(this.state.started).getTime())
     console.log(timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime())
+
+    
     if(this.state.started > this.state.ended || new Date(this.state.started).getTime() < timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime()){
       if(this.state.started > this.state.ended && new Date(this.state.started).getTime() < timeDifferenceBeforeApply + new Date(this.state.applybefore).getTime()){
         this.setState({
@@ -126,7 +130,7 @@ export default class CreateEvent extends Component {
               ended:'',
               applybefore:""
             })
-            this.props.info.history.push("/")
+            this.props.info.history.push("/events")
           })
     }
   }
