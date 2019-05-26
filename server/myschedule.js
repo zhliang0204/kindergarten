@@ -298,7 +298,7 @@ function findAndUpdateTotalAssigned(event, num, assignedOrg){
           _user:curUser._id,
           serviceHours:event.reqhours,
           isChecked:false,
-          isShow:false,          
+          isShow:true,
           isDone:false,
           tag:"assigned"})
       })
@@ -373,7 +373,7 @@ function findAndUpdateParticipants(event, num, organizer){
           _user:applicant._user._id,
           serviceHours:event.reqhours,
           isChecked:false,
-          isShow:false,          
+          isShow:true,
           isDone:false,
           expectDate:applicant.expectDate,
           tag:"participate"
@@ -405,7 +405,7 @@ function findAndUpdateLeftAssigned(event, num, participants){
           _user:user._id,
           serviceHours:event.reqhours,
           isChecked:false,
-          isShow:false,          
+          isShow:true,
           isDone:false,
           tag:"assigned"
         })

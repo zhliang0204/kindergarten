@@ -31,7 +31,7 @@ export default class CreateParent extends Component {
      api.getAllemails()
       .then(emails => {
         console.log(emails)
-        if(this.state.parentFirstName === ""){
+        if(this.state.firstname === ""){
           errorList.push(1)
         }
         if(this.state.lastname === ""){
@@ -74,7 +74,7 @@ export default class CreateParent extends Component {
 
   handleParentSubmit(e){
     
-
+    e.preventDefault()
     this.checkInfo()
         .then(errorList => {
           console.log(errorList)
@@ -119,8 +119,9 @@ export default class CreateParent extends Component {
          <div className="parent">
             {this.props.userTab === 2 && (<div className="newuser-type">Father Information</div>)}
             {this.props.userTab === 3 && (<div className="newuser-type">Mother Information</div>)}
-            <div className="btn-click" onTouchStart={(e)=> this.skipParent(e)} onClick={(e)=>this.skipParent(e)}><i className="fas fa-arrow-right"></i>Skip</div>
-
+            <div style={{textAlign:"right"}}>
+              <button className="btn-click"  onClick={(e)=>this.skipParent(e)}><i className="fas fa-arrow-right"></i>Skip</button>
+            </div>
             <Form>
                 <FormGroup>
                   <Label for="firstname">Fisrt name:</Label>
@@ -142,11 +143,14 @@ export default class CreateParent extends Component {
                 </FormGroup>
                 <FormGroup>
                   <Label for="phone">Phone:</Label>
-                  {this.state.errorList.indexOf(5) !== -1 && (<div className="hint">Please input parent phone phone</div>)}
+                  {this.state.errorList.indexOf(5) !== -1 && (<div className="hint">Please input parent mobile</div>)}
+                  {this.state.errorList.indexOf(6) !== -1 && (<div className="hint">Please input an corrent mobile number</div>)}
+
                   <Input type="text" name="phone" id="phone" value={this.state.phone} onChange={this.handleInputChange}/>
                 </FormGroup>
-                <div className="btn-click" onTouchStart={(e)=> this.handleParentSubmit(e)} onClick={(e)=>this.handleParentSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
-
+                <div style={{textAlign:"right"}}>
+                  <button className="btn-click"  onClick={(e)=>this.handleParentSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</button>
+                </div>
             </Form>
 
           </div>
