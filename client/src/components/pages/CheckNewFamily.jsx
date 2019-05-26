@@ -17,6 +17,8 @@ export default class CheckNewFamily extends Component {
   }
 
   handleInputChange(event) {
+    event.preventDefault();
+    event.stopPropagation();
     let userProperty = event.target.name.split("-")
     let childInfo = this.state.childInfo;
     let fatherInfo = this.state.fatherInfo;
@@ -38,39 +40,46 @@ export default class CheckNewFamily extends Component {
     })
   }
 
-  handleSubmitFamily(){
+  handleSubmitFamily(e){
+    e.preventDefault()
+    e.stopPropagation();
     api.createChild(this.state.childInfo)
        .then(savedChild => {
          let childId = savedChild._id;
          let fatherInfo = this.state.fatherInfo;
          let motherInfo = this.state.motherInfo;
          if(fatherInfo === "" && motherInfo === "") {
-           this.props.nextStepTab(this.props.userTab)
-           return 
-         }
-         if(fatherInfo !== "" && motherInfo !== ""){
-          fatherInfo.childId = childId;
-          motherInfo.childId = childId;
-          Promise.all([api.createParent(fatherInfo), api.createParent(motherInfo)])
+          this.props.nextStepTab(this.props.userTab)
+            
+         } else {
+
+          if(fatherInfo !== "" && motherInfo !== ""){
+            fatherInfo.childId = childId;
+            motherInfo.childId = childId;
+            Promise.all([api.createParent(fatherInfo), api.createParent(motherInfo)])
+                  .then(res => {
+                    this.props.nextStepTab(this.props.userTab)
+                 
+
+                  })
+           } else {
+             if(fatherInfo !== ""){
+              fatherInfo.childId = childId;
+              api.createParent(fatherInfo)
                 .then(res => {
                   this.props.nextStepTab(this.props.userTab)
+                
                 })
-         } else {
-           if(fatherInfo !== ""){
-            fatherInfo.childId = childId;
-            api.createParent(fatherInfo)
-              .then(res => {
-                this.props.nextStepTab(this.props.userTab)
-              })
-           } else {
-            motherInfo.childId = childId;
-            api.createParent(motherInfo)
-              .then(res => {
-                this.props.nextStepTab(this.props.userTab)
-              })
+             } else {
+              motherInfo.childId = childId;
+              api.createParent(motherInfo)
+                .then(res => {
+                  this.props.nextStepTab(this.props.userTab)
+                  
+                })
+             }
            }
-         }
-         
+         } 
        })
   }
 
@@ -159,8 +168,9 @@ export default class CheckNewFamily extends Component {
         )}
 
       
-
-        <div className="btn-click" onTouchStart={(e)=>this.handleSubmitFamily(e)}  onClick={(e)=>this.handleSubmitFamily(e)}><i className="fas fa-save"></i>Submit</div>
+        <div>
+        <button className="btn-click"  onClick={(e)=>this.handleSubmitFamily(e)}><i className="fas fa-save"></i>Submit</button>
+        </div>
       </div>
     )
   }

@@ -13,6 +13,7 @@ export default class PersonalEventDetailPart extends Component {
       isPickDate:false,
       startedShow:"",
       endedShow:"",
+      isPickDateAvail:false,
     }
   }
 
@@ -39,28 +40,30 @@ export default class PersonalEventDetailPart extends Component {
   loadEvent(eventId){
     api.getPossibleDateForParticipant(eventId)
           .then(res => {
-            let isPickDate = this.state.event.isChecked
-            let expectedDatesShow = [];
-            res[0].expectedDates.map((cur,i) => {
-              let started ="";
-              let ended ="";
-              if(cur.started){started = this.convertUTCDateToLocalDate(cur.started)}
-              if(cur.ended){ended = this.convertUTCDateToLocalDate(cur.ended)}
-              let curdate = {
-                index:i,
-                started:started,
-                ended:ended,
-                picker:cur.picker
-              }
-              expectedDatesShow.push(curdate)
-            })
-            this.setState({
-              dateList:expectedDatesShow,
-              isPickDate:isPickDate,
-              startedShow: this.convertUTCDateToLocalDate(this.state.event._event.started),
-              endedShow: this.convertUTCDateToLocalDate(this.state.event._event.ended)
-            })
-
+            console.log(res)
+            if(res.length > 0) {
+              let isPickDate = this.state.event.isChecked
+              let expectedDatesShow = [];
+              res[0].expectedDates.map((cur,i) => {
+                let started ="";
+                let ended ="";
+                if(cur.started){started = this.convertUTCDateToLocalDate(cur.started)}
+                if(cur.ended){ended = this.convertUTCDateToLocalDate(cur.ended)}
+                let curdate = {
+                  index:i,
+                  started:started,
+                  ended:ended,
+                  picker:cur.picker
+                }
+                expectedDatesShow.push(curdate)
+              })
+              this.setState({
+                dateList:expectedDatesShow,
+                isPickDate:isPickDate,
+                startedShow: this.convertUTCDateToLocalDate(this.state.event._event.started),
+                endedShow: this.convertUTCDateToLocalDate(this.state.event._event.ended)
+              })
+            }
           })
   }
 
@@ -113,7 +116,10 @@ export default class PersonalEventDetailPart extends Component {
           <div className="event-detail-description">description: <div>{this.state.event._event.description}</div></div>
 
           <div>
-            {this.state.dateList && (<div>
+            {this.state.dateList.length === 0 && (<div style={{textAlign:"center", fontSize:"0.8rem", fontWeight:"700"}}>
+              please wait organizer provide 3 possible date for this task.
+            </div>)}
+            {this.state.dateList.length > 0 && (<div>
               {this.state.isPickDate && (<div style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>The current choose result</div>)}
               {!this.state.isPickDate && ( <div style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>Choose one day to do task</div>)}
              

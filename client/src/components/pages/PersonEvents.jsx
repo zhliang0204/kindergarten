@@ -80,14 +80,18 @@ class PersonEvents extends Component {
            let role = eve.tag
            console.log(role)
            if(eventState === "pre-process" && (role === "organize" || role === "assigned Org")){
-             let showDetailStarted = this.convertUTCDateToLocalDate(eve._event.updated_at)
-             let showDetailEnded = this.convertUTCDateToLocalDate(eve._event.ended)
+            let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
+            let newStarted = new Date(started)
+            let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 16)
+            let newEnded = new Date(ended)
+            let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
+            let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
              console.log("---------org+pre-process-------")
             cur = {
               "title":eve._event.title + " - choose date for task",
               "hint":"you are an organizer, please choose 3 possible date for task. Please left at least 14 days before task start.",
-              "start":eve._event.updated_at,
-              "end":eve._event.ended,
+              "start":newStarted,
+              "end":newEnded,
               "showStarted":showDetailStarted,
               "showEnded":showDetailEnded,
               "id": eve._event._id,
@@ -99,15 +103,19 @@ class PersonEvents extends Component {
            }
 
            if(eventState === "pre-process" && (role === "participate" || role === "assigned")){
-            let showDetailStarted = this.convertUTCDateToLocalDate(eve.updated_at)
-            let ended = new Date(eve.updated_at).setDate(new Date(eve.updated_at).getDate() + 5)
-            let showDetailEnded = this.convertUTCDateToLocalDate(ended)
+
+             let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
+             let newStarted = new Date(started)
+             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 16)
+             let newEnded = new Date(ended)
+             let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
+             let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
 
              cur = {
               "title":eve._event.title + " - choose date for task",
               "hint":"you are an participants, please choose 1 of 3 possible dates for the task.",
-              "start":eve.updated_at,
-              "end":ended,
+              "start":newStarted,
+              "end":newEnded,
               "showStarted":showDetailStarted,
               "showEnded":showDetailEnded,
               "id": eve._event._id,
@@ -122,6 +130,7 @@ class PersonEvents extends Component {
             let showDetailEnded = this.convertUTCDateToLocalDate(eve._event.ended)
             cur = {
               "title":eve._event.title,
+              // "start":eve._event.started,
               "start":eve._event.started,
               "end":eve._event.ended,
               "showStarted":showDetailStarted,
@@ -137,7 +146,7 @@ class PersonEvents extends Component {
             //  let started = eve._event.ended
              let started = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 1)
              let newStarted = new Date(started)
-             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 3)
+             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 16)
              let newEnded = new Date(ended)
              let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
              let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)

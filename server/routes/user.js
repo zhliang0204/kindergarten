@@ -130,7 +130,6 @@ router.post("/process/datePickStatus/part/:id", isLoggedIn, (req, res, next) => 
 })
 
 
-
 // Route to get possible event date
 router.get("/process/possibleDate/:id", isLoggedIn, (req,res,next)=> {
   let eventId = req.params.id;

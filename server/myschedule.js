@@ -230,7 +230,12 @@ function updateAttendance(){
 // find events need to get participants
 // update events state to process
 function findEvent(){
-  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date()}}]})
+  let curDate = new Date();
+  let curDateTime = curDate.getTime();
+  // left 5 days for vote
+  let timeDifference1 = 1 * 60 * 60 * 24 * 1000
+
+  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date(), $gt:curDateTime - timeDifference1}}]})
           )
 }
 
@@ -443,7 +448,6 @@ function updateEventToPreProcess(){
   )
 }
 
-
 // summary the date picker result
 // consider there should be two same date picker
 // left 5days to pick
@@ -491,7 +495,7 @@ function eventProcessDateChose(){
 function updateEventTimeScheToProcess(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
-  let timeDifference = 5 * 60 * 60 * 24 * 1000
+  let timeDifference = 16 * 60 * 60 * 24 * 1000
   return (
     EventSchedule.updateMany(
       {

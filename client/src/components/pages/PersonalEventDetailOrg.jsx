@@ -141,6 +141,9 @@ export default class PersonalEventDetailOrg extends Component {
     api.participantsChooseTimeMail(eventId)
   }
 
+  orgDateEdit(){
+    console.log("----need to finish edited part------")
+  }
 
   componentDidMount(){
     this.loadAttendants()
@@ -274,6 +277,8 @@ export default class PersonalEventDetailOrg extends Component {
             </Row>
           </Container>
           {!this.state.dateUpdate && (<Button onClick={()=>this.orgDatePick()}>Submit</Button>)}
+          {this.state.dateUpdate && (<Button onClick={()=>this.orgDateEdit()}>Edit</Button>)}
+
         </div>
         </div>
         </div>)}

@@ -64,33 +64,33 @@ const {calChildNum,
 
 
 // step4:update apply event to pre-process
-// new Promise(resolve => {
-//   setTimeout(() => {
-//     console.log('1', '我是第一个任务，必须第一个执行');
-//     updateAttendance()
-//     resolve(1);
-//   }, 3000);
-// })
-// .then((val) => {
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('1', '我是第一个任务，必须第一个执行');
+    updateAttendance()
+    resolve(1);
+  }, 3000);
+})
+.then((val) => {
 
-//   new Promise(resolve => {
-//     setTimeout(() => {
-//       console.log('2', '我是第二个任务');
-//       updateEventToPreProcess()
-//       resolve(2);
-//     }, 8000);
-//   })
-//   .then((val) => {
-//     new Promise(resolve => {
-//       setTimeout(() => {
-//         console.log("3", "我是第三个任务");
-//         sendEmailforOrg()
-//         resolve(3)
-//       },8000)
-//     })
-//   })
+  new Promise(resolve => {
+    setTimeout(() => {
+      console.log('2', '我是第二个任务');
+      updateEventToPreProcess()
+      resolve(2);
+    }, 8000);
+  })
+  .then((val) => {
+    new Promise(resolve => {
+      setTimeout(() => {
+        console.log("3", "我是第三个任务");
+        sendEmailforOrg()
+        resolve(3)
+      },8000)
+    })
+  })
   
-// })
+})
 
 // step5 update event to process
 // new Promise(resolve => {
@@ -119,21 +119,21 @@ const {calChildNum,
 // sendEmailBeforProcess1() 
 
 // step8 after process, inform orgnizer update task servicehours
-new Promise(resolve => {
-  setTimeout(() => {
-    console.log('1', 'The first mission,should be done first');
-    updateEventStateToFinish()
-    resolve(1);
-  }, 3000);
-}).then((val) => {
+// new Promise(resolve => {
+//   setTimeout(() => {
+//     console.log('1', 'The first mission,should be done first');
+//     updateEventStateToFinish()
+//     resolve(1);
+//   }, 3000);
+// }).then((val) => {
 
-new Promise(resolve => {
-  setTimeout(() => {
-    console.log('2', 'The second mission');
-    sendEmailAfterProcessForOrg()
-    resolve(2);
-    }, 8000);
-  })
-})
+// new Promise(resolve => {
+//   setTimeout(() => {
+//     console.log('2', 'The second mission');
+//     sendEmailAfterProcessForOrg()
+//     resolve(2);
+//     }, 8000);
+//   })
+// })
 
 // step 9
