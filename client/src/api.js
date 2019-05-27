@@ -305,6 +305,20 @@ export default {
             .catch(errHandler)
   },
 
+  personalDoingTask(){
+    return service
+            .get('/user/all/process')
+            .then(res =>res.data)
+            .catch(errHandler)
+  },
+
+  personalFinshTask(){
+    return service
+            .get('/user/all/finish')
+            .then(res =>res.data)
+            .catch(errHandler)
+  },
+
   // personal applicated misson
   personalApplication(){
     return service

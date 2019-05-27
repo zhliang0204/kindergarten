@@ -8,15 +8,17 @@ const mongoose = require("mongoose");
 require('./configs/database')
 
 
-const User = require('./models/User');
-const Child = require('./models/Child')
-const Event = require('./models/Event');
-const Application = require('./models/Application');
-const AverageServiceHours = require("./models/AverageServiceHours");
-const Attendence = require("./models/Attendence");
-const Vote = require("./models/Vote");
-const EventSchedule = require("./models/EventSchedule");
+const User = require('./../models/User');
+const Child = require('./../models/Child')
+const Event = require('./../models/Event');
+const Application = require('./../models/Application');
+const AverageServiceHours = require("./../models/AverageServiceHours");
+const Attendence = require("./../models/Attendence");
+const Vote = require("./../models/Vote");
+const EventSchedule = require("./../models/EventSchedule");
 const nodemailer = require('nodemailer')
+const schedule = require('node-schedule')
+
 
 // every september, create a new document to record averhours and total hours
 function aveSevHY(){
@@ -89,27 +91,6 @@ function voteEventState(){
           })
        })
 }
-
-// function updateVotedEvent(){
-//   let curDate = new Date();
-//   let curDateTime = curDate.getTime();
-//   // left 5 days for vote
-//   let timeDifference = 5 * 60 * 60 * 24 * 1000
-//   Event.find({$and:[{eventState:"vote"},{created_at:{ $lte: curDateTime - timeDifference}}]})
-//        .then((events) => {
-//         events.forEach(cur => {
-//           voteRes(cur._id).then(votes => {
-//             if(votes > 0){
-//               Event.findOneAndUpdate({_id:cur._id},{$set:{eventState:"apply"}})
-//                     .then(res => console.log("--apply--"))
-//             } else {
-//               Event.findOneAndUpdate({_id:cur._id},{$set:{eventState:"stop"}})
-//                     .then(res => console.log("--stop--"))
-//             }
-//           })
-//         })
-//       })
-// }
 
 function updateVotedEvent(){
   let curDate = new Date();
@@ -230,11 +211,6 @@ function updateAttendance(){
 // find events need to get participants
 // update events state to process
 function findEvent(){
-  let curDate = new Date();
-  let curDateTime = curDate.getTime();
-  // left 5 days for vote
-  let timeDifference1 = 1 * 60 * 60 * 24 * 1000
-
   return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date()}}]})
           )
 }
@@ -346,10 +322,10 @@ function findAndUpdateOrg(event){
         _event:event._id,
         _user:resUser,
         serviceHours:event.reqOrghours,
-        expectDate:resUser.expectDate,
         isChecked:false,
         isShow:true,
         isDone:false,
+        expectDate:resUser.expectDate,
         tag:"organize",
       })
       org.save()
@@ -448,6 +424,7 @@ function updateEventToPreProcess(){
   )
 }
 
+
 // summary the date picker result
 // consider there should be two same date picker
 // left 5days to pick
@@ -495,7 +472,7 @@ function eventProcessDateChose(){
 function updateEventTimeScheToProcess(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
-  let timeDifference = 16 * 60 * 60 * 24 * 1000
+  let timeDifference = 5 * 60 * 60 * 24 * 1000
   return (
     EventSchedule.updateMany(
       {
@@ -567,7 +544,7 @@ function sendEmailforOrg(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   let timeDifference1 = 1 * 60 * 60 * 24 * 1000;
-  Event.find({eventState:"pre-process", updated_at:{ $gte: curDateTime - timeDifference1}})
+  Event.find({eventState:"pre-process", updated_at:{ $gte: curDateTime - timeDifference1,$lt:curDateTime}})
        .then(events => {
          console.log("-----event-----")
          console.log(events)
@@ -659,9 +636,8 @@ function sendEmailBeforProcess1(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   let timeDifference1 = 2 * 60 * 60 * 24 * 1000;
-  let timeDifference2 = 1 * 60 * 60 * 24 * 1000;
 
-  Event.find({eventState:{$in:["process"]}, started:{ $gte: curDateTime, $lte: curDateTime + timeDifference1}})
+  Event.find({eventState:{$in:["process"]}, started:{ $gt: curDateTime, $lte: curDateTime + timeDifference1}})
         .then(events => {
           console.log(events)
           events.map(cur => {
@@ -745,34 +721,122 @@ function sendEmailAfterProcessForOrg(){
        })
 }
 
+// update history total service information and personal service information
+var updateServiceEveryYear = schedule.scheduleJob('0 0 3 9 *', function(){
+  aveSevHY();
+  perSevHY();
+})
 
 
 
+// update event at vote state to apply or stop
+var updateEventStateAtVote = schedule.scheduleJob('30 22 * * *', function(){
+  new Promise(resolve => {
+    setTimeout(() => {
+      console.log('1', 'The first mission,should be done firs');
+      updateVotedEvent()
+      resolve(1);
+    }, 3000);
+  }).then((val) => {
+
+    new Promise(resolve => {
+      setTimeout(() => {
+        console.log('2', 'The second mission');
+        sendEmailofApply()
+        resolve(2);
+      }, 8000);
+    })
+  }) 
+})
+
+// update event at apply state to pre-process
+var updateEventStateAtApply = schedule.scheduleJob('30 23 * * *', function(){
+  new Promise(resolve => {
+  setTimeout(() => {
+    console.log('1', '我是第一个任务，必须第一个执行');
+    updateAttendance()
+    resolve(1);
+  }, 3000);
+})
+.then((val) => {
+
+  new Promise(resolve => {
+    setTimeout(() => {
+      console.log('2', '我是第二个任务');
+      updateEventToPreProcess()
+      resolve(2);
+    }, 8000);
+  })
+  .then((val) => {
+    new Promise(resolve => {
+      setTimeout(() => {
+        console.log("3", "我是第三个任务");
+        sendEmailforOrg()
+        resolve(3)
+      },8000)
+      })
+    })
+  })
+})
+
+
+// update event at pre-process state to process
+var updateEventStateAtApply = schedule.scheduleJob('30 0 * * *', function(){
+  new Promise(resolve => {
+    setTimeout(() => {
+      console.log('1', 'The first mission,should be done first');
+      eventProcessDateChose()
+      resolve(1);
+    }, 3000);
+  }).then((val) => {
+
+  new Promise(resolve => {
+    setTimeout(() => {
+      console.log('2', 'The second mission');
+      updateEventTimeScheToProcess()
+      resolve(2);
+      }, 8000);
+    })
+  })
+})
+
+
+//after process, inform orgnizer update task servicehours
+var updateEventstateAtProcess = schedule.scheduleJob('30 18 0 0 *', function(){
+
+// step8 after process, inform orgnizer update task servicehours
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('1', 'The first mission,should be done first');
+    updateEventStateToFinish()
+    resolve(1);
+  }, 3000);
+}).then((val) => {
+
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('2', 'The second mission');
+    sendEmailAfterProcessForOrg()
+    resolve(2);
+    }, 8000);
+  })
+})
+})
+
+var sendInformEmail = schedule.scheduleJob('30 18 0 0 *', function(){
+
+  // step6 send inform email to participants 5 days before the task is execute
+  sendEmailBeforProcess5()
+
+  // step7 send inform email to participants 1 days before the task is execute
+  sendEmailBeforProcess1() 
+})
 
 module.exports = {
-  calChildNum,
-  aveSevHY,
-  perSevHY,
-  voteRes,
-  voteEventState,
-  updateAttendance,
-  countApplicants,
-  findEvent,
-  findAndUpdateAsgOrg,
-  findAndUpdateTotalAssigned,
-  findAndUpdateOrg,
-  findAndUpdateParticipants,
-  findAndUpdateLeftAssigned,
-  updateAttendance,
-  updateEventToPreProcess,
-  eventProcessDateChose,
-  updateEventTimeScheToProcess,
-  sendEmailBeforProcess5,
-  sendEmailBeforProcess1,
-  updateVotedEvent,
-  sendEmailofApply,
-  sendEmailforOrg,
-  sendEmailAfterProcessForOrg,
-  updateEventStateToFinish
+  updateServiceEveryYear,
+  updateEventStateAtVote,
+  updateEventStateAtApply,
+  updateEventstateAtProcess,
+  sendInformEmail,
 
 }

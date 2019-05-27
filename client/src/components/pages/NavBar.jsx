@@ -25,6 +25,7 @@ import PersonEvents from "./PersonEvents";
 // import EditProcess from "./EditProcess";
 import PersonalEventDetail from "./PersonalEventDetail";
 import logo from "./../../styles/images/Home.png"
+import PersonHistoryServiceList from './PersonHistoryServiceList';
 
 
 
@@ -102,6 +103,15 @@ export default class NavBar extends Component {
               </NavItem>
 
               <NavItem>
+                {api.isLoggedIn() && <NavLink to="/person/servicestatistics">
+                  {this.props.langTab === "lang1" && "Arbeitsstatistik1"}
+                  {this.props.langTab === "lang2" && "工作统计1"}
+                  {this.props.langTab === "lang3" && "工作統計1"}
+                  {this.props.langTab === "lang4" && "Work Statistics1"}               
+                </NavLink>}
+              </NavItem>
+
+              <NavItem>
                 {api.isLoggedIn() && <NavLink to="/person/events">
                   {this.props.langTab === "lang1" && "Aufgabenkalender"}
                   {this.props.langTab === "lang2" && "任务日历"}
@@ -132,6 +142,8 @@ export default class NavBar extends Component {
           <Route path="/events/detail/:id" render={(info)=><EventDetail langTab={this.props.langTab} info={info} />}/>
           <Route path="/events" render={(info)=><EventsList langTab={this.props.langTab} info={info}/>}/>
           <Route path="/person/servicehistory" render={()=><PersonService langTab={this.props.langTab} />}/>
+          <Route path="/person/servicestatistics" render={()=><PersonHistoryServiceList langTab={this.props.langTab} />}/>
+
           <Route path="/person/eventDetail/:id" render={(info)=><PersonalEventDetail langTab={this.props.langTab} info={info}/>}/>
           <Route path="/person/events" render={()=><PersonEvents langTab={this.props.langTab} />}/>
           <Route path="/signup" render={()=><Signup langTab={this.props.langTab}/>}/>

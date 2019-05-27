@@ -37,8 +37,11 @@ router.post('/userMail', isLoggedIn, (req,res, next) => {
 // create new event to inform every user
 router.post('/createEventEmail', isLoggedIn, (req,res, next) => {
   let newevent = req.body.newevent;
-  User.distinct( "email")
-    .then(emails => {
+  User.find({isActive:true},{_id:0,email:1})
+    .then(emailsObj => {
+      console.log(emailsObj)
+      let emails = []
+      emailsObj.map(cur => emails.push(cur.email))
       let transporter = nodemailer.createTransport({
         service: 'gmail',
         port: 587,

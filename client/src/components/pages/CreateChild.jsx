@@ -44,6 +44,9 @@ export default class CreateChild extends Component {
   }
 
   handleClidSubmit(e){
+    e.preventDefault();
+    e.stopPropagation();
+
     
     let errorList = this.checkInfo()
 
@@ -117,7 +120,7 @@ export default class CreateChild extends Component {
                 {this.state.errorList.indexOf(5) !== -1 && (<div className="hint">Please input age of child.</div>)}
                 <Input type="text" name="age" id="age" value={this.state.age} onChange={this.handleInputChange}/>
               </FormGroup>
-              <div className="btn-click" onTouchStart={(e)=>this.handleClidSubmit(e)} onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
+              <div className="btn-click" onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
             </Form>
           
           </div>

@@ -40,6 +40,8 @@ export default class CheckNewFamily extends Component {
     })
   }
 
+
+
   handleSubmitFamily(e){
     e.preventDefault()
     e.stopPropagation();
@@ -56,26 +58,59 @@ export default class CheckNewFamily extends Component {
           if(fatherInfo !== "" && motherInfo !== ""){
             fatherInfo.childId = childId;
             motherInfo.childId = childId;
-            Promise.all([api.createParent(fatherInfo), api.createParent(motherInfo)])
-                  .then(res => {
-                    this.props.nextStepTab(this.props.userTab)
-                 
+            api.createParent(fatherInfo)
+               .then(savedFather => {
+                 let faInfo = {
+                   userId:savedFather._id,
+                   email:savedFather.email,
+                 }
+                api.createUserMail(faInfo)
+                    .then(res => {
+                      api.createParent(motherInfo)
+                      .then(savedmother => {
+                        let moInfo = {
+                          userId:savedmother._id,
+                          email:savedmother.email,
+                        }
+                       api.createUserMail(moInfo)
+                       .then(res => {
+                        "familyCreated"
+                        this.props.nextStepTab(this.props.userTab)
+                       })
+                    })
+                
+              })
+            
+             })
 
-                  })
            } else {
              if(fatherInfo !== ""){
               fatherInfo.childId = childId;
               api.createParent(fatherInfo)
-                .then(res => {
-                  this.props.nextStepTab(this.props.userTab)
-                
+                .then(savedFather => {
+                  let faInfo = {
+                    userId:savedFather._id,
+                    email:savedFather.email,
+                  }
+                 api.createUserMail(faInfo)
+                     .then(res => {
+                      this.props.nextStepTab(this.props.userTab)
+                      console.log("father created")
+                     })
                 })
              } else {
               motherInfo.childId = childId;
               api.createParent(motherInfo)
-                .then(res => {
-                  this.props.nextStepTab(this.props.userTab)
-                  
+                .then(savedmother => {
+                  let moInfo = {
+                    userId:savedmother._id,
+                    email:savedmother.email,
+                  }
+                  api.createUserMail(moInfo)
+                  .then(res => {
+                   "familyCreated"
+                   this.props.nextStepTab(this.props.userTab)
+                  })
                 })
              }
            }

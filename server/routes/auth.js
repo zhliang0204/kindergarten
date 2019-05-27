@@ -47,7 +47,7 @@ router.post("/createParent", (req, res, next) => {
       const acitiveCode = activeCodeGen(6)
       const newUser = new User(
         { 
-          // username:email, 
+          
           firstname:firstname,
           lastname:lastname,
           isActive:false,

@@ -60,6 +60,27 @@ router.get("/all", isLoggedIn, (req, res, next) => {
   .then(events => {
     res.json(events)
   })
+  .catch(err => next(err))
+})
+
+router.get("/all/process", isLoggedIn, (req, res, next) => {
+  let userId = req.user._id;
+  Attendence.find({$and :[{isDone:false},{_user:userId}]})
+            .populate("_event")
+            .then(attAndEvent => {
+              res.json(attAndEvent)
+            })
+            .catch(err => next(err))
+})
+
+router.get("/all/finish", isLoggedIn, (req, res, next) => {
+  let userId = req.user._id;
+  Attendence.find({$and :[{isDone:true},{_user:userId}]})
+            .populate("_event")
+            .then(attAndEvent => {
+              res.json(attAndEvent)
+            })
+            .catch(err => next(err))
 })
 
 // Route to get selected event (clicked on calendar)
