@@ -91,7 +91,9 @@ export default class EventDetail extends Component {
     }));
   }
 
-  goToPrevPage(){
+  goToPrevPage(e){
+    e.preventDefault();
+    e.stopPropagation();
     console.log("go back")
     this.props.info.history.push("/events")
   }
@@ -119,7 +121,7 @@ export default class EventDetail extends Component {
 
         {this.props.langTab ==="lang4" && (<div className="english">
           {this.state.event && (<div>
-            <div className="go-back" onTouchEnd={()=>this.goToPrevPage()} onClick={()=>this.goToPrevPage()}  style={{width:"20%", textAlign:"left", fontSize:"0.8rem", color:"#cccccc"}}><i className="fas fa-arrow-circle-left"></i>Go Back</div>
+            <div className="go-back" onClick={(e)=>this.goToPrevPage(e)}  style={{cursor:"pointer", width:"20%", textAlign:"left", fontSize:"0.8rem", color:"#cccccc"}}><i className="fas fa-arrow-circle-left"></i>Go Back</div>
             <div className="event-detail-title">{this.state.event.title}</div>
             <div className="event-detail-state">status: {this.state.event.eventState}</div>
             <div className="event-detail-exec-period">
