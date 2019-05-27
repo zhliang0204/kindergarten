@@ -55,8 +55,8 @@ export default class NavBar extends Component {
     return (
       <div className="Kg-navbar">
         <Navbar expand="md" color="faded" light>
-          {/* <NavbarBrand href="/"><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand>  */}
-          <NavbarBrand><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand> 
+          <NavbarBrand href="/"><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand> 
+          {/* <NavbarBrand><img src={logo} style={{width:"auto", height:"30px"}}/></NavbarBrand>  */}
 
           <NavbarToggler onClick={this.toggle} className="mr-2" />
           

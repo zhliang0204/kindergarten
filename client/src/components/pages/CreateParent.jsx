@@ -73,8 +73,7 @@ export default class CreateParent extends Component {
 
 
   handleParentSubmit(e){
-    
-    e.preventDefault()
+    e.preventDefault();
     e.stopPropagation();
     this.checkInfo()
         .then(errorList => {

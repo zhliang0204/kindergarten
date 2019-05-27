@@ -90,7 +90,9 @@ export default class CreateEvent extends Component {
     
   }
 
-  handleCreate(){
+  handleCreate(e){
+    e.preventDefault();
+    e.stopPropagation();
     if( this.checkValue() && this.checkDateValidation()){
       let event = {
         title: this.state.title,
@@ -101,9 +103,7 @@ export default class CreateEvent extends Component {
         ended:this.state.ended,
         applybefore: this.state.applybefore
       }
-  
-      
-  
+   
       console.log('---------event to create---------')
       console.log(event)
       api.createEvent(event)
@@ -242,7 +242,7 @@ export default class CreateEvent extends Component {
               />
             </FormGroup>
 
-            <div className="btn-click" onTouchStart={() =>this.handleCreate()} onClick={() => this.handleCreate()}>Create</div>
+            <div className="btn-click" onClick={(e) => this.handleCreate(e)}>Create</div>
           </Form>
         </div>)}
 
