@@ -26,6 +26,7 @@ import PersonEvents from "./PersonEvents";
 import PersonalEventDetail from "./PersonalEventDetail";
 import logo from "./../../styles/images/Home.png"
 import PersonHistoryServiceList from './PersonHistoryServiceList';
+import EditEventDetailOrg from './EditEventDetailOrg';
 
 
 
@@ -145,6 +146,8 @@ export default class NavBar extends Component {
           <Route path="/person/servicestatistics" render={()=><PersonHistoryServiceList langTab={this.props.langTab} />}/>
 
           <Route path="/person/eventDetail/:id" render={(info)=><PersonalEventDetail langTab={this.props.langTab} info={info}/>}/>
+          <Route path="/person/editProEvent/:id" render={(info)=><EditEventDetailOrg langTab={this.props.langTab} info={info}/>}/>
+
           <Route path="/person/events" render={()=><PersonEvents langTab={this.props.langTab} />}/>
           <Route path="/signup" render={()=><Signup langTab={this.props.langTab}/>}/>
           <Route path="/login" render={()=><Login langTab={this.props.langTab}/>}/>

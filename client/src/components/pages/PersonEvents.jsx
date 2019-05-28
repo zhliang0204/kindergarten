@@ -126,13 +126,15 @@ class PersonEvents extends Component {
            }
 
            if(eventState === "process"){
-            let showDetailStarted = this.convertUTCDateToLocalDate(eve._event.started)
+            let started = new Date(eve._event.started)
+            let showDetailStarted = this.convertUTCDateToLocalDate(started)
+            let ended = new Date(eve._event.ended)
             let showDetailEnded = this.convertUTCDateToLocalDate(eve._event.ended)
             cur = {
               "title":eve._event.title,
               // "start":eve._event.started,
-              "start":eve._event.started,
-              "end":eve._event.ended,
+              "start":started,
+              "end":ended,
               "showStarted":showDetailStarted,
               "showEnded":showDetailEnded,
               "id": eve._event._id,
@@ -217,9 +219,10 @@ class PersonEvents extends Component {
           // onNavigate={date => this.setState({ date })}
           onSelectEvent={(event) => this.handleSelectEvent(event)}
           onSelectSlot={() =>this.handleSelect()}
+
           startAccessor="start"
           endAccessor="end"
-          views={ ['month', 'day'] }
+          views={ ['month', 'day', "agenda"] }
           components={{
             toolbar: CustomToolBar,
           }}

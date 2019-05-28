@@ -1,14 +1,16 @@
 const nodemailer = require('nodemailer')
-const User = require('./models/User');
-const Child = require('./models/Child')
-const Event = require('./models/Event');
-const Application = require('./models/Application');
+const User = require('./../models/User');
+const Child = require('./../models/Child')
+const Event = require('./../models/Event');
+const Application = require('./../models/Application');
 // const Final = require('./models/Final');
-const AverageServiceHours = require("./models/AverageServiceHours");
-const Attendence = require("./models/Attendence");
+const AverageServiceHours = require("./../models/AverageServiceHours");
+const Attendence = require("./../models/Attendence");
 const ObjectId = require("mongoose").Types.ObjectId;
 
-const {calChildNum,
+const {
+  isSepFirst,
+  calChildNum,
   aveSevHY,
   perSevHY,
   voteRes,
@@ -32,7 +34,7 @@ const {calChildNum,
   sendEmailAfterProcessForOrg,
   updateEventStateToFinish
   // updateAttendance
-} =require("./myschedule");
+} =require("./scheduleTask");
 
 
 
@@ -42,6 +44,11 @@ const {calChildNum,
 
 // step2:update user servicehours every semester year
 // perSevHY()
+// if(isSepFirst()){
+//   aveSevHY()
+//   aveSevHY()
+// }
+
 
 
 // step3: update vote event to apply or stop
@@ -64,51 +71,50 @@ const {calChildNum,
 
 
 // step4:update apply event to pre-process
-new Promise(resolve => {
-  setTimeout(() => {
-    console.log('1', '我是第一个任务，必须第一个执行');
-    updateAttendance()
-    resolve(1);
-  }, 3000);
-})
-.then((val) => {
-
-  new Promise(resolve => {
-    setTimeout(() => {
-      console.log('2', '我是第二个任务');
-      updateEventToPreProcess()
-      resolve(2);
-    }, 8000);
-  })
-  .then((val) => {
-    new Promise(resolve => {
-      setTimeout(() => {
-        console.log("3", "我是第三个任务");
-        sendEmailforOrg()
-        resolve(3)
-      },8000)
-    })
-  })
-  
-})
-
-// step5 update event to process
 // new Promise(resolve => {
 //   setTimeout(() => {
-//     console.log('1', 'The first mission,should be done first');
-//     eventProcessDateChose()
+//     console.log('1', '我是第一个任务，必须第一个执行');
+//     updateAttendance()
 //     resolve(1);
 //   }, 3000);
-// }).then((val) => {
+// })
+// .then((val) => {
 
-// new Promise(resolve => {
-//   setTimeout(() => {
-//     console.log('2', 'The second mission');
-//     updateEventTimeScheToProcess()
-//     resolve(2);
+//   new Promise(resolve => {
+//     setTimeout(() => {
+//       console.log('2', '我是第二个任务');
+//       updateEventToPreProcess()
+//       resolve(2);
 //     }, 8000);
 //   })
+//   .then((val) => {
+//     new Promise(resolve => {
+//       setTimeout(() => {
+//         console.log("3", "我是第三个任务");
+//         sendEmailforOrg()
+//         resolve(3)
+//       },8000)
+//     })
+//   })
 // })
+
+// step5 update event to process
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('1', 'The first mission,should be done first');
+    eventProcessDateChose()
+    resolve(1);
+  }, 3000);
+}).then((val) => {
+
+new Promise(resolve => {
+  setTimeout(() => {
+    console.log('2', 'The second mission');
+    updateEventTimeScheToProcess()
+    resolve(2);
+    }, 8000);
+  })
+})
 
 
 

@@ -161,6 +161,102 @@ router.get("/process/possibleDate/:id", isLoggedIn, (req,res,next)=> {
                .catch(err => next(err))
 })
 
+// Route to get event to edit
+router.get("/editEvent/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id
+  Attendence.find({_event:eventId})
+            .populate("_event")
+            .populate({
+              path: "_user",
+              populate: {
+                path:"_child",
+                match:{"state":"stay"}
+              }
+            })
+            .then(attendants => {
+              res.json(attendants)
+            })
+            .catch(err => next(err))
+})
+
+router.post("/updateEvent/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id;
+  const {updateInfo} = req.body;
+  // console.log(updateInfo)
+  
+  Event.findOneAndUpdate({_id:eventId},{$set:updateInfo})
+            .then(updatedEvent => {
+              // console.log("----update event-----")
+              // console.log(updatedEvent)
+              res.json(updatedEvent )
+            })
+            .catch(err => next(err))
+})
+
+router.post("/cancel/:id", isLoggedIn, (req, res, next) => {
+  const eventId = req.params.id;
+  const userId = req.user._id;
+  Attendence.findOneAndUpdate({_event:eventId, _user:userId}, {$set:{isCancel:true}})
+            .then(updatedAtt => {
+              res.json(updatedAtt)
+            })
+            .catch(err => next(err))
+})
+
+router.post("/removeAtts/:id", isLoggedIn, (req, res, next) => {
+  const Att_id = req.params.id;
+  Attendence.findOneAndRemove({_id:Att_id})
+            .then(deletedAtt => {
+              console.log(deletedAtt)
+              res.json(deletedAtt)
+            })
+            .catch(err => next(err))
+})
+
+router.post("/addAtts", isLoggedIn, (req, res, next) => {
+  const {_user, _event, serviceHours} = req.body
+  let newAttendant = {
+    _user:_user,
+    _event:_event,
+    serviceHours:serviceHours,
+    tag:"assigned",
+    isChecked:false,
+    isShow:true,
+    isCancel:false,
+    isDone:false,
+  }
+  Attendence.create(newAttendant)
+            .then(newAtt => {
+              console.log(newAtt)
+              res.json(newAtt)
+            })
+            .catch(err => next(err))
+})
+
+// route to add a new attendant
+router.get("/possibleAtt/:id", isLoggedIn, (req, res, next) => {
+  let eventId = req.params.id;
+  Attendence.find({_event:eventId})
+            .then(attendants => {
+              let attIds = [];
+              attendants.map(cur =>attIds.push(cur._user))
+              return attIds
+            })
+            .then(attIds => {
+              User.find({_id:{$nin:attIds}})
+                  .populate({
+                    path:"_child",
+                    match:{"state":"stay"},
+                  })
+                  .then(users => {
+                    // console.log(users)
+                    res.json(users)
+                  })
+                  .catch(err => next(err))
+            })
+})
 
 // Route to get event finish process
 router.get("/finish/event/:id", isLoggedIn, (req, res, next) => {

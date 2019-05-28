@@ -43,7 +43,7 @@ export default class CheckNewFamily extends Component {
 
 
   handleSubmitFamily(e){
-    e.preventDefault()
+    e.preventDefault();
     e.stopPropagation();
     api.createChild(this.state.childInfo)
        .then(savedChild => {

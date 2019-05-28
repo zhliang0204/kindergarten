@@ -10,14 +10,9 @@ const attendenceSchema = new Schema({
   expectDate:{type:Number},
   isChecked:{type:Boolean, default:false},
   isShow:{type:Boolean, default:true},
+  isCancel:{type:Boolean, default:false},
   isDone:{type:Boolean, default:false},
-  Note:{type:[{
-    apply:String, 
-    organize:String, 
-    participate:String, 
-    assigned:String
-    }]
-  },
+  Note:[{type:String}],
 }, {
     timestamps: {
       createdAt: 'created_at',

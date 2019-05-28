@@ -386,6 +386,48 @@ export default {
             .catch(errHandler)
   },
 
+  getEditEvent(eventId){
+    return service
+            .get("/user/editEvent/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  postCancelEvent(eventId){
+    return service
+            .post("/user/cancel/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  updateProEvent(eventId, updateInfo){
+    return service
+            .post("/user/updateEvent/" + eventId, updateInfo)
+            .then(res => res.data)
+            .catch(errHandler) 
+  },
+
+  removeAtt(attId){
+    return service
+            .post("/user/removeAtts/" + attId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  addAtt(userInfo){
+    return service
+            .post("/user/addAtts", userInfo)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getPossibleUser(eventId){
+    return service  
+            .get("/user/possibleAtt/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
   updateDatesSlot(eventId, selectDateKeys){
     return service
             .post("/user/process/datePickStatus/part/"+eventId,selectDateKeys)

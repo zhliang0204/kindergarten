@@ -60,7 +60,9 @@ export default class PersonalEventDetail extends Component {
       })
   }
 
-  goToPrevPage(){
+  goToPrevPage(e){
+    e.preventDefault();
+    e.stopPropagation();
     this.props.info.history.push("/person/events")
   }
 
@@ -68,7 +70,7 @@ export default class PersonalEventDetail extends Component {
     console.log("------component did mount--------")
     let eventId = this.props.info.match.params.id
     this.loadEvent(eventId)
-    console.log(this.props.info.match.params.id )
+    console.log(eventId)
   }
 
 
@@ -81,7 +83,7 @@ export default class PersonalEventDetail extends Component {
 
       {this.props.langTab ==="lang4" && (<div className="english">
      
-      <div className="go-back" style={{textAlign:"right", fontSize:"0.9rem", color:"#cccccc", marginRight:"10px"}}><i onClick={()=>this.goToPrevPage()} className="fas fa-times"></i></div>
+      <div className="go-back" style={{textAlign:"right", fontSize:"0.9rem", color:"#cccccc", marginRight:"10px"}}><i onClick={(e)=>this.goToPrevPage(e)} className="fas fa-times"></i></div>
 
           {this.state.status === 1 && (
             <PersonalEventDetailOrg event={this.state.event} langTab={this.props.langTab}/>

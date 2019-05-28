@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import api from "./../../api";
-import { Button, Table, Input, Container, Row, Col} from 'reactstrap';
+import { Container, Row, Col} from 'reactstrap';
+import {withRouter} from 'react-router-dom';
+// import EditEventDetail from "./EditEventDetail";
 
-export default class PersonalEventProcess extends Component {
+
+class PersonalEventProcess extends Component {
   constructor(props){
     super(props)
     this.state = {
       isShow:true,
       event:this.props.event,
-      attendants:""
+      attendants:"",
+      isEdit:false,
+      isOrg:false,
+      isCancel:false,
     }
   }
 
@@ -32,24 +38,16 @@ export default class PersonalEventProcess extends Component {
     return dateFormat;   
   }
 
-  // loadAttendants(){
-  //   let eventId = this.state.event._event._id;
-    
-  //   api.getAttendence(eventId)
-  //       .then(res => {
-  //         this.setState({
-  //           attendants:res
-  //         })
-  //       })
-  // }
-
-
   loadAttendants(){
     let eventId = this.state.event._event._id;
+    let curUser = api.getLocalStorageUser();
+    let curUserId = curUser._id;
     api.getAttendence(eventId)
         .then(attendants => {
           // let dateUpdate = this.state.event.isChecked
           // let attendants = res;
+          let isOrg = false;
+          let isCancel = false;
           let startedShow = this.convertUTCDateToLocalDate(this.state.event._event.started)
           let endedShow = this.convertUTCDateToLocalDate(this.state.event._event.ended)
 
@@ -65,7 +63,14 @@ export default class PersonalEventProcess extends Component {
                   childname += ","
                 })
               }
- 
+              if(cur._user._id === curUserId && (cur.tag === "organize" || cur.tag === "asigned ")) {
+                isOrg = true
+              }
+
+              if(cur._user._id === curUserId && cur.isCancel !== undefined) {
+                isCancel = cur.isCancel
+              }
+
               if(childname.length > 0){
                 childname = childname.substring(0, childname.length-1)
               }
@@ -85,42 +90,33 @@ export default class PersonalEventProcess extends Component {
               this.setState({
                 attendants:attendantsShow,
                 startedShow:startedShow,
-                endedShow:endedShow
+                endedShow:endedShow,
+                isOrg:isOrg,
+                isCancel:isCancel,
               })
-          
-          // if(dateUpdate){
-          //   api.getPossibleDateForParticipant(eventId)
-          //      .then(res => {
-          //        console.log(res)
-          //        this.setState({
-          //         started1:this.convertUTCDateToLocalDate(res[0].expectedDates[0].started),
-          //         ended1:this.convertUTCDateToLocalDate(res[0].expectedDates[0].ended),
-
-          //         started2:this.convertUTCDateToLocalDate(res[0].expectedDates[1].started),
-          //         ended2:this.convertUTCDateToLocalDate(res[0].expectedDates[1].ended),
-
-          //         started3:this.convertUTCDateToLocalDate(res[0].expectedDates[2].started),
-          //         ended3:this.convertUTCDateToLocalDate(res[0].expectedDates[2].ended),
-
-          //         attendants:attendantsShow,
-          //         dateUpdate:dateUpdate,
-          //         startedShow:startedShow,
-          //         endedShow:endedShow,
-          //        })
-                
-          //      })
-          // } else {
-          //   this.setState({
-          //     attendants:attendantsShow,
-          //     dateUpdate:dateUpdate,
-          //     startedShow:startedShow,
-          //     endedShow:endedShow,
-          //   })
-          // }
         })
 
   }
 
+  
+  handleChange(e){
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.history.push("/person/editProEvent/" + this.state.event._event._id)
+  }  
+
+  handleCancel(e){
+    e.preventDefault();
+    e.stopPropagation();
+    let eventId = this.state.event._event._id;
+    api.postCancelEvent(eventId)
+       .then(res => {
+         this.setState({
+           isCancel:true,
+         })
+       })
+
+  }
 
   componentDidMount(){
     this.loadAttendants()
@@ -162,8 +158,15 @@ export default class PersonalEventProcess extends Component {
               ))
             )}
           </Container>
+          {this.state.isOrg && ( <div className="btn-click" onClick={(e)=>this.handleChange(e)}>Change</div>)}
+          {!this.state.isOrg && !this.state.isCancel && (<div className="btn-click" onClick={(e) => this.handleCancel(e)}>Cancel</div>)}
+          {!this.state.isOrg && this.state.isCancel && (<div style={{textAlign:"left", fontSize:"0.8rem"}}>Please wait orgainzer to deal with it.</div>)}
+         
       </div>)}
+
     </div>
     )
   }
 }
+
+export default withRouter(PersonalEventProcess);

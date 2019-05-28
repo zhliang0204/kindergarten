@@ -241,6 +241,7 @@ function findAndUpdateAsgOrg(event){
         _user:resUserId,
         serviceHours:event.reqOrghours,
         isChecked:false,
+        isCancel:false,
         isShow:true,
         isDone:false,
         tag:"assigned Org",
@@ -271,6 +272,7 @@ function findAndUpdateTotalAssigned(event, num, assignedOrg){
           serviceHours:event.reqhours,
           isChecked:false,
           isShow:true,
+          isCancel:false,
           isDone:false,
           tag:"assigned"})
       })
@@ -316,6 +318,7 @@ function findAndUpdateOrg(event){
         isChecked:false,
         isShow:true,
         isDone:false,
+        isCancel:false,
         expectDate:resUser.expectDate,
         tag:"organize",
       })
@@ -347,6 +350,7 @@ function findAndUpdateParticipants(event, num, organizer){
           isChecked:false,
           isShow:true,
           isDone:false,
+          isCancel:false,
           expectDate:applicant.expectDate,
           tag:"participate"
         })
@@ -379,6 +383,7 @@ function findAndUpdateLeftAssigned(event, num, participants){
           isChecked:false,
           isShow:true,
           isDone:false,
+          isCancel:false,
           tag:"assigned"
         })
       })
@@ -724,7 +729,7 @@ var updateServiceEveryYear = schedule.scheduleJob('0 0 3 9 *', function(){
 var updateEventStateAtVote = schedule.scheduleJob('30 22 * * *', function(){
   new Promise(resolve => {
     setTimeout(() => {
-      console.log('1', 'The first mission,should be done firs');
+      console.log('1', 'The first mission,should be done first');
       updateVotedEvent()
       resolve(1);
     }, 3000);
@@ -772,7 +777,7 @@ var updateEventStateAtApply = schedule.scheduleJob('30 23 * * *', function(){
 
 
 // update event at pre-process state to process
-var updateEventStateAtApply = schedule.scheduleJob('30 0 * * *', function(){
+var updateEventStateAtPreProcess = schedule.scheduleJob('30 0 * * *', function(){
   new Promise(resolve => {
     setTimeout(() => {
       console.log('1', 'The first mission,should be done first');
@@ -793,7 +798,7 @@ var updateEventStateAtApply = schedule.scheduleJob('30 0 * * *', function(){
 
 
 //after process, inform orgnizer update task servicehours
-var updateEventstateAtProcess = schedule.scheduleJob('30 18 0 0 *', function(){
+var updateEventstateAtProcess = schedule.scheduleJob('30 01 0 0 *', function(){
 
 // step8 after process, inform orgnizer update task servicehours
 new Promise(resolve => {
@@ -827,6 +832,7 @@ module.exports = {
   updateServiceEveryYear,
   updateEventStateAtVote,
   updateEventStateAtApply,
+  updateEventStateAtPreProcess,
   updateEventstateAtProcess,
   sendInformEmail,
 
