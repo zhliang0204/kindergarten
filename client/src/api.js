@@ -45,16 +45,35 @@ export default {
   // create child
   createChild(childInfo){
     return service
-            .post("/child//createChild", childInfo)
+            .post("/child/createChild", childInfo)
             .then(res => {
               return res.data
             })
             .catch(errHandler)
   },
 
+  getAllChildren(){
+    return service
+           .get("/child/allChildren")
+           .then(res => {
+             return res.data
+           })
+           .catch(errHandler)
+  },
+
   findChildByParent(parentId){
     return service
             .get("/child/childinfo/" + parentId)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  // parents management
+  getAllParentAccordToRole(parentRole){
+    return service
+            .get("/parent/all/" + parentRole)
             .then(res => {
               return res.data
             })
@@ -73,6 +92,24 @@ export default {
   createParent(parentInfo){
     return service
             .post("/createParent", parentInfo)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  bindWithParent(parentAndChildInfo){
+    return service
+            .post("/relateParent",parentAndChildInfo)
+            .then(res => {
+              return res.data
+            })
+            .catch(errHandler)
+  },
+
+  getParent(parentId){
+    return service
+            .get("/parent/"+parentId)
             .then(res => {
               return res.data
             })
@@ -195,6 +232,12 @@ export default {
             .catch(errHandler)
   },
 
+  removePersonalVote(eventId){
+    return service
+            .post("/events/vote/cancel/" + eventId)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
   // ------------------------------------
   // get all
   getselectedEventAll(id){
@@ -241,6 +284,13 @@ export default {
     return service
             .get('/events/application/person/' + eventId)
             .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  removPersonalApplication(eventId){
+    return service
+            .post("/events/application/cancel/person/" + eventId)
+            .then(res => res.datn)
             .catch(errHandler)
   },
 
@@ -302,6 +352,27 @@ export default {
     return service
             .get('/user/history')
             .then(res =>res.data)
+            .catch(errHandler)
+  },
+
+  getAllTaskHoursoFYear(year){
+    return service
+            .get("/user/all/history/" + year)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+ 
+  getTotalTaskHousoFYear(year){
+    return service
+            .get("/user/totalHistory/" + year)
+            .then(res => res.data)
+            .catch(errHandler)
+  },
+
+  getCurrentTaskHoursoFAll(){
+    return service
+            .get("/user/all/current")
+            .then(res => res.data)
             .catch(errHandler)
   },
 

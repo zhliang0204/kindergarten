@@ -18,6 +18,7 @@ export default class PersonalEventDetailOrg extends Component {
       dateUpdate:false,
       startedShow:"",
       endedShow:"",
+      errorList:[],
     }
   }
 
@@ -37,8 +38,48 @@ export default class PersonalEventDetailOrg extends Component {
     if(hour < 10){hour ="0"+hour}  
     if(minutes < 10){minutes ="0"+minutes}    
     if(seconds < 10){seconds ="0"+seconds}    
-    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes
     return dateFormat;   
+}
+
+convertDateFormat(date) {
+  // let date1 = new Date(date)
+  let newDate = new Date(date)
+
+  let year = newDate.getFullYear()
+  let month = newDate.getMonth() + 1;
+  let day = newDate.getDate();
+  let seconds = newDate.getSeconds();
+  let minutes = newDate.getMinutes();
+  let hour = newDate.getHours();
+
+  if(month < 10){month ="0"+month}
+  if(day < 10){day ="0"+day}  
+  if(hour < 10){hour ="0"+hour}  
+  if(minutes < 10){minutes ="0"+minutes}    
+  if(seconds < 10){seconds ="0"+seconds}    
+  let dateFormat = year+"-"+month+"-"+day+ "T" +hour+":"+minutes
+  return dateFormat;   
+}
+
+dateSet(started, dateDiff, types){
+  // dateDiff: days differ from current
+  // types "plus" or "minus"
+  let innerStarted = started;
+  if(started === ""){
+    innerStarted = new Date()
+  }
+  let date
+  if(types === "plus"){
+    date = new Date(innerStarted).setDate(new Date(innerStarted).getDate() + dateDiff)
+  } 
+
+  if(types === "minus"){
+    date = new Date(innerStarted).setDate(new Date(innerStarted).getDate() - dateDiff)
+  }
+
+  return date
+  // started = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 1)
 }
 
   loadAttendants(){
@@ -74,7 +115,8 @@ export default class PersonalEventDetailOrg extends Component {
                               firstname: cur._user.firstname,
                               childname: childname,
                               expectDate: expectDate,
-                              tag:cur.tag
+                              tag:cur.tag,
+                              
                           }
               attendantsShow.push(curAttendants)
               })
@@ -116,29 +158,71 @@ export default class PersonalEventDetailOrg extends Component {
   
 
   handleInputChange(event) {
+    event.preventDefault();
+    event.stopPropagation();
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  orgDatePick(){
-    let eventId = this.state.event._event._id;;
-    let dates = {
-      datesInfo:[
-                  {started:this.state.started1, ended:this.state.ended1, picker:0},
-                  {started:this.state.started2, ended:this.state.ended2, picker:0},
-                  {started:this.state.started3, ended:this.state.ended3, picker:0},
-
-                ]
+  checkDateValidation(){
+    let errorList = []
+    if(this.state.started1 === ""){
+      errorList.push(1)
     }
-    api.orgPostDateSlots(eventId, dates)
-        .then(res => {
-          this.setState({
-            dateUpdate: true
+    if(this.state.ended1 === ""){
+      errorList.push(2)
+    }
+    if(new Date(this.state.started1) >= new Date(this.state.ended1)){
+      errorList.push(3)
+    }
+    if(this.state.started2 === ""){
+      errorList.push(4)
+    }
+    if(this.state.ended2 === ""){
+      errorList.push(5)
+    }
+    if(new Date(this.state.started2) >= new Date(this.state.ended2)){
+      errorList.push(6)
+    }
+    if(this.state.started3 === ""){
+      errorList.push(7)
+    }
+    if(this.state.ended3 === ""){
+      errorList.push(8)
+    }
+    if(new Date(this.state.started3) >= new Date(this.state.ended3)){
+      errorList.push(8)
+    }
+
+    return errorList
+  }
+
+  orgDatePick(){
+    let errorList = this.checkDateValidation();
+    if(errorList.length > 0){
+      this.setState({
+        errorList:errorList
+      })
+    } else {
+      let eventId = this.state.event._event._id;
+      let dates = {
+        datesInfo:[
+                    {started:this.state.started1, ended:this.state.ended1, picker:0},
+                    {started:this.state.started2, ended:this.state.ended2, picker:0},
+                    {started:this.state.started3, ended:this.state.ended3, picker:0},
+  
+                  ]
+      }
+      api.orgPostDateSlots(eventId, dates)
+          .then(res => {
+            this.setState({
+              dateUpdate: true
+            })
           })
-        })
-    api.changeStateofPraticipant(eventId)
-    api.participantsChooseTimeMail(eventId)
+      api.changeStateofPraticipant(eventId)
+      api.participantsChooseTimeMail(eventId)
+    }
   }
 
   orgDateEdit(){
@@ -198,6 +282,10 @@ export default class PersonalEventDetailOrg extends Component {
         <div className="org-date-picker">
         <h5 style={{textAlign:"left", fontSize:"0.8rem", fontWeight:"700"}}>Selected 3 possible time slot to do task</h5>
           <Container>
+            {this.state.errorList.indexOf(1) !== -1 && (<div className="hint">"please input started date and time"</div>)}
+            {this.state.errorList.indexOf(2) !== -1 && (<div className="hint">"please input ended date and time"</div>)}
+            {this.state.errorList.indexOf(3) !== -1 && (<div className="hint">"please make sure ended date is later than started date"</div>)}
+
             <Row>
               <Col xs="1" style={{padding:"0",margin:"0"}}>#</Col>
               <Col xs="5">Started</Col>
@@ -206,12 +294,17 @@ export default class PersonalEventDetailOrg extends Component {
             </Row>
 
             <Row>
+            {this.state.errorList.indexOf(4) !== -1 && (<div className="hint">"please input started date and time"</div>)}
+            {this.state.errorList.indexOf(5) !== -1 && (<div className="hint">"please input ended date and time"</div>)}
+            {this.state.errorList.indexOf(6) !== -1 && (<div className="hint">"please make sure ended date is later than started date"</div>)}
               <Col xs="1" style={{padding:"0",margin:"0"}}>1</Col>
               <Col xs="5">
                 {!this.state.dateUpdate && (<Input
                             type="datetime-local"
                             name="started1"
                             value={this.state.started1}
+                            min={this.convertDateFormat(this.dateSet(this.state.event._event.started, 0, "plus"))}
+                            max={this.convertDateFormat(this.dateSet(this.state.event._event.ended, 0, "plus"))}
                             onChange={(e) => this.handleInputChange(e)}
                           />)
                         }
@@ -223,6 +316,8 @@ export default class PersonalEventDetailOrg extends Component {
                           type="datetime-local"
                           name="ended1"
                           value={this.state.ended1}
+                          min={this.convertDateFormat(this.dateSet(this.state.event._event.started, 0, "plus"))}
+                          max={this.convertDateFormat(this.dateSet(this.state.event._event.ended, 0, "plus"))}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
                 {this.state.dateUpdate && (this.state.ended1)}
@@ -230,12 +325,17 @@ export default class PersonalEventDetailOrg extends Component {
             </Row>
 
             <Row>
+            {this.state.errorList.indexOf(7) !== -1 && (<div className="hint">"please input started date and time"</div>)}
+            {this.state.errorList.indexOf(8) !== -1 && (<div className="hint">"please input ended date and time"</div>)}
+            {this.state.errorList.indexOf(9) !== -1 && (<div className="hint">"please make sure ended date is later than started date"</div>)}
               <Col xs="1" style={{padding:"0",margin:"0"}}>2</Col>
               <Col xs="5">
                 {!this.state.dateUpdate && (<Input
                           type="datetime-local"
                           name="started2"
                           value={this.state.started2}
+                          min={this.convertDateFormat(this.dateSet(this.state.event._event.started, 0, "plus"))}
+                          max={this.convertDateFormat(this.dateSet(this.state.event._event.ended, 0, "plus"))}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
@@ -248,6 +348,8 @@ export default class PersonalEventDetailOrg extends Component {
                           type="datetime-local"
                           name="ended2"
                           value={this.state.ended2}
+                          min={this.convertDateFormat(this.dateSet(this.state.event._event.started, 0, "plus"))}
+                          max={this.convertDateFormat(this.dateSet(this.state.event._event.ended, 0, "plus"))}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
@@ -261,6 +363,8 @@ export default class PersonalEventDetailOrg extends Component {
                           type="datetime-local"
                           name="started3"
                           value={this.state.started3}
+                          min={this.convertDateFormat(this.dateSet(this.state.event._event.started, 0, "plus"))}
+                          max={this.convertDateFormat(this.dateSet(this.state.event._event.ended, 0, "plus"))}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
@@ -270,6 +374,8 @@ export default class PersonalEventDetailOrg extends Component {
                           type="datetime-local"
                           name="ended3"
                           value={this.state.ended3}
+                          min={this.convertDateFormat(this.dateSet(this.state.event._event.started, 0, "plus"))}
+                          max={this.convertDateFormat(this.dateSet(this.state.event._event.ended, 0, "plus"))}
                           onChange={(e) => this.handleInputChange(e)}
                         />)}
 
@@ -277,7 +383,7 @@ export default class PersonalEventDetailOrg extends Component {
             </Row>
           </Container>
           {!this.state.dateUpdate && (<Button onClick={()=>this.orgDatePick()}>Submit</Button>)}
-          {this.state.dateUpdate && (<Button onClick={()=>this.orgDateEdit()}>Edit</Button>)}
+          {/* {this.state.dateUpdate && (<Button onClick={()=>this.orgDateEdit()}>Edit</Button>)} */}
 
         </div>
         </div>

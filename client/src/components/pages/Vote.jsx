@@ -71,6 +71,8 @@ export default class Vote extends Component {
 
 
   handleSupport(e){
+    e.preventDefault();
+    e.stopPropagation();
     let eventId = this.props.event._id;
     console.log(e.target)
     
@@ -97,6 +99,8 @@ export default class Vote extends Component {
   }
 
   handleOppose(e){
+    e.preventDefault();
+    e.stopPropagation();
     let eventId = this.props.event._id;
     console.log(e.target)
     // let perVote
@@ -119,6 +123,20 @@ export default class Vote extends Component {
         })
   }
   
+  handleCancelVote(e){
+    e.preventDefault();
+    e.stopPropagation();
+    let targetId = e.target.id 
+    let eventId = this.state.event._id;
+    api.removePersonalVote(eventId)
+       .then(res =>{
+        this.setState({
+          isVoted:false,
+          personalVote:0,
+          [targetId]:this.state[targetId] - 1
+        })
+       })
+  }
 
   componentDidMount(){
     let eventId = this.state.event._id;
@@ -142,12 +160,12 @@ export default class Vote extends Component {
     let supportTag
     let opposeTag
     if(this.state.personalVote == 1){
-      supportTag = <i className="fas fa-thumbs-up"></i>
+      supportTag = <i className="fas fa-thumbs-up" id="support" onClick={(e) => this.handleCancelVote(e)}></i>
       opposeTag = <i className="far fa-thumbs-down"></i>
     }
     if(this.state.personalVote == -1) {
       supportTag = <i className="far fa-thumbs-up"></i>
-      opposeTag = <i className="fas fa-thumbs-down"></i>
+      opposeTag = <i className="fas fa-thumbs-down" id="oppose" onClick={(e) => this.handleCancelVote(e)}></i>
     }
 
     if(this.state.personalVote == 0){
@@ -167,12 +185,10 @@ export default class Vote extends Component {
 
           {(this.state.isVoted === true|| this.state.isVoteSt !== "vote") && (<div className="vote-detail">
             <div className="sub-vote-detail">
-              {/* {this.state.persoanlVote == 1? (<i className="fas fa-thumbs-up"></i>):(<i className="far fa-thumbs-up"></i>)} */}
               {supportTag}
               {this.state.support}
             </div>
             <div className="sub-vote-detail">
-              {/* {this.state.persoanlVote == -1? (<i className="fas fa-thumbs-down"></i>):( <i className="far fa-thumbs-down"></i>)} */}
               {opposeTag}
               {this.state.oppose}
             </div>
@@ -182,7 +198,6 @@ export default class Vote extends Component {
           {this.state.isVoted === false && this.state.isVoteSt === "vote" && (<div  className="vote-detail">
             <div className="sub-vote-detail" onClick={(e) => this.handleSupport(e)}>
               <i className="far fa-thumbs-up"></i>
-              {/* <i onClick={(e) => this.handleSupport(e)} className="far fa-thumbs-up"></i> */}
 
               {this.state.support}
             </div>

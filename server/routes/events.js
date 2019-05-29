@@ -15,7 +15,7 @@ const { isLoggedIn } = require('../middlewares');
 
 
 router.post('/create', isLoggedIn, (req, res, next) => {
-  let {title, description,started, ended,reqhours, reqpersons, applybefore} = req.body;
+  let {title, description,started, ended,reqhours, reqpersons, applybefore, resource} = req.body;
   let _creator = req.user._id;
   let isRequired = req.user.role === "parent" ? false:true;
   let eventState = isRequired === true? "apply":"vote";
@@ -26,6 +26,7 @@ router.post('/create', isLoggedIn, (req, res, next) => {
     description,
     started,
     ended,
+    resource,
     reqhours,
     reqOrghours,
     reqpersons,
@@ -76,6 +77,16 @@ router.post("/vote/:id", isLoggedIn, (req, res, next) => {
   .then(voteDoc => {
     res.json(voteDoc)
   }).catch(err => next(err))
+})
+
+router.post("/vote/cancel/:id", isLoggedIn, (req, res, next) => {
+  const userId = req.user._id;
+  const eventId = req.params.id;
+  Vote.findOneAndDelete({_user:userId, _event:eventId})
+      .then(voteDoc => {
+        res.json(voteDoc)
+      })
+      .catch(err => next(err))
 })
 
 // get vote result of one user
@@ -208,6 +219,22 @@ router.get("/application/person/:id", isLoggedIn, (req, res, next) => {
   Application.find({$and:[{_event:eventId},{_user:userId}]})
               .then(applicant => res.json(applicant))
               .catch(err => next(err))
+})
+
+router.post("/application/cancel/person/:id", isLoggedIn, (req, res, next) => {
+  // id: event id
+  const eventId = req.params.id;
+  const userId = req.user._id;
+  // const { expectDate,serviceHours } = req.body;
+  // const username = req.user.username;
+  Application.findOneAndDelete({
+    _event:eventId,
+    _user:userId,
+  })
+    .then(deleteApplier => {
+      res.json(deleteApplier)
+    })
+    .catch(err => next(err))
 })
 
 // get all attendant: org,par,assign,apply

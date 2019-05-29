@@ -29,13 +29,18 @@ router.post("/createChild", (req, res, next) => {
 })
 
 // list children
-router.get("/all", (req, res, next) => {
-  Child.find({})
-    .populate("_parents")
-    .then(children => {
-      res.json(children)
-    })
-    .catch(err => next(err))
+
+
+router.get("/all/parent/:parentrole", isLoggedIn,  (req, res, next) => {
+  let parentrole = req.params.parentrole;
+  User.find({role:"parent",subrole:parentrole})
+      .populate({
+        path:"_child"
+      })
+      .then(parents => {
+        res.json(parents)
+      })
+      .catch(err => next(err))
 })
 
 // list one child
@@ -72,6 +77,17 @@ router.post("/all/graduate", isLoggedIn, (req, res, next) => {
               res.json(children)
             })
             .catch(err => next(err))
+})
+
+router.get("/allChildren", isLoggedIn, (req, res, next) => {
+  Child.find({})
+    .populate("_father")
+    .populate("_mother")
+    .then(children => {
+      console.log(children)
+      res.json(children)
+    })
+    .catch(err => next(err))
 })
 
 // update one childInformation

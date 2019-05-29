@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, InputGroup, InputGroupAddon  } from 'reactstrap';
 import api from "./../../api";
 
 export default class CreateParent extends Component {
@@ -12,6 +12,7 @@ export default class CreateParent extends Component {
       email:"" ,
       phone:"" ,
       errorList:[],
+      parentList:[],
      
     }
 
@@ -71,6 +72,20 @@ export default class CreateParent extends Component {
     this.props.nextStepTab(this.props.userTab)
   }
 
+  // fireParentGet(e){
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   console.log("fired")
+  //   let parentRole = this.props.userTab === 2? "father" : "mother"
+  //   api.getAllParentAccordToRole(parentRole)
+  //       .then(parents => {
+  //         this.setState({
+  //           parentList:parents
+  //         })
+  //       })
+  //   console.log(this.state.parentList)
+  // }
+
 
   handleParentSubmit(e){
     e.preventDefault();
@@ -122,6 +137,22 @@ export default class CreateParent extends Component {
             <div style={{textAlign:"right"}}>
               <button className="btn-click"  onClick={(e)=>this.skipParent(e)}><i className="fas fa-arrow-right"></i>Skip</button>
             </div>
+
+            {/* <div style={{textAlign:"left"}}>
+              <button className="btn-click"  onClick={(e)=>this.fireParentGet(e)}><i className="fas fa-arrow-right"></i>Choose from exist parents</button>
+            </div> */}
+
+            {/* <Form>
+              <FormGroup>
+                  <Label for="parent">Choose Parent:</Label>
+                    <Input type="select" name="parent" id="parent" onChange={(e) =>this.handleParentBind(e)}>
+                      {this.state.parentList.length > 0 && this.state.parentList.map((cur,i) => (
+                        <option value={cur._id} key={i}>{cur.firstname}</option>
+                      ))}
+                    </Input>
+                </FormGroup>
+            </Form> */}
+
             <Form>
                 <FormGroup>
                   <Label for="firstname">Fisrt name:</Label>

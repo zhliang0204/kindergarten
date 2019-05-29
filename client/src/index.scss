@@ -133,12 +133,21 @@ body {
     color:gray;
     padding: 0 5px;
     text-decoration: unset;
+    
   }
 
   a.active {
-    font-weight: bold;
+    font-weight:700;
     color:#abc100;
     // background-color:#ffffff;
+  }
+
+  .dropdown-toggle{
+    color:gray;
+    padding: 0 5px;
+    text-decoration: unset;
+    font-size:1.0rem;
+    
   }
 
 }
@@ -198,7 +207,15 @@ body {
   }
 }
 
-
+.create-child {
+  .form-group{
+    text-align:left;
+  }
+  .newuser-type {
+    color:#abc000;
+    font-size:1.2em;
+  }
+}
 // -------------------
 // style for EventDetail
 .event-detail {

@@ -29,6 +29,31 @@ router.get('/history', isLoggedIn, (req, res, next) => {
       .catch(err => next(err))
 });
 
+router.get('/all/history/:year', isLoggedIn, (req, res, next) => {
+  const year = req.params.year 
+  
+  // User.find({isActive:true, role:"parent", "historyServiceHours.year":year})
+  User.find({isActive:true, role:"parent","historyServiceHours.year":year},{firstname:1, _child:1, historyServiceHours:{$elemMatch:{year:year}}})
+      // .select({firstname:1, _child:1, "historyServiceHours.$": 1 })
+      .populate({
+        path:"_child",
+        match: {"state":"stay"},
+      })
+      .then(results => {
+        res.json(results)
+      })
+      .catch(err => next(err))
+});
+
+router.get('/totalHistory/:year', isLoggedIn, (req, res, next) => {
+  const year = req.params.year 
+
+  AverageServiceHours.find({year:year})
+      .then(results => {
+        res.json(results)
+      })
+      .catch(err => next(err))
+});
 // Route to get current year service information, compare with total hours
 router.get('/current', isLoggedIn, (req, res, next) => {
   let id = req.user.id;
@@ -38,6 +63,19 @@ router.get('/current', isLoggedIn, (req, res, next) => {
     res.json(output)
   })
   .catch(err => next(err))
+})
+
+router.get('/all/current', isLoggedIn, (req, res, next) => {
+
+  User.find({}, {firstname:1, _child:1, aveHours:1, totalHours:1})
+      .populate({
+        path:"_child",
+        match: {"state":"stay"},
+      })
+      .then(users => {
+        res.json(users)
+      })
+      .catch(err => next(err))
 })
 
 

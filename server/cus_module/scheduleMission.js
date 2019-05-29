@@ -202,7 +202,11 @@ function updateAttendance(){
 // find events need to get participants
 // update events state to process
 function findEvent(){
-  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date()}}]})
+  let curDate = new Date();
+  let curDateTime = curDate.getTime();
+  // five days for date picker
+  let timeDifference = 1 * 60 * 60 * 24 * 1000
+  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date(),$gt:curDateTime-timeDifference }}]})
           )
 }
 
@@ -223,15 +227,27 @@ function findAndUpdateAsgOrg(event){
   return (
     User.find({isActive:true, role:"parent"})
     .then(users => {
-      let minHours = 555;
+      let minHours = 5555555;
       let resUser;
+      let possibleUserList = []
       users.forEach(att => {
         if(att.aveHours < minHours){
         minHours = att.aveHours
         resUser = att._id
+        possibleUserList = [resUser]
+        } else {
+          if(att.aveHours === minHours){
+            possibleUserList.push(att._id)
+          }
         }
       })
-      return resUser
+      if(possibleUserList.length > 1){
+        let i = Math.floor(Math.random() * (possibleUserList.length))
+        return possibleUserList[i]
+      } else {
+        return resUser[0]
+      }
+      
     })
     .then(resUserId => {
       console.log("-----assigned oragnizer id--------")
@@ -299,15 +315,28 @@ function findAndUpdateOrg(event){
     Application.find({_event:event._id})
     .populate("_user")
     .then(applicants => {
-      let minHours = 555;
+      let minHours = 555555;
       let resUser;
+      let possibleUserList = []
       applicants.forEach(att => {
-        if(att._user.aveHours < minHours){
-          minHours = att._user.aveHours
-          resUser = att._user._id
+        if(att.aveHours < minHours){
+          minHours = att.aveHours
+          resUser = att._id
+          possibleUserList = [resUser]
+          }
+        else {
+          if(att.aveHours === minHours){
+            possibleUserList.push(att._id)
+          }
         }
-      })
-      return resUser
+        
+        })
+        if(possibleUserList.length > 1){
+          let i = Math.floor(Math.random() * (possibleUserList.length))
+          return possibleUserList[i]
+        } else {
+          return resUser[0]
+        }
     })
     .then(resUser => {
       console.log(event._id)
@@ -409,11 +438,15 @@ function findAndUpdateLeftAssigned(event, num, participants){
 }
 
 function updateEventToPreProcess(){
+  let curDate = new Date();
+  let curDateTime = curDate.getTime();
+  // five days for date picker
+  let timeDifference = 1 * 60 * 60 * 24 * 1000
   return (
     Event.updateMany(
       {
        eventState:"apply",
-       applybefore:{$lte:new Date()}
+       applybefore:{$lte:new Date(), $gt:curDateTime - timeDifference}
       },
       {$set:{eventState:"pre-process"}}, 
     ).then(res => console.log(res))
@@ -430,10 +463,11 @@ function eventProcessDateChose(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   // five days for date picker
-  let timeDifference = 5 * 60 * 60 * 24 * 1000
+  let timeDifference1 = 10 * 60 * 60 * 24 * 1000
+  let timeDifference2 = 11 * 60 * 60 * 24 * 1000
   EventSchedule.find(
                   // {isdone:false}
-                  { $and:[{created_at:{ $lte: curDateTime - timeDifference}},{isdone:false}]
+                  { $and:[{created_at:{ $lte: curDateTime - timeDifference1, $gt: curDateTime-timeDifference2}},{isdone:false}]
                   }
                 )
                .then(eventsSchedule => {
@@ -467,16 +501,21 @@ function eventProcessDateChose(){
 
 function updateEventTimeScheToProcess(){
   let curDate = new Date();
+  // let curDate = new Date();
   let curDateTime = curDate.getTime();
-  let timeDifference = 5 * 60 * 60 * 24 * 1000
+  // five days for date picker
+  let timeDifference1 = 10 * 60 * 60 * 24 * 1000
+  let timeDifference2 = 11 * 60 * 60 * 24 * 1000
   return (
     EventSchedule.updateMany(
       {
-        created_at:{ $lte: curDateTime - timeDifference},
+        created_at:{ $lte: curDateTime - timeDifference1, $gt: curDateTime-timeDifference2},
         isdone:false
       },
       {$set:{isdone:true}}, 
-    ).then(res => console.log(res))
+    )
+    .then(res => console.log("update event sechedule status to done"))
+    .catch(err => console.log(err))
   )
 }
 

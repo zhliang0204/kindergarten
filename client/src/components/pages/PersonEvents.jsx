@@ -82,7 +82,7 @@ class PersonEvents extends Component {
            if(eventState === "pre-process" && (role === "organize" || role === "assigned Org")){
             let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
             let newStarted = new Date(started)
-            let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 16)
+            let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 13)
             let newEnded = new Date(ended)
             let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
             let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
@@ -106,7 +106,7 @@ class PersonEvents extends Component {
 
              let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
              let newStarted = new Date(started)
-             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 16)
+             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 13)
              let newEnded = new Date(ended)
              let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
              let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
@@ -148,7 +148,7 @@ class PersonEvents extends Component {
             //  let started = eve._event.ended
              let started = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 1)
              let newStarted = new Date(started)
-             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 16)
+             let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 13)
              let newEnded = new Date(ended)
              let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
              let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)

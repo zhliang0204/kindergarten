@@ -225,7 +225,11 @@ function updateAttendance(){
 // find events need to get participants
 // update events state to process
 function findEvent(){
-  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date()}}]})
+  let curDate = new Date();
+  let curDateTime = curDate.getTime();
+  // five days for date picker
+  let timeDifference = 1 * 60 * 60 * 24 * 1000
+  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date(),$gt:curDateTime-timeDifference }}]})
           )
 }
 
@@ -432,11 +436,15 @@ function findAndUpdateLeftAssigned(event, num, participants){
 }
 
 function updateEventToPreProcess(){
+  let curDate = new Date();
+  let curDateTime = curDate.getTime();
+  // five days for date picker
+  let timeDifference = 1 * 60 * 60 * 24 * 1000
   return (
     Event.updateMany(
       {
        eventState:"apply",
-       applybefore:{$lte:new Date()}
+       applybefore:{$lte:new Date(), $gt:curDateTime - timeDifference}
       },
       {$set:{eventState:"pre-process"}}, 
     ).then(res => console.log(res))
@@ -453,10 +461,11 @@ function eventProcessDateChose(){
   let curDate = new Date();
   let curDateTime = curDate.getTime();
   // five days for date picker
-  let timeDifference = 15 * 60 * 60 * 24 * 1000
+  let timeDifference1 = 10 * 60 * 60 * 24 * 1000
+  let timeDifference2 = 11 * 60 * 60 * 24 * 1000
   EventSchedule.find(
                   // {isdone:false}
-                  { $and:[{created_at:{ $lte: curDateTime - timeDifference}},{isdone:false}]
+                  { $and:[{created_at:{ $lte: curDateTime - timeDifference1, $gt: curDateTime-timeDifference2}},{isdone:false}]
                   }
                 )
                .then(eventsSchedule => {
@@ -490,16 +499,21 @@ function eventProcessDateChose(){
 
 function updateEventTimeScheToProcess(){
   let curDate = new Date();
+  let curDate = new Date();
   let curDateTime = curDate.getTime();
-  let timeDifference = 15 * 60 * 60 * 24 * 1000
+  // five days for date picker
+  let timeDifference1 = 10 * 60 * 60 * 24 * 1000
+  let timeDifference2 = 11 * 60 * 60 * 24 * 1000
   return (
     EventSchedule.updateMany(
       {
-        created_at:{ $lte: curDateTime - timeDifference},
+        created_at:{ $lte: curDateTime - timeDifference1, $gt: curDateTime-timeDifference2},
         isdone:false
       },
       {$set:{isdone:true}}, 
-    ).then(res => console.log(res))
+    )
+    .then(res => console.log("update event sechedule status to done"))
+    .catch(err => console.log(err))
   )
 }
 
@@ -513,6 +527,7 @@ function updateEventStateToFinish(){
          console.log("-----update event to finish------")
          console.log(res)
         })
+        .catch(err => console.log(err))
 }
 
 

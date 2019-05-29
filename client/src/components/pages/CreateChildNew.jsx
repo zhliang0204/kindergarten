@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import api from "./../../api";
+import api from "../../api";
 
-export default class CreateChild extends Component {
+export default class CreateChildNew extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -62,16 +62,34 @@ export default class CreateChild extends Component {
         age: this.state.age,
         birthday:this.state.birthday
       }
-      console.log(childInfos)
-      this.props.setChildInfo(childInfos)
+      // console.log(childInfos)
+      // this.props.setChildInfo(childInfos)
+      api.createChild(childInfos)
+         .then(savedChild => {
+          //  this.setState({
+          //   firstname:"", 
+          //   lastname: "", 
+          //   sex: "", 
+          //   age: "",
+          //   birthday:""
+          //  })
+           this.props.info.history.push("/createParent/father/" + savedChild._id)
+         })
     }
   }
 
 
 
+  handleBindParent(e){
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  
+
   render() {
     return (
-      <div className="create-child">
+      <div className="create-child outer-div">
         {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
         {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
         {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
@@ -109,8 +127,8 @@ export default class CreateChild extends Component {
                 {this.state.errorList.indexOf(5) !== -1 && (<div className="hint">Please input age of child.</div>)}
                 <Input type="text" name="age" id="age" value={this.state.age} onChange={this.handleInputChange}/>
               </FormGroup>
-              <div className="btn-click" onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
-              <div className="btn-click" onClick={(e)=>this.handleBindParent(e)}><i className="fas fa-arrow-right"></i>Bind With Saved Parent</div>
+              <div className="btn-click" onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next</div>
+              {/* <div className="btn-click" onClick={(e)=>this.handleBindParent(e)}><i className="fas fa-arrow-right"></i>Bind With Saved Parent</div> */}
 
             </Form>
           

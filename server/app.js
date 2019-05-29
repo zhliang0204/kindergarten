@@ -71,6 +71,7 @@ app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
 app.use('/api/events', require('./routes/events'))
 app.use('/api/child', require('./routes/child'))
+app.use('/api/parent', require('./routes/parent'))
 app.use('/api/mail', require('./routes/transportEmail'))
 app.use('/api/user', require('./routes/user'))
 

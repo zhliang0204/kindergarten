@@ -87,14 +87,27 @@ router.post("/createParent", (req, res, next) => {
 // to do--------------------------
 router.post("/relateParent", (req, res, next) => {
   const { userId, childId } = req.body;
-  User.update(
+  User.findOneAndUpdate(
     {_id:userId},
     {
       $push:{_child:childId},
       $inc :{childNum:1},
     }
     )
-    .then(userDoc => { res.json(userDoc)})
+    .then(userDoc => { 
+      if(userDoc.subrole === "father"){
+        console.log("--------------father-------------")
+        Child.findOneAndUpdate({_id: childId}, {$set:{_father:userDoc._id}})
+        .then(child => res.json(userDoc))
+        .catch(err => next(err))
+      } 
+      if(userDoc.subrole === "mother"){
+        console.log("--------------mother-------------")
+        Child.findOneAndUpdate({_id: childId}, {$set:{_mother:userDoc._id}})
+        .then(child => res.json(userDoc))
+        .catch(err => next(err))
+      }
+    })
     .catch(err => next(err))
 })
 

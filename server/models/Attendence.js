@@ -7,7 +7,7 @@ const attendenceSchema = new Schema({
   _event:{type:Schema.Types.ObjectId, ref: 'Event'},
   tag:{type:String, enum:["apply", "organize", "participate", "assigned","assigned Org"]},
   serviceHours: {type: Number},
-  expectDate:{type:Number},
+  expectDate:{type:Date},
   isChecked:{type:Boolean, default:false},
   isShow:{type:Boolean, default:true},
   isCancel:{type:Boolean, default:false},

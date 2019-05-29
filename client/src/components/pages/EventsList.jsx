@@ -36,8 +36,11 @@ class EventsList extends Component {
   render() {
     return (
       <div className="events-list outer-div">
-        {this.props.isGerman && (<div className="german">building......</div>)}
-        {!this.props.isGerman && (<div className="Chinese">
+                {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
         <div className="btn-click" onClick={()=>this.createEvent()}><i className="fas fa-plus-circle"></i>Add Task</div>
         <Table hover>
           <thead>

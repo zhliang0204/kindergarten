@@ -19,6 +19,7 @@ export default class Application extends Component {
       applicants:"",
       isApply:null,
       errorHint:"",
+      isCouldApply:new Date(this.props.event.applybefore) > new Date(),
     }
   }
 
@@ -39,9 +40,49 @@ export default class Application extends Component {
     if(hour < 10){hour ="0"+hour}  
     if(minutes < 10){minutes ="0"+minutes}    
     if(seconds < 10){seconds ="0"+seconds}    
-    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes
     return dateFormat;   
 }
+
+  convertDateFormat(date) {
+    // let date1 = new Date(date)
+    let newDate = new Date(date)
+
+    let year = newDate.getFullYear()
+    let month = newDate.getMonth() + 1;
+    let day = newDate.getDate();
+    let seconds = newDate.getSeconds();
+    let minutes = newDate.getMinutes();
+    let hour = newDate.getHours();
+
+    if(month < 10){month ="0"+month}
+    if(day < 10){day ="0"+day}  
+    if(hour < 10){hour ="0"+hour}  
+    if(minutes < 10){minutes ="0"+minutes}    
+    if(seconds < 10){seconds ="0"+seconds}    
+    let dateFormat = year+"-"+month+"-"+day+ "T" +hour+":"+minutes
+    return dateFormat;   
+  }
+
+  dateSet(started, dateDiff, types){
+    // dateDiff: days differ from current
+    // types "plus" or "minus"
+    let innerStarted = started;
+    if(started === ""){
+      innerStarted = new Date()
+    }
+    let date
+    if(types === "plus"){
+      date = new Date(innerStarted).setDate(new Date(innerStarted).getDate() + dateDiff)
+    } 
+
+    if(types === "minus"){
+      date = new Date(innerStarted).setDate(new Date(innerStarted).getDate() - dateDiff)
+    }
+
+    return date
+    // started = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 1)
+  }
 
   handleInputChange(e){
     this.setState({
@@ -99,22 +140,18 @@ export default class Application extends Component {
         })
   }
 
-  handleServiceApply(){
+  handleServiceApply(e){
+    e.preventDefault();
+    e.stopPropagation();
     let applyInfor = {
       expectDate:this.state.expectDate,
       serviceHours:this.state.event.reqhours
     }
      
-    if(!this.state.expectDate || this.state.expectDate < this.state.event.started || this.state.expectDate > this.state.event.ended){
-      if(!this.state.expectDate) {
+    if(!this.state.expectDate) {
         this.setState({
           errorHint:"please input date and time together"
         })
-      } else {
-        this.setState({
-          errorHint:"please choose a date between started and ended"
-        })
-      } 
     } else {
       this.setState({
         isApply:true
@@ -122,10 +159,23 @@ export default class Application extends Component {
       api.postPersonApplication(this.state.event._id, applyInfor)
          .then(res => {
            this.loadApplicants(this.state.event._id)
+
          })
     }
   }
 
+  handleCancelApply(e){
+    e.preventDefault();
+    e.stopPropagation();
+    let eventId = this.state.event._id
+    api.removPersonalApplication(eventId)
+       .then(res => {
+         this.setState({
+           isApply:false,
+         })
+         this.loadApplicants(eventId)
+       })
+  }
   
 
   componentDidMount(){
@@ -133,7 +183,8 @@ export default class Application extends Component {
     this.loadApplicants(eventId)
     this.loadUserApplyInfo(eventId)
     console.log("------vote----component-------")
-    console.log(this.state.event)
+    console.log(this.state.isCouldApply)
+    
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -178,16 +229,28 @@ export default class Application extends Component {
           </div>
 
 
-          {this.props.tag === 3 && !this.state.isApply && (
+          {this.props.tag === 3 && !this.state.isApply && this.state.isCouldApply && (
             <Form>
             <FormGroup style={{textAlign:"left"}}>
               <Label for="expectDate">Apply here, please input your expect date for task:</Label>
-              <div className="error-hint">{this.state.errorHint}</div>
-              <Input type="datetime-local" name="expectDate" value={this.state.expectDate} onChange={(e)=>this.handleInputChange(e)}/>
+              <div className="hint">{this.state.errorHint}</div>
+              <Input 
+                type="datetime-local" 
+                name="expectDate" 
+                min={this.convertDateFormat(this.dateSet(this.state.event.started, 0, "plus"))}
+                max={this.convertDateFormat(this.dateSet(this.state.event.ended, 0, "plus"))}
+
+                value={this.state.expectDate} 
+                onChange={(e)=>this.handleInputChange(e)}/>
             </FormGroup>
-              <Button onClick={()=>this.handleServiceApply()}>Apply</Button>
+              <Button onClick={(e)=>this.handleServiceApply(e)}>Apply</Button>
           </Form> 
           )}
+
+          {this.props.tag === 3 && this.state.isApply && this.state.isCouldApply && (<div className= "btn-click" onClick = {(e) => this.handleCancelApply(e)}>
+            Cancel Application
+          </div>)}
+
         </div>)}
       </div>
     )

@@ -36,7 +36,7 @@ export default class EventDetail extends Component {
     if(hour < 10){hour ="0"+hour}  
     if(minutes < 10){minutes ="0"+minutes}    
     if(seconds < 10){seconds ="0"+seconds}    
-    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes+":"+seconds
+    let dateFormat = month+"/"+day+"/"+year+ " " +hour+":"+minutes
     return dateFormat;   
 }
 
@@ -52,6 +52,8 @@ export default class EventDetail extends Component {
          
           selectedEvent.started = this.convertUTCDateToLocalDate(selectedEvent.started)
           selectedEvent.ended = this.convertUTCDateToLocalDate(selectedEvent.ended)
+          selectedEvent.applybefore = this.convertUTCDateToLocalDate(selectedEvent.applybefore)
+
           console.log(selectedEvent.started)
           this.setState({
             event:selectedEvent,
@@ -123,11 +125,20 @@ export default class EventDetail extends Component {
           {this.state.event && (<div>
             <div className="go-back" onClick={(e)=>this.goToPrevPage(e)}  style={{cursor:"pointer", width:"20%", textAlign:"left", fontSize:"0.8rem", color:"#cccccc"}}><i className="fas fa-arrow-circle-left"></i>Go Back</div>
             <div className="event-detail-title">{this.state.event.title}</div>
-            <div className="event-detail-state">status: {this.state.event.eventState}</div>
+            <div className="event-detail-state"><b>status:</b> {this.state.event.eventState}</div>
+            <div className="event-detail-state"><b>apply before:</b> {this.state.event.applybefore}</div>
+            <div className="event-detail-state"><b>require person:</b> {this.state.event.reqpersons}</div>
+            <div className="event-detail-state"><b>require hours:</b> {this.state.event.reqhours}</div>
+
+
             <div className="event-detail-exec-period">
               <i className="far fa-calendar-alt"></i>&nbsp;<span>{this.state.event.started} - {this.state.event.ended}</span>
             </div>
-            <div className="event-detail-description">description: <div>{this.state.event.description}</div></div>
+            <div className="event-detail-description"><b>description: </b><div>{this.state.event.description}</div></div>
+            {this.state.event.resource !== undefined && (
+              <div className="event-detail-description"><b>resource:</b> <div>{this.state.event.resource}</div></div>
+            )}
+
             
 
            
