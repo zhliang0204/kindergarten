@@ -207,9 +207,21 @@ export default class EditEventDetailOrg extends Component {
     this.loadPossibleUser(eventId)
   }
 
+  goToPrevPage(e){
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.info.history.push("/person/events")
+  }
+
   render() {
     return (
       <div className="outer-div">
+        {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
+        {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
+        {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
+
+        {this.props.langTab ==="lang4" && (<div className="english">
+        <div className="go-back" style={{textAlign:"right", fontSize:"0.9rem", color:"#cccccc", marginRight:"10px"}}><i onClick={(e)=>this.goToPrevPage(e)} className="fas fa-times"></i></div>
           <Form>
             <FormGroup className="inputtitle-type">
               <Label for="event-title">Task:</Label>
@@ -346,6 +358,7 @@ export default class EditEventDetailOrg extends Component {
             </tbody>
           </Table>
         <div className="btn-click" onClick={(e) => this.handleUpdateEvent(e)}>submit</div>
+        </div>)}
       </div>
     )
   }

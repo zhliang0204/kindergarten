@@ -61,6 +61,15 @@ export default {
            .catch(errHandler)
   },
 
+  findOneChild(childId){
+    return service
+           .get("/child/info/" + childId)
+           .then(res => {
+             return res.data
+           })
+           .catch(errHandler)
+  },
+
   findChildByParent(parentId){
     return service
             .get("/child/childinfo/" + parentId)

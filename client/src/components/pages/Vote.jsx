@@ -128,14 +128,17 @@ export default class Vote extends Component {
     e.stopPropagation();
     let targetId = e.target.id 
     let eventId = this.state.event._id;
-    api.removePersonalVote(eventId)
-       .then(res =>{
-        this.setState({
-          isVoted:false,
-          personalVote:0,
-          [targetId]:this.state[targetId] - 1
-        })
+    if(this.state.isVoteSt === "vote"){
+      api.removePersonalVote(eventId)
+      .then(res =>{
+       this.setState({
+         isVoted:false,
+         personalVote:0,
+         [targetId]:this.state[targetId] - 1
        })
+      })
+    }
+
   }
 
   componentDidMount(){

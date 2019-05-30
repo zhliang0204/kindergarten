@@ -42,14 +42,14 @@ export default class ChildrenList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="children-list outer-div">
       {this.props.langTab ==="lang1" && (<div className="german">building......</div>)}
       {this.props.langTab ==="lang2" && (<div className="simple-Chinese">building......</div>)}
       {this.props.langTab ==="lang3" && (<div className="traditional-Chinese">building......</div>)}
 
       {this.props.langTab ==="lang4" && (<div className="english">
         <div className="btn-click" onClick={(e)=>this.addChild(e)}><i className="fas fa-plus-circle"></i>Add Child</div>
-        <Table hover>
+        <Table hover style={{textAlign:"center"}}>
           <thead>
             <tr>
               <th>#</th>

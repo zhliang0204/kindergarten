@@ -107,14 +107,14 @@ export default class NavBar extends Component {
                 </NavLink>}
               </NavItem>  */}
 
-              <NavItem>
+              {/* <NavItem>
                 {api.isLoggedIn() && api.getLocalStorageUser().role !=="parent" && <NavLink to="/createChild">
                   {this.props.langTab === "lang1" && "New"}
                   {this.props.langTab === "lang2" && "新增"}
                   {this.props.langTab === "lang3" && "新增"}
                   {this.props.langTab === "lang4" && "Create"}
                 </NavLink>}
-              </NavItem> 
+              </NavItem>  */}
 
               {api.isLoggedIn() && api.getLocalStorageUser().role !=="parent" && (
                 <UncontrolledDropdown direction="down" isOpen={this.state.userManagementBtnDropdown} toggle={() => { this.setState({ userManagementBtnDropdown: !this.state.userManagementBtnDropdown }); }} nav inNavbar>
@@ -125,7 +125,15 @@ export default class NavBar extends Component {
                         {this.props.langTab === "lang4" && "User"}
                   </DropdownToggle>
                   <DropdownMenu>
-                  <DropdownItem>
+                    <DropdownItem>
+                      <NavLink to="/createfamily">
+                        {this.props.langTab === "lang1" && "Familie"}
+                        {this.props.langTab === "lang2" && "家庭"}
+                        {this.props.langTab === "lang3" && "家庭"}
+                        {this.props.langTab === "lang4" && "Family"}             
+                      </NavLink>
+                    </DropdownItem>
+                    <DropdownItem>
                       <NavLink to="/chlidrenList">
                         {this.props.langTab === "lang1" && "Kind"}
                         {this.props.langTab === "lang2" && "儿童"}

@@ -110,8 +110,6 @@ export default class CreateChild extends Component {
                 <Input type="text" name="age" id="age" value={this.state.age} onChange={this.handleInputChange}/>
               </FormGroup>
               <div className="btn-click" onClick={(e)=>this.handleClidSubmit(e)}><i className="fas fa-arrow-right"></i>Next Step</div>
-              <div className="btn-click" onClick={(e)=>this.handleBindParent(e)}><i className="fas fa-arrow-right"></i>Bind With Saved Parent</div>
-
             </Form>
           
           </div>

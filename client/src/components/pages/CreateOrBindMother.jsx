@@ -163,15 +163,23 @@ export default class ChildBindWithMother extends Component {
               // message:""
             }
             api.createParent(parentInfo)
-                .then(parents => {
+            .then(parents => {
+              let fatherInfo = {
+                userId:parents._id,
+                email:parents.email,
+              }
+              api.createUserMail(fatherInfo)
+                .then(createUserEmail => {
                   this.setState({
                     firstname:"",
                     lastname:"",
                     email:"",
                     phone:""
                   })
+                  // let childId = this.state.childId
                   this.props.info.history.push("/chlidrenList")
-                })
+                })     
+            })
           } else {
             this.setState({
               errorList:errorList,
