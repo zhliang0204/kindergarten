@@ -72,7 +72,7 @@ export default class PersonalEventDetailPart extends Component {
     // console.log(index)
     
     let dateInfo = {selectDateKey:index};
-    console.log(dateInfo)
+    // console.log(dateInfo)
     let eventId = this.state.event._event._id
     let newDateList = this.state.dateList.slice()
     let newCur = newDateList[index]
@@ -94,7 +94,7 @@ export default class PersonalEventDetailPart extends Component {
 
   componentDidMount(){
     this.loadEvent(this.state.event._event._id)
-    console.log(this.props.event)
+    // console.log(this.props.event)
     
 
   }

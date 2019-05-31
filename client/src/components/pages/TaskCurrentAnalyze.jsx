@@ -40,8 +40,8 @@ export default class TaskCurrentAnalyze extends Component {
             totalHours = total[0].TotalHours
             totalAveHours = total[0].AveHours
           } 
-          console.log(totalHours)
-          console.log(totalAveHours)
+          // console.log(totalHours)
+          // console.log(totalAveHours)
           api.getCurrentTaskHoursoFAll()
           .then(res => {
             console.log(res)

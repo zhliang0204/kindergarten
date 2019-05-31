@@ -55,7 +55,7 @@ class PersonalEventProcess extends Component {
           let attendantsShow = [];
           // let expectDate = this.convertUTCDateToLocalDate(this.state.event.started)
           attendants.map((cur) => {
-            console.log(cur)         
+            // console.log(cur)         
               let childname = ""
               if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
                 cur._user._child.map(curChild => {
@@ -120,7 +120,7 @@ class PersonalEventProcess extends Component {
 
   componentDidMount(){
     this.loadAttendants()
-    console.log(this.props.event)
+    // console.log(this.props.event)
    
 
   }

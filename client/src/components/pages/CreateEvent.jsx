@@ -128,8 +128,8 @@ export default class CreateEvent extends Component {
         resource:this.state.resource,
       }
    
-      console.log('---------event to create---------')
-      console.log(event)
+      // console.log('---------event to create---------')
+      // console.log(event)
       api.createEvent(event)
           .then(res => {
             let cur = {
@@ -144,7 +144,7 @@ export default class CreateEvent extends Component {
             };
   
             api.createEventMail(emailinfo)
-            console.log(res)
+            // console.log(res)
             this.setState({
               title: '',
               description: '',

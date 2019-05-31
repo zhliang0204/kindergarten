@@ -92,7 +92,7 @@ export default class CreateParent extends Component {
     e.stopPropagation();
     this.checkInfo()
         .then(errorList => {
-          console.log(errorList)
+          // console.log(errorList)
           if(errorList.length === 0){
             let subrole = this.props.userTab === 2? "father" : "mother";
             e.preventDefault()

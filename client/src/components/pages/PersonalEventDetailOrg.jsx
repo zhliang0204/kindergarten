@@ -95,7 +95,7 @@ dateSet(started, dateDiff, types){
           let attendantsShow = [];
           // let expectDate = this.convertUTCDateToLocalDate(this.state.event.started)
           attendants.map((cur) => {
-            console.log(cur)         
+            // console.log(cur)         
               let childname = ""
               if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
                 cur._user._child.map(curChild => {
@@ -125,7 +125,7 @@ dateSet(started, dateDiff, types){
           if(dateUpdate){
             api.getPossibleDateForParticipant(eventId)
                .then(res => {
-                 console.log(res)
+                //  console.log(res)
                  this.setState({
                   started1:this.convertUTCDateToLocalDate(res[0].expectedDates[0].started),
                   ended1:this.convertUTCDateToLocalDate(res[0].expectedDates[0].ended),
@@ -225,13 +225,13 @@ dateSet(started, dateDiff, types){
     }
   }
 
-  orgDateEdit(){
-    console.log("----need to finish edited part------")
-  }
+  // orgDateEdit(){
+  //   console.log("----need to finish edited part------")
+  // }
 
   componentDidMount(){
     this.loadAttendants()
-    console.log(this.props.event)
+    // console.log(this.props.event)
    
 
   }

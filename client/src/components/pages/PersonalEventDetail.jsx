@@ -67,10 +67,10 @@ export default class PersonalEventDetail extends Component {
   }
 
   componentDidMount(){
-    console.log("------component did mount--------")
+    // console.log("------component did mount--------")
     let eventId = this.props.info.match.params.id
     this.loadEvent(eventId)
-    console.log(eventId)
+    // console.log(eventId)
   }
 
 

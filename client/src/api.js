@@ -247,14 +247,14 @@ export default {
             .then(res => res.data)
             .catch(errHandler)
   },
-  // ------------------------------------
-  // get all
-  getselectedEventAll(id){
-    return service
-              .get('/missions/all/' + id)
-              .then(res => res.data)
-              .catch(errHandler)
-  },
+  // // ------------------------------------
+  // // get all
+  // getselectedEventAll(id){
+  //   return service
+  //             .get('/missions/all/' + id)
+  //             .then(res => res.data)
+  //             .catch(errHandler)
+  // },
 
 
   // ------------------------------------
@@ -545,16 +545,16 @@ export default {
             .catch(errHandler)
   },
 
-  addPicture(file) {
-    const formData = new FormData()
-    formData.append("picture", file)
-    return service
-      .post('/endpoint/to/add/a/picture', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(res => res.data)
-      .catch(errHandler)
-  },
+  // addPicture(file) {
+  //   const formData = new FormData()
+  //   formData.append("picture", file)
+  //   return service
+  //     .post('/endpoint/to/add/a/picture', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     })
+  //     .then(res => res.data)
+  //     .catch(errHandler)
+  // },
 }

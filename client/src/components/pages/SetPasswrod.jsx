@@ -33,7 +33,7 @@ export default class SetPasswrod extends Component {
     api.setPassword(userId, setPasInfo)
         .then(res => {
           // console.log(true)
-          console.log('SUCCESS!')
+          // console.log('SUCCESS!')
           this.props.info.history.push("/login")
         })
 

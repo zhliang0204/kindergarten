@@ -54,7 +54,7 @@ export default class EventDetail extends Component {
           selectedEvent.ended = this.convertUTCDateToLocalDate(selectedEvent.ended)
           selectedEvent.applybefore = this.convertUTCDateToLocalDate(selectedEvent.applybefore)
 
-          console.log(selectedEvent.started)
+          // console.log(selectedEvent.started)
           this.setState({
             event:selectedEvent,
             tag:curtag
@@ -96,7 +96,7 @@ export default class EventDetail extends Component {
   goToPrevPage(e){
     e.preventDefault();
     e.stopPropagation();
-    console.log("go back")
+    // console.log("go back")
     this.props.info.history.push("/events")
   }
 
@@ -110,8 +110,8 @@ export default class EventDetail extends Component {
       this.loadEvent(this.props.info.match.params.id)
       
     }
-    console.log("-----match------")
-    console.log(this.props.info.match.params.id)
+    // console.log("-----match------")
+    // console.log(this.props.info.match.params.id)
   }
 
   render() {

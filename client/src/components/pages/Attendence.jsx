@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import { 
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Button,
+  
   Table,
 } 
 from 'reactstrap';
@@ -42,12 +38,12 @@ export default class Attandence extends Component {
   loadAttendants(id){
       api.getAttendence(id)
         .then(attendants => {
-          console.log("------load Discussions ------")
-          console.log(attendants)
+          // console.log("------load Discussions ------")
+          // console.log(attendants)
           let attendantsShow = [];
           let expectDate = this.convertUTCDateToLocalDate(this.state.event.started)
           attendants.map((cur) => {
-            console.log(cur)         
+            // console.log(cur)         
               let childname = ""
               if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
                 cur._user._child.map(curChild => {
@@ -79,8 +75,8 @@ export default class Attandence extends Component {
     this.loadAttendants(eventId)
         
     // this.loadUserApplyInfo(eventId)
-    console.log("------vote----component-------")
-    console.log(this.state.event)
+    // console.log("------vote----component-------")
+    // console.log(this.state.event)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -88,8 +84,8 @@ export default class Attandence extends Component {
       this.loadAttendants(this.props.event._id)
       // this.loadUserApplyInfo(this.props.event._id)
     }
-    console.log("-----vote ----- match------")
-    console.log(this.props.event._id)
+    // console.log("-----vote ----- match------")
+    // console.log(this.props.event._id)
   }
 
   render() {

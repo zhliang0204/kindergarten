@@ -22,8 +22,8 @@ export default class Discussion extends Component {
   loadDiscussions(id){
     api.getDisscussion(id)
         .then(discussions => {
-          console.log("------load Discussions ------")
-          console.log(discussions)
+          // console.log("------load Discussions ------")
+          // console.log(discussions)
           let discussionsShow = [];
           discussions.map((cur) => {
             console.log(cur)         
@@ -78,8 +78,8 @@ export default class Discussion extends Component {
     this.loadDiscussions(eventId)
         
     // this.loadUserApplyInfo(eventId)
-    console.log("------Load Discussion-------")
-    console.log(this.state.event)
+    // console.log("------Load Discussion-------")
+    // console.log(this.state.event)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -87,8 +87,8 @@ export default class Discussion extends Component {
       this.loadDiscussions(this.props.event._id)
       // this.loadUserApplyInfo(this.props.event._id)
     }
-    console.log("-----Discussion ----- match------")
-    console.log(this.props.event._id)
+    // console.log("-----Discussion ----- match------")
+    // console.log(this.props.event._id)
   }
 
   render() {

@@ -62,7 +62,7 @@ export default class CreateChild extends Component {
         age: this.state.age,
         birthday:this.state.birthday
       }
-      console.log(childInfos)
+      // console.log(childInfos)
       this.props.setChildInfo(childInfos)
     }
   }

@@ -11,11 +11,11 @@ const nocache = require('nocache')
 const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
 
-const { updateServiceEveryYear,
-  updateEventStateAtVote,
-  updateEventStateAtApply,
-  updateEventstateAtProcess,
-  sendInformEmail,} = require('./cus_module/scheduleMission')
+// const { updateServiceEveryYear,
+//   updateEventStateAtVote,
+//   updateEventStateAtApply,
+//   updateEventstateAtProcess,
+//   sendInformEmail,} = require('./cus_module/scheduleMission')
 
 require('./configs/database')
 
@@ -50,18 +50,22 @@ app.use(express.static(path.join(__dirname, '../client/build')))
 
 
 // Time Scheduled Mission
-updateServiceEveryYear;
-updateEventStateAtVote;
-updateEventStateAtApply;
-updateEventstateAtProcess;
-sendInformEmail;
+// updateServiceEveryYear;
+// updateEventStateAtVote;
+// updateEventStateAtApply;
+// updateEventstateAtProcess;
+// sendInformEmail;
 
 // Enable authentication using session + passport
 app.use(session({
   secret: process.env.SESSION_SECRET || 'irongenerator',
   resave: true,
   saveUninitialized: true,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 365},
+  store: new MongoStore({ 
+    mongooseConnection: mongoose.connection,
+    clear_interval: 1000 * 60 * 60 * 24 * 365
+  })
 }))
 require('./passport')(app)
 

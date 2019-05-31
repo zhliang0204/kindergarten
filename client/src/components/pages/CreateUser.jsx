@@ -61,7 +61,7 @@ export default class CreateUser extends Component {
 
   setUserTab(e){
     // e.preventDefault()
-    console.log("clicked")
+    // console.log("clicked")
     this.setState({
       userTab:1,
     })

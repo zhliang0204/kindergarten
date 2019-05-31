@@ -95,11 +95,11 @@ export default class Application extends Component {
     
        api.getApplication(id)
        .then(applicants => {
-         console.log("------load Discussions ------")
-         console.log(applicants)
+        //  console.log("------load Discussions ------")
+        //  console.log(applicants)
          let applicantsShow = [];
-         applicants.map((cur) => {
-           console.log(cur)         
+         applicants.map((cur,i) => {
+          //  console.log(cur)         
              let childname = ""
              if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
                cur._user._child.map(curChild => {
@@ -182,8 +182,8 @@ export default class Application extends Component {
     let eventId = this.state.event._id;
     this.loadApplicants(eventId)
     this.loadUserApplyInfo(eventId)
-    console.log("------vote----component-------")
-    console.log(this.state.isCouldApply)
+    // console.log("------vote----component-------")
+    // console.log(this.state.isCouldApply)
     
   }
 
@@ -192,8 +192,8 @@ export default class Application extends Component {
       this.loadVote(this.props.event._id)
       this.loadUserApplyInfo(this.props.event._id)
     }
-    console.log("-----vote ----- match------")
-    console.log(this.props.event._id)
+    // console.log("-----vote ----- match------")
+    // console.log(this.props.event._id)
   }
 
   render() {

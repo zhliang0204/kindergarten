@@ -106,7 +106,7 @@ export default class PersonalEventFinish extends Component {
     let index = parseInt(event.target.id);
     let curAttendants = this.state.attendants.slice();
     curAttendants[index].serviceHours = event.target.value
-    console.log(curAttendants)
+    // console.log(curAttendants)
     
     this.setState({
       attendants: curAttendants

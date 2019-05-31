@@ -40,6 +40,7 @@ export default class  CustomToolbar extends Component {
 
               <span className="rbc-btn-group">
                 <select
+                style = {{border:"none"}}
                 value={view}
                 onChange={this.handleChange}
               >
