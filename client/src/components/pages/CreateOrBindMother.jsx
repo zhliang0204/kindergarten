@@ -231,8 +231,8 @@ export default class ChildBindWithMother extends Component {
             {/* {this.props.userTab === 2 && (<div className="newuser-type">Father Information</div>)}
             {this.props.userTab === 3 && (<div className="newuser-type">Mother Information</div>)} */}
             <div style={{textAlign:"right"}}>
-              <button className="btn-click"  onClick={(e)=>this.bindMother(e)}><i className="fas fa-arrow-right"></i>Bind</button>
-              <button className="btn-click"  onClick={(e)=>this.createMother(e)}><i className="fas fa-arrow-right"></i>Create</button>
+              <button className="btn-click"  onClick={(e)=>this.bindMother(e)}><i className="fas fa-draw-polygon"></i>Bind</button>
+              <button className="btn-click"  onClick={(e)=>this.createMother(e)}><i className="fas fa-plus-circle"></i>Create</button>
               <button className="btn-click"  onClick={(e)=>this.skipMother(e)}><i className="fas fa-arrow-right"></i>Skip</button>
 
             </div>

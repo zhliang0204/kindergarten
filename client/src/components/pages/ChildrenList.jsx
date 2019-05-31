@@ -6,19 +6,19 @@ export default class ChildrenList extends Component {
   constructor(props){
     super(props)
     this.state = {
-      children: ""
+      children: []
     }
   }
 
   loadChildren(){
     api.getAllChildren()
        .then(res => {
-         console.log(res)
+        //  console.log(res)
          this.setState({
            children:res
          })
 
-         console.log(this.state.children)
+        //  console.log(this.state.children)
        })
   }
 
@@ -67,8 +67,6 @@ export default class ChildrenList extends Component {
                 </tr>
               ))
             )}
-            
-            
           </tbody>
         </Table>
 

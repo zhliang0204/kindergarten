@@ -124,7 +124,7 @@ export default class NavBar extends Component {
                         {this.props.langTab === "lang3" && "用戶"}
                         {this.props.langTab === "lang4" && "User"}
                   </DropdownToggle>
-                  <DropdownMenu>
+                  <DropdownMenu style={{border:"none"}}>
                     <DropdownItem>
                       <NavLink to="/createfamily">
                         {this.props.langTab === "lang1" && "Familie"}
@@ -180,7 +180,7 @@ export default class NavBar extends Component {
                   {this.props.langTab === "lang3" && "分析"}
                   {this.props.langTab === "lang4" && "analysis"}
                 </DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu style={{border:"none"}}>
                   <DropdownItem>
                   <NavLink to="/historyAnalyze">
                     {this.props.langTab === "lang1" && "Geschichte"}
@@ -244,9 +244,6 @@ export default class NavBar extends Component {
           <Route path="/chlidrenList" render={(info)=><ChildrenList langTab={this.props.langTab} info={info}/>}/>
           <Route path="/child/detail/:id" render={(info)=><ChildDetail langTab={this.props.langTab} info={info}/>}/>
 
-
-
-          
 
           <Route path="/person/eventDetail/:id" render={(info)=><PersonalEventDetail langTab={this.props.langTab} info={info}/>}/>
           <Route path="/person/editProEvent/:id" render={(info)=><EditEventDetailOrg langTab={this.props.langTab} info={info}/>}/>
