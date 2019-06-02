@@ -35,7 +35,7 @@ let historyServiceInfo = [
 
 ]
 
-User.find({role:"parent"}, {$set: {historyServiceHours:historyServiceInfo}})
+User.updateMany({role:"parent"}, {$set: {historyServiceHours:historyServiceInfo}})
   .then(() => {
     // Close properly the connection to Mongoose
     mongoose.disconnect()
