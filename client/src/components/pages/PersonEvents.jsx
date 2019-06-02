@@ -68,7 +68,7 @@ class PersonEvents extends Component {
   }
 
   setEventStyle(event){
-    console.log(event);
+    // console.log(event);
     var backgroundColor = '#' + event.hexColor;
     var style = {
         backgroundColor: backgroundColor,
