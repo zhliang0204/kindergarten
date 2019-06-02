@@ -214,7 +214,7 @@ export default class TaskHistoryAnalyze extends Component {
 
   getPossibleYears(number){
     let curDate = new Date()
-    let year = curDate.getFullYear()
+    let year = curDate.getFullYear() - 1
     let month = curDate.getMonth() + 1;
 
     let years = [];
