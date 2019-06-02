@@ -326,10 +326,10 @@ export default class EditEventDetailOrg extends Component {
                     <td style={{margin:"0", padding:"3px 0"}}>{curApl.firstname + `(`+ curApl.childname + `)`}</td>
                     {/* change on isCancel */}
                     {/* X cancel */}
-                    {curApl.isCancel && (<td style={{margin:"0", padding:"3px 0"}}><i style={{color: "#00ff00"}} className="fas fa-times"></i></td>)}
-                    {!curApl.isCancel && (<td style={{margin:"0", padding:"3px 0"}}><i style={{color: "#ff0000"}} className="fas fa-check"></i></td>)}
+                    {curApl.isCancel && (<td style={{margin:"0", padding:"3px 0"}}><i style={{color: "#ff0000"}} className="fas fa-times"></i></td>)}
+                    {!curApl.isCancel && (<td style={{margin:"0", padding:"3px 0"}}><i style={{color: "#00ff00"}} className="fas fa-check"></i></td>)}
 
-                    <td style={{margin:"0", padding:"3px 0"}}><i style={{color: "#ff0000"}} className="fas fa-check"></i><i style={{color: "#00ff00"}} className="fas fa-times"></i></td>
+                    {/* <td style={{margin:"0", padding:"3px 0"}}><i style={{color: "#ff0000"}} className="fas fa-check"></i><i style={{color: "#00ff00"}} className="fas fa-times"></i></td> */}
                     <td style={{margin:"0", padding:"3px 0"}}><i  id={i+ "-" + curApl._id} onClick = {(e) =>this.handleRemoveAttendants(e) } className="fas fa-user-minus"></i></td>
                   </tr>
                 ))

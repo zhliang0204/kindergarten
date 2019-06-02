@@ -31,16 +31,17 @@ export default class  CustomToolbar extends Component {
         <div>
           <div className="rbc-toolbar">
               <span className="rbc-btn-group">
-                  <button type="button" onClick={this.navigate.bind(null, navigate.PREVIOUS)}><i className="fas fa-chevron-left"></i></button>
+                  <button type="button" onClick={this.navigate.bind(null, navigate.PREVIOUS)} style={{border: "1px solid #ccc", width:"30px", padding:"3px", height:"34px", borderRadius:"3px"}}><i className="fas fa-chevron-left"></i></button>
               </span>
-              <span className="rbc-toolbar-label">{label}</span>
+              <span className="rbc-toolbar-label" style={{width:"80px", padding:"3px", height:"34px"}}>{label}</span>
               <span className="rbc-btn-group">
-                  <button type="button" onClick={this.navigate.bind(null, navigate.NEXT)}><i className="fas fa-chevron-right"></i></button>
+                  <button type="button" onClick={this.navigate.bind(null, navigate.NEXT)} style={{border: "1px solid #ccc", width:"30px",padding:"3px",height:"34px", borderRadius:"3px"}}><i className="fas fa-chevron-right"></i></button>
               </span>
+              
 
-              <span className="rbc-btn-group">
+              <span className="rbc-btn-group" >
                 <select
-                style = {{border:"none"}}
+                style={{border: "1px solid #ccc", width:"80px",height:"34px", borderRadius:"3px"}}
                 value={view}
                 onChange={this.handleChange}
               >
@@ -48,7 +49,15 @@ export default class  CustomToolbar extends Component {
               </select>
               </span>
 
-              
+
+            
+
+          </div>
+         
+          <div style={{margin: "5px 0", display:"flex", flexDirection:"row", flexWrap: "nowrap", justifyContent: "space-around", alignItems: "center",alignContent: "stretch"}}>
+                <div style={{backgroundColor:"#FF8A5C", height:"15px", width:"80px", color:"white", fontSize:"0.6rem", textAlign:"center"}}>Pre-Execute</div>
+                <div style={{backgroundColor:"#4592AF", height:"15px", width:"80px", color:"white", fontSize:"0.6rem", textAlign:"center"}}>Execute</div>
+                <div style={{backgroundColor:"#8B5D5D", height:"15px", width:"80px", color:"white", fontSize:"0.6rem", textAlign:"center"}}>After-Execute</div>
           </div>
          
         </div>

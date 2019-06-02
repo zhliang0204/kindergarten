@@ -87,7 +87,6 @@ dateSet(started, dateDiff, types){
     api.getAttendence(eventId)
         .then(attendants => {
           let dateUpdate = this.state.event.isChecked
-          // let attendants = res;
           let startedShow = this.convertUTCDateToLocalDate(this.state.event._event.started)
           let endedShow = this.convertUTCDateToLocalDate(this.state.event._event.ended)
 
@@ -217,7 +216,8 @@ dateSet(started, dateDiff, types){
       api.orgPostDateSlots(eventId, dates)
           .then(res => {
             this.setState({
-              dateUpdate: true
+              dateUpdate: true,
+              errorList:[],
             })
           })
       api.changeStateofPraticipant(eventId)
@@ -225,15 +225,9 @@ dateSet(started, dateDiff, types){
     }
   }
 
-  // orgDateEdit(){
-  //   console.log("----need to finish edited part------")
-  // }
 
   componentDidMount(){
     this.loadAttendants()
-    // console.log(this.props.event)
-   
-
   }
 
   render() {

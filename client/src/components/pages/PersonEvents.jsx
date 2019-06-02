@@ -67,6 +67,22 @@ class PersonEvents extends Component {
     console.log("handle select")
   }
 
+  setEventStyle(event){
+    console.log(event);
+    var backgroundColor = '#' + event.hexColor;
+    var style = {
+        backgroundColor: backgroundColor,
+        borderRadius: '0px',
+        opacity: 0.8,
+        // color: 'black',
+        border: '0px',
+        display: 'block'
+    };
+    return {
+        style: style
+    };
+  }
+
   loadEvents(){
     api.getPersonalEvent()
        .then(events => {
@@ -75,21 +91,21 @@ class PersonEvents extends Component {
          events.map((eve, i) => {
            let cur
            let eventState = eve._event.eventState;
-           console.log("------evenstate------")
-           console.log(eventState)
+          //  console.log("------evenstate------")
+          //  console.log(eventState)
            let role = eve.tag
-           console.log(role)
+          //  console.log(role)
            if(eventState === "pre-process" && (role === "organize" || role === "assigned Org")){
             let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
             let newStarted = new Date(started)
-            let ended = new Date(eve._event.ended).setDate(new Date(eve._event.ended).getDate() + 13)
+            let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 7)
             let newEnded = new Date(ended)
             let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
             let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
-             console.log("---------org+pre-process-------")
+            //  console.log("---------org+pre-process-------")
             cur = {
               "title":eve._event.title + " - choose date for task",
-              "hint":"you are an organizer, please choose 3 possible date for task. Please left at least 14 days before task start.",
+              "hint":"you are an organizer, please choose 3 possible date for task.",
               "start":newStarted,
               "end":newEnded,
               "showStarted":showDetailStarted,
@@ -98,15 +114,16 @@ class PersonEvents extends Component {
               "description":eve._event.description,
               "tag":eve.tag,
               "eventState":eve._event.eventState,
+              "hexColor":"FF8A5C",
              }
-            console.log(cur)
+            // console.log(cur)
            }
 
            if(eventState === "pre-process" && (role === "participate" || role === "assigned")){
 
              let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
              let newStarted = new Date(started)
-             let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 13)
+             let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 15)
              let newEnded = new Date(ended)
              let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
              let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
@@ -122,6 +139,7 @@ class PersonEvents extends Component {
               "description":eve._event.description,
               "tag":eve.tag,
               "eventState":eve._event.eventState, 
+              "hexColor":"FF8A5C",
              }
            }
 
@@ -141,6 +159,7 @@ class PersonEvents extends Component {
               "description":eve._event.description,
               "tag":eve.tag,
               "eventState":eve._event.eventState, 
+              "hexColor":"4592AF",
              }
            }
 
@@ -161,7 +180,8 @@ class PersonEvents extends Component {
               "id": eve._event._id,
               "description":eve._event.description,
               "tag":eve.tag,
-              "eventState":eve._event.eventState
+              "eventState":eve._event.eventState,
+              "hexColor":"8B5D5D",
              }
             }
            
@@ -172,8 +192,8 @@ class PersonEvents extends Component {
            width: window.innerWidth,
            height: window.innerHeight
          })
-         console.log("--------------- load events ----------------")
-         console.log(this.state.events)
+        //  console.log("--------------- load events ----------------")
+        //  console.log(this.state.events)
        })
   }
 
@@ -189,12 +209,10 @@ class PersonEvents extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.curevent !== prevState.curevent) {
       console.log("-----update------")
-      console.log(this.state.curevent)
-      console.log(this.state.view)
+      // console.log(this.state.curevent)
+      // console.log(this.state.view)
       
     }
-    
-    // console.log(this.props.info.match.params.id)
   }
 
   render() {
@@ -226,6 +244,7 @@ class PersonEvents extends Component {
           components={{
             toolbar: CustomToolBar,
           }}
+          eventPropGetter={(event) =>this.setEventStyle(event)}
         />
 
         {/* <PersonalEventDetail toggle={this.toggle} modal={this.state.modal} event={this.state.curevent} tag={this.state.curevent.tag}/> */}
