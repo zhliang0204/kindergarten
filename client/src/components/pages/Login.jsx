@@ -29,8 +29,8 @@ class Login extends Component {
       })
       .catch(err => 
         { console.log(err)
-          this.setState({ message: err.toString() 
-          })})
+          this.setState({ message: err.toString() })
+    })
   }
 
   render() {

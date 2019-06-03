@@ -219,7 +219,7 @@ router.post("/login", (req, res, next) => {
       // "userDoc" will be empty if the username is wrong (no document in database)
       if (!userDoc) {
         // create an error object to send to our error handler with "next()"
-        next(new Error("Incorrect email "))
+        next(new Error("Incorrect email"))
         return
       }
 
@@ -246,13 +246,17 @@ router.post("/login", (req, res, next) => {
         res.json(userDoc)
       })
     })
-    .catch(err => next(err))
+    .catch(err => 
+      {
+        console.log(err)
+        next(err)
+      })
 })
 
 router.post('/login-with-passport-local-strategy', (req, res, next) => {
   passport.authenticate('local', (err, theUser, failureDetails) => {
     if (err) {
-      res.status(500).json({ message: 'Something went wrong' })
+      res.status(500).json({ message: 'Something went wrong1' })
       return
     }
 
