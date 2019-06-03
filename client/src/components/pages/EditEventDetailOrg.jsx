@@ -33,6 +33,26 @@ export default class EditEventDetailOrg extends Component {
     return dateFormat;   
 }
 
+convertDateFormat(date) {
+  // let date1 = new Date(date)
+  let newDate = new Date(date)
+
+  let year = newDate.getFullYear()
+  let month = newDate.getMonth() + 1;
+  let day = newDate.getDate();
+  let seconds = newDate.getSeconds();
+  let minutes = newDate.getMinutes();
+  let hour = newDate.getHours();
+
+  if(month < 10){month ="0"+month}
+  if(day < 10){day ="0"+day}  
+  if(hour < 10){hour ="0"+hour}  
+  if(minutes < 10){minutes ="0"+minutes}    
+  if(seconds < 10){seconds ="0"+seconds}    
+  let dateFormat = year+"-"+month+"-"+day+ "T" +hour+":"+minutes
+  return dateFormat;   
+}
+
   handleInputChange(e){
     e.preventDefault();
     e.stopPropagation();
@@ -305,6 +325,7 @@ export default class EditEventDetailOrg extends Component {
                 name="event-ended"
                 id="event-ended"
                 value={this.state.event.ended}
+                min = {() => this.convertDateFormat(this.state.event.started) }
                 onChange={(e) => this.handleInputChange(e)}
               />
             </FormGroup>
