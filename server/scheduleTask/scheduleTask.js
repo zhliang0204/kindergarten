@@ -454,7 +454,7 @@ function updateEventToPreProcess(){
 
 // summary the date picker result
 // consider there should be two same date picker
-// left 15days to pick
+// left 10days to pick
 function eventProcessDateChose(){
   let EventId = [];
   let applyEventId = [];

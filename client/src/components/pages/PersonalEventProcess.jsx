@@ -63,7 +63,7 @@ class PersonalEventProcess extends Component {
                   childname += ","
                 })
               }
-              if(cur._user._id === curUserId && (cur.tag === "organize" || cur.tag === "asigned ")) {
+              if(cur._user._id === curUserId && (cur.tag === "organize" || cur.tag === "assigned Org")) {
                 isOrg = true
               }
 
