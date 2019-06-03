@@ -163,51 +163,6 @@ export default class CreateEvent extends Component {
       })
     }
   
-
-
-
-    // if( this.checkValue() && this.checkDateValidation()){
-    //   let event = {
-    //     title: this.state.title,
-    //     description: this.state.description,
-    //     reqpersons:this.state.reqpersons,
-    //     reqhours:this.state.reqhours,
-    //     started: this.state.started,
-    //     ended:this.state.ended,
-    //     applybefore: this.state.applybefore,
-    //     resource:this.state.resource,
-    //   }
-   
-    //   console.log('---------event to create---------')
-    //   console.log(event)
-    //   api.createEvent(event)
-    //       .then(res => {
-    //         let cur = {
-    //           role: api.getLocalStorageUser().role,
-    //           title: res.title,
-    //           id: res._id,
-    //           eventState:res.eventState
-    //         }
-  
-    //         let emailinfo = {
-    //           newevent:cur
-    //         };
-  
-    //         api.createEventMail(emailinfo)
-    //         console.log(res)
-    //         this.setState({
-    //           title: '',
-    //           description: '',
-    //           reqpersons:0,
-    //           reqhours:0,
-    //           started: '',
-    //           ended:'',
-    //           resource:"",
-    //           applybefore:""
-    //         })
-    //         this.props.info.history.push("/events")
-    //       })
-    // }
 }
 
   render() {

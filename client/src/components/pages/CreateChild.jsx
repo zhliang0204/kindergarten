@@ -94,7 +94,7 @@ export default class CreateChild extends Component {
               <FormGroup>
                 <Label for="birthday">Birthday:</Label>
                 {this.state.errorList.indexOf(3) !== -1 && (<div className="hint">Please pick birthday of child.</div>)}
-                <Input type="date" name="birthday" id="birthday" value={this.state.birthday} onChange={this.handleInputChange}/>
+                <Input type="date" name="birthday" id="birthday" value={this.state.birthday} onChange={this.handleInputChange} min={() =>new Date()}/>
               </FormGroup>
 
               <FormGroup>

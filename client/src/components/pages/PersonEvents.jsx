@@ -86,7 +86,7 @@ class PersonEvents extends Component {
   loadEvents(){
     api.getPersonalEvent()
        .then(events => {
-         console.log(events)
+        //  console.log(events)
          let curEvents = [];
          events.map((eve, i) => {
            let cur
@@ -98,7 +98,7 @@ class PersonEvents extends Component {
            if(eventState === "pre-process" && (role === "organize" || role === "assigned Org")){
             let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
             let newStarted = new Date(started)
-            let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 7)
+            let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 5)
             let newEnded = new Date(ended)
             let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
             let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)
@@ -123,7 +123,7 @@ class PersonEvents extends Component {
 
              let started = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 1)
              let newStarted = new Date(started)
-             let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 15)
+             let ended = new Date(eve._event.updated_at).setDate(new Date(eve._event.updated_at).getDate() + 10)
              let newEnded = new Date(ended)
              let showDetailStarted = this.convertUTCDateToLocalDate(newStarted)
              let showDetailEnded = this.convertUTCDateToLocalDate(newEnded)

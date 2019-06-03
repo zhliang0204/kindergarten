@@ -134,11 +134,12 @@ export default class EditEventDetailOrg extends Component {
     let update = {
       updateInfo:updateInfo
     }
-    console.log(update)
+    // console.log(update)
     let eventId = this.props.info.match.params.id
     api.updateProEvent(eventId, update)
        .then(res => {
          console.log(res)
+         this.props.info.history.push("/person/eventDetail/" + eventId)
        })
   }
 
