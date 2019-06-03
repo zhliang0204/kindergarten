@@ -253,28 +253,28 @@ router.post("/login", (req, res, next) => {
       })
 })
 
-router.post('/login-with-passport-local-strategy', (req, res, next) => {
-  passport.authenticate('local', (err, theUser, failureDetails) => {
-    if (err) {
-      res.status(500).json({ message: 'Something went wrong1' })
-      return
-    }
+// router.post('/login-with-passport-local-strategy', (req, res, next) => {
+//   passport.authenticate('local', (err, theUser, failureDetails) => {
+//     if (err) {
+//       res.status(500).json({ message: 'Something went wrong1' })
+//       return
+//     }
 
-    if (!theUser) {
-      res.status(401).json(failureDetails)
-      return
-    }
+//     if (!theUser) {
+//       res.status(401).json(failureDetails)
+//       return
+//     }
 
-    req.login(theUser, (err) => {
-      if (err) {
-        res.status(500).json({ message: 'Something went wrong' })
-        return
-      }
-      // We are now logged in (notice req.user)
-      res.json(req.user)
-    })
-  })(req, res, next)
-})
+//     req.login(theUser, (err) => {
+//       if (err) {
+//         res.status(500).json({ message: 'Something went wrong' })
+//         return
+//       }
+//       // We are now logged in (notice req.user)
+//       res.json(req.user)
+//     })
+//   })(req, res, next)
+// })
 
 
 
