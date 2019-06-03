@@ -499,7 +499,7 @@ function eventProcessDateChose(){
 
 function updateEventTimeScheToProcess(){
   let curDate = new Date();
-  let curDate = new Date();
+  // let curDate = new Date();
   let curDateTime = curDate.getTime();
   // five days for date picker
   let timeDifference1 = 10 * 60 * 60 * 24 * 1000
