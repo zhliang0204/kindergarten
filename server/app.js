@@ -71,7 +71,7 @@ require('./passport')(app)
 
 
 
-app.use('/api', require('./routes/index'))
+// app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
 app.use('/api/events', require('./routes/events'))
 app.use('/api/child', require('./routes/child'))
