@@ -281,8 +281,8 @@ export default class TaskHistoryAnalyze extends Component {
             </Input>
           </FormGroup>
           <div style={{minHeight:"700px"}}>
-            {this.state.curYear !== "" && this.state.totalchartData && (<Bar data={this.state.totalchartData} options={this.state.options}/>)}
-            {this.state.curYear !== "" &&this.state.avechartData && (<Bar data={this.state.avechartData} options={this.state.options2}/>)}
+            {this.state.curYear !== "" && this.state.totalchartData && (<Bar style={{minHeight:"300px"}} data={this.state.totalchartData} options={this.state.options}/>)}
+            {this.state.curYear !== "" &&this.state.avechartData && (<Bar style={{minHeight:"300px"}} data={this.state.avechartData} options={this.state.options2}/>)}
           </div>
        </div>)}
       </div>
