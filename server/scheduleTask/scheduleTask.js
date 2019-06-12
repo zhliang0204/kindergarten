@@ -229,7 +229,7 @@ function findEvent(){
   let curDateTime = curDate.getTime();
   // five days for date picker
   let timeDifference = 1 * 60 * 60 * 24 * 1000
-  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:new Date(),$gt:curDateTime-timeDifference }}]})
+  return (Event.find({$and: [{eventState:"apply"}, {applybefore:{$lte:curDateTime,$gt:curDateTime-timeDifference }}]})
           )
 }
 
@@ -444,7 +444,7 @@ function updateEventToPreProcess(){
     Event.updateMany(
       {
        eventState:"apply",
-       applybefore:{$lte:new Date(), $gt:curDateTime - timeDifference}
+       applybefore:{$lte:curDateTime, $gt:curDateTime - timeDifference}
       },
       {$set:{eventState:"pre-process"}}, 
     ).then(res => console.log(res))
