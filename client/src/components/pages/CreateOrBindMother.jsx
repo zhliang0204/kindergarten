@@ -237,7 +237,7 @@ export default class ChildBindWithMother extends Component {
 
             </div>
             <div className="newuser-type">
-              Father
+              Mother
             </div>
            
             {this.state.isBind && (<div>
