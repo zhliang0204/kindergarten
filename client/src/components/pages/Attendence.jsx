@@ -45,7 +45,7 @@ export default class Attandence extends Component {
           attendants.map((cur) => {
             // console.log(cur)         
               let childname = ""
-              if(cur._user !== undefined && cur._user._child !== undefined && cur._user._child.length > 0){
+              if(cur._user !== null && cur._user._child !== null && cur._user._child.length > 0){
                 cur._user._child.map(curChild => {
                   childname += curChild.firstname
                   childname += ","
