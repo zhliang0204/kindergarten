@@ -236,7 +236,9 @@ export default class ChildBindWithMother extends Component {
               <button className="btn-click"  onClick={(e)=>this.skipMother(e)}><i className="fas fa-arrow-right"></i>Skip</button>
 
             </div>
-
+            <div className="newuser-type">
+              Father
+            </div>
            
             {this.state.isBind && (<div>
               <Form>

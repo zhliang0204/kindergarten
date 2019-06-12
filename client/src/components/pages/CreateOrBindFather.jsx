@@ -241,6 +241,10 @@ export default class ChildBindWithFather extends Component {
 
             </div>
 
+            <div className="newuser-type">
+              Father
+            </div>
+
            
             {this.state.isBind && (<div>
               <Form>
