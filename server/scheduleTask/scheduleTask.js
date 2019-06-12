@@ -523,7 +523,7 @@ function updateEventStateToFinish(){
   let curDateTime = curDate.getTime();
   let timeDifference = 1 * 60 * 60 * 24 * 1000
   // let timeDifference = 2 * 60 * 60 * 24 * 1000
-  Event.updateMany({ended:{ $gte: curDateTime - timeDifference, $le: curDateTime}, eventState:"process"}, {$set:{eventState:"finish"}})
+  Event.updateMany({ended:{ $gte: curDateTime - timeDifference, $lt: curDateTime}, eventState:"process"}, {$set:{eventState:"finish"}})
        .then(res => {
          console.log("-----update event to finish------")
          console.log(res)
