@@ -68,7 +68,7 @@ convertDateFormat(date) {
     api.getEditEvent(eventId)
        .then(attAndEve => {
          let atts = []
-         console.log(attAndEve[0]._event.started)
+        //  console.log(attAndEve[0]._event.started)
          let event = {
            title:attAndEve[0]._event.title,
            description:attAndEve[0]._event.description,
@@ -77,7 +77,7 @@ convertDateFormat(date) {
            reqhours:attAndEve[0]._event.reqhours,
            reqpersons:attAndEve[0]._event.reqpersons
          }
-         console.log(new Date(event.started).toDateString())
+        //  console.log(new Date(event.started).toDateString())
          attAndEve.map(att => {
           let childname = ""
           if(att._user !== undefined && att._user._child !== undefined && att._user._child.length > 0){
@@ -158,7 +158,7 @@ convertDateFormat(date) {
     let eventId = this.props.info.match.params.id
     api.updateProEvent(eventId, update)
        .then(res => {
-         console.log(res)
+        //  console.log(res)
          this.props.info.history.push("/person/eventDetail/" + eventId)
        })
   }

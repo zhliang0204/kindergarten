@@ -31,7 +31,7 @@ class Home extends Component {
 
   componentDidMount(){
     this.loadEvent()
-    console.log(this.props)
+    // console.log(this.props)
   }
 
   createEvent(){
@@ -72,9 +72,7 @@ class Home extends Component {
             )}
           </tbody>
         </Table>
-
         </div>)}
-       
       </div>
     )
   }
