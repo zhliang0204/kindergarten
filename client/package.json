@@ -9,7 +9,7 @@
     "classnames": "^2.2.6",
     "mapbox-gl": "^0.53.1",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react": "^16.8.6",
     "react-big-calendar": "^0.20.4",
     "react-big-scheduler": "^0.2.7",
